@@ -6,16 +6,16 @@ from google.appengine.api import users
 class Streamer:
 	rooms = {}
 	def connectToRoom(self, roomID):
-		if not roomID in rooms:
-			rooms[roomID] = {}
+		if not roomID in self.rooms:
+			self.rooms[roomID] = {}
 		userID = users.get_current_user()
-		rooms[roomID][userID] = Connection(roomID,userID)
-		return rooms[roomID][userID].secretToken
+		self.rooms[roomID][userID] = Connection(roomID,userID)
+		return self.rooms[roomID][userID].secretToken
 	
 	def messageRoom(self, roomID, message):
-		if not roomID in rooms:
+		if not roomID in self.rooms:
 			return False
-		for conn in rooms[roomID]:
+		for conn in self.rooms[roomID]:
 			conn.sendMessage(message)
 		return True
 		
@@ -25,8 +25,8 @@ class Connection:
 	channelID = ""
 	
 	def __init__(self, roomID, userID):
-		channelID = roomID+":"+userID
-		secretToken = channel.createChannel()
+		self.channelID = roomID+":"+userID
+		self.secretToken = channel.createChannel()
 		
 	def sendMessage(self, message):
-        channel.sendMessage(channelID,message)
+		channel.sendMessage(self.channelID,message)
