@@ -28,7 +28,10 @@ class RoomHandler(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
+    # Major Pages
     ('/', MainHandler),
     ('/note', RoomHandler),
+    
+    # API Methods (AJAXylicious)
     ('/api/append', controllers.doc.add_bunny),
 ], debug=True)

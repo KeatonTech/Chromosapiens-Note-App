@@ -12,4 +12,9 @@ def render(self, template_values, template_url):
     template = JINJA_ENVIRONMENT.get_template(template_url)
     self.response.write(template.render(template_values))
 
+errorTemplate = "error.html"
+def renderError(self, code, message):
+    template = JINJA_ENVIRONMENT.get_template(errorTemplate)
+    self.response.write(template.render({'code':code,'message':message}))
+
 streamManager = Comm.streamer()
