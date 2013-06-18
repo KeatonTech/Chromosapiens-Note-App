@@ -2,23 +2,23 @@ from google.appengine.api import channel
 
 # Basically just abstracts everything to be room-based, instead of Channel based
 # Because we're using normal AJAX requests for most things, this is all very simple
-class Streamer:
+class streamer:
     rooms = {}
-    def connectToRoom(self, roomID, userID):
+    def connect_to_room(self, roomID, userID):
         if not roomID in self.rooms:
             self.rooms[roomID] = {}
         self.rooms[roomID][userID] = Connection(roomID,userID)
         return self.rooms[roomID][userID].secretToken
 
-    def messageRoom(self, roomID, message):
+    def message_room(self, roomID, message):
         if not roomID in self.rooms:
             return False
-        for conn in self.rooms[roomID]:
-            conn.sendMessage(message)
+        for userKey in self.rooms[roomID]:
+            self.rooms[roomID][userKey].send_message(message)
         return True
 
 # Connection Class handles the actual Channel API stuff
-class Connection:
+class connection:
     secretToken = ""
     channelID = ""
 
@@ -26,5 +26,5 @@ class Connection:
         self.channelID = roomID+":"+userID
         self.secretToken = channel.create_channel(self.channelID)
 
-    def sendMessage(self, message):
+    def send_message(self, message):
         channel.send_message(self.channelID,message)
