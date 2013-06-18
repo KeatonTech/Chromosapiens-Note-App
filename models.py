@@ -1,19 +1,19 @@
 from google.appengine.ext import ndb
 
 class User(ndb.Model):
-    creatorid = ndb.StringProperty(required=True)
-    notebook = ndb.StructuredProperty(Notebook, required=True)
+	creatorid = ndb.StringProperty(required=True)
+	notebook = ndb.StructuredProperty(Notebook, required=True)
 	
 class Notebook(ndb.Model):
     ownerid = ndb.StringProperty()
     bunnies = ndb.StructuredProperty(Bunny, repeated=true)
 
 class Bunny(ndb.Model):
-lectureid = ndb.IntegerProperty(required=True) #identifier of lecture
+    lectureid = ndb.IntegerProperty(required=True) #identifier of lecture
     bunnyid = ndb.IntegerProperty(required=True) #unique bunny id
     creatorid = ndb.StringProperty(required=True) #identifier for creator
     rating = ndb.IntegerProperty(required=True) #note rating
-    timestamp = ndb.DateTimeProperty(auto_now_add) #timestamp for sorting
+    timestamp = ndb.DateTimeProperty(auto_now_add=True) #timestamp for sorting
     attatched_bunnies = ndb.StringProperty()
     note = ndb.TextProperty(required=True)
     
