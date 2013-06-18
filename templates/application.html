@@ -2,14 +2,40 @@
 <html>
 	<head>
 		<title>Note Bunnies</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="bootstrap-responsive.css">
-        <link rel="stylesheet" type="text/css" href="main.css">
+		<link rel="stylesheet" type="text/css" href="main.css">
 	</head>
 	<body>
-        <div class="container">
+		<div class="navbar navbar-static-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="brand" href="#">NoteBunnies</a>
+					<ul class="nav">
+						<li><a href="#">test</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row-fluid">
+				<aside class="span3 hidden-phone" id="sidebar">
+					<div class="row-fluid">
+						<div class="span12">
+							<h3>Active Users</h3>
+							<ul>
+								<li>User 1</li>
+								<li>User 2</li>
+							</ul>
+						</div>
+					</div>
+				</aside>
+				{% block content %}{% endblock %}
 
-		{% block content %}{% endblock %}
-
-        </div>
+			</div>
+		</div>
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="bootstrap.js"></script>
 	</body>
 </html>

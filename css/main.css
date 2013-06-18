@@ -1,3 +1,25 @@
 body {
 	background: #eee;
 }
+
+#sidebar, #main {
+}
+
+#sidebar h3, #main h1 {
+	text-align: center;
+}
+
+#content {
+	margin: 20px;
+}
+
+#content article {
+	margin: 20px 0;
+}
+
+#content textarea {
+	width: 100%;
+	border: none;
+	background-color: transparent;
+	box-shadow: none;
+}
