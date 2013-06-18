@@ -1,7 +1,12 @@
 import webapp2
 import jinja2
 import os
+
+# Tools
 import comm
+
+# Controllers
+import controllers.doc
 
 from google.appengine.api import users
 
@@ -17,9 +22,11 @@ def render(self, template_values, template_url):
 
 streamManager = comm.streamer()
 
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         render(self, {}, 'index.html')
+
 
 class RoomHandler(webapp2.RequestHandler):
     def get(self):
@@ -39,5 +46,6 @@ class RoomHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/room', RoomHandler),
+    ('/note', RoomHandler),
+    ('/api/append', controllers.doc.add_bunny),
 ], debug=True)
