@@ -1,3 +1,4 @@
+import random
 from google.appengine.api import channel
 
 # Basically just abstracts everything to be room-based, instead of Channel based
@@ -23,7 +24,8 @@ class connection:
     channelID = ""
 
     def __init__(self, roomID, userID):
-        self.channelID = roomID+":"+userID
+        # Channel ID includes a random component for some added security, just in case
+        self.channelID = roomID+":"+userID+":"+str(random.randint(100000,999999))
         self.secretToken = channel.create_channel(self.channelID)
 
     def send_message(self, message):
