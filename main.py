@@ -48,4 +48,5 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/note', RoomHandler),
     ('/api/append', controllers.doc.add_bunny),
+                                  ('/document/add', controllers.doc.add_document),
 ], debug=True)
