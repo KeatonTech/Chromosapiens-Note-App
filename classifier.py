@@ -1,4 +1,7 @@
-common_words = open("common_words.txt")
+common_words_file = open("common_words.txt")
+common_words = []
+with open(common_words_file) as f:
+    common_words = f.readlines()
 
 def classify(note):
 	categories = []
@@ -7,4 +10,3 @@ def classify(note):
 			categories.append(word)
 	return categories
 
-	
