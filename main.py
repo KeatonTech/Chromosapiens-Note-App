@@ -1,31 +1,14 @@
 import webapp2
-import jinja2
-import os
-
-# Tools
-import comm
+import vars
 
 # Controllers
 import controllers.doc
 
 from google.appengine.api import users
 
-
-JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__) + "/templates/"),
-    extensions=['jinja2.ext.autoescape'])
-
-
-def render(self, template_values, template_url):
-    template = JINJA_ENVIRONMENT.get_template(template_url)
-    self.response.write(template.render(template_values))
-
-streamManager = comm.streamer()
-
-
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        render(self, {}, 'index.html')
+        vars.render(self, {}, 'index.html')
 
 
 class RoomHandler(webapp2.RequestHandler):
@@ -39,9 +22,9 @@ class RoomHandler(webapp2.RequestHandler):
         if not roomID:
             return self.redirect("/")
 
-        streamManager.message_room(roomID, "{'event':'join','user':'"+userID+"'}")
-        token = streamManager.connect_to_room(roomID,userID)
-        render(self, {'token': token}, 'jstest.html')
+        vars.streamManager.message_room(roomID, "{'event':'join','user':'"+userID+"'}")
+        token = vars.streamManager.connect_to_room(roomID,userID)
+        vars.render(self, {'token': token}, 'jstest.html')
 
 
 app = webapp2.WSGIApplication([
