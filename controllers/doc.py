@@ -1,8 +1,11 @@
 import webapp2
 
-class add_note(webapp2.RequestHandler):
-    def get(self):
-        print "Add message controller"
 
+class add_document(webapp2.RequestHandler):
     def post(self):
-        print "Adding a note: " + self.request.get("message")
+        print "Adding a document: " + self.request.get("message")
+
+
+class add_bunny(webapp2.RequestHandler):
+    def post(self):
+        print "Adding a bunny: " + self.request.get("message")

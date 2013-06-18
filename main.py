@@ -47,5 +47,5 @@ class RoomHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/note', RoomHandler),
-    ('/api/addNote', controllers.doc.add_note),
+    ('/api/append', controllers.doc.add_bunny),
 ], debug=True)
