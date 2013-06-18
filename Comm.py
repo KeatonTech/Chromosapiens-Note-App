@@ -7,7 +7,7 @@ class streamer:
     def connect_to_room(self, roomID, userID):
         if not roomID in self.rooms:
             self.rooms[roomID] = {}
-        self.rooms[roomID][userID] = Connection(roomID,userID)
+        self.rooms[roomID][userID] = connection(roomID,userID)
         return self.rooms[roomID][userID].secretToken
 
     def message_room(self, roomID, message):
