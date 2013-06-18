@@ -5,13 +5,19 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: .*
-  script: main.app
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
-- url: *\.css
-  static_files: /static
+- url: /(.*\.css)
+  mime_type: text/css
+  static_files: static/\1
+  upload: static/(.*\.css)
+- url: /(.*\.(bmp|gif|ico|jpeg|jpg|png))
+  static_files: static/\1
+  upload: static/(.*\.(bmp|gif|ico|jpeg|jpg|png))
+# This should always go last:
+- url: /.*
+  script: main.app
 
 
 libraries:
