@@ -6,6 +6,7 @@ import controllers.doc
 
 from google.appengine.api import users
 
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         vars.render(self, {}, 'index.html')
@@ -34,4 +35,5 @@ app = webapp2.WSGIApplication([
     
     # API Methods (AJAXylicious)
     ('/api/append', controllers.doc.add_bunny),
+    ('/document/add', controllers.doc.add_document),
 ], debug=True)
