@@ -29,4 +29,4 @@ class Connection:
 		secretToken = channel.createChannel()
 		
 	def sendMessage(self, message):
-		channel.sendMessage(channelID,message)
+        channel.sendMessage(channelID,message)
