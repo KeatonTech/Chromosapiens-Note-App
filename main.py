@@ -17,9 +17,11 @@ def render(self, template_values, template_url):
 
 streamManager = comm.streamer()
 
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         render(self, {}, 'index.html')
+
 
 class RoomHandler(webapp2.RequestHandler):
     def get(self):
