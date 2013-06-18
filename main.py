@@ -1,6 +1,9 @@
 import webapp2
 import jinja2
 import os
+import Comm.py
+
+from google.appengine.api import users
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__) + "/templates/"),
@@ -10,31 +13,29 @@ def render(self, template_values, template_url):
     template = JINJA_ENVIRONMENT.get_template(template_url)
     self.response.write(template.render(template_values))
 
+streamManager = Streamer()
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         render(self, {}, 'index.html')
 
-class RegistrationHandler(webapp2.RequestHandler):
-    def get(self):
-        render(self, {}, 'register.html')
 
-class LoginHandler(webapp2.RequestHandler):
+class RoomHandler(webapp2.RequestHandler):
     def get(self):
-        render(self, {}, 'login.html')
 
-class LogoutHandler(webapp2.RequestHandler):
-    def get(self):
-        render(self, {}, 'logout.html')
+        userID = users.get_current_user()
+        if not user:
+            return self.redirect(users.create_login_url(self.request.uri))
 
-class AccountPage(webapp2.RequestHandler):
-    def get(self):
-        render(self, {}, 'account.html')
+        roomID = self.request.get('room')
+        if not room:
+            return self.redirect("/")
+
+        token = streamManager.connectToRoom(roomID,userID)
+        self.response.write(token)
 
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/register', RegistrationHandler),
-    ('/login', LoginHandler),
-    ('/logout', LogoutHandler),
-    ('/account', AccountPage),
+
 ], debug=True)
