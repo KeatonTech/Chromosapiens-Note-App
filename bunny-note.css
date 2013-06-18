@@ -1,0 +1,12 @@
+#wrapper {
+	width : 150px;
+	height : 150px;
+	background-color: red;
+	text-align: center;
+	font-size: 40px;
+	vertical-align: middle;
+	display: table-cell;
+	color: white;
+	border-radius: 20;
+	box-shadow: 5px 5px 5px #888888;
+}
