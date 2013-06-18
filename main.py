@@ -1,7 +1,12 @@
 import webapp2
 import jinja2
 import os
+
+# Tools
 import comm
+
+# Controllers
+import controllers.doc
 
 from google.appengine.api import users
 
@@ -39,5 +44,6 @@ class RoomHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/room', RoomHandler),
+    ('/note', RoomHandler),
+    ('/api/addNote', controllers.doc.add_note),
 ], debug=True)
