@@ -5,9 +5,11 @@ import comm
 
 from google.appengine.api import users
 
+
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__) + "/templates/"),
     extensions=['jinja2.ext.autoescape'])
+
 
 def render(self, template_values, template_url):
     template = JINJA_ENVIRONMENT.get_template(template_url)
@@ -21,7 +23,6 @@ class MainHandler(webapp2.RequestHandler):
 
 class RoomHandler(webapp2.RequestHandler):
     def get(self):
-
         userObject = users.get_current_user()
         if not userObject:
             return self.redirect(users.create_login_url(self.request.uri))
