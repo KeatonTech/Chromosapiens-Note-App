@@ -1,7 +1,7 @@
 import webapp2
 import jinja2
 import os
-import Comm.py
+import Comm
 
 from google.appengine.api import users
 
@@ -13,7 +13,7 @@ def render(self, template_values, template_url):
     template = JINJA_ENVIRONMENT.get_template(template_url)
     self.response.write(template.render(template_values))
 
-streamManager = Streamer()
+streamManager = Comm.Streamer()
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -23,12 +23,13 @@ class MainHandler(webapp2.RequestHandler):
 class RoomHandler(webapp2.RequestHandler):
     def get(self):
 
-        userID = users.get_current_user()
-        if not user:
+        userObject = users.get_current_user()
+        userID = userObject.user_id()
+        if not userID:
             return self.redirect(users.create_login_url(self.request.uri))
 
-        roomID = self.request.get('room')
-        if not room:
+        roomID = self.request.get('id')
+        if not roomID:
             return self.redirect("/")
 
         token = streamManager.connectToRoom(roomID,userID)
@@ -37,5 +38,5 @@ class RoomHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-
+    ('/room', RoomHandler),
 ], debug=True)

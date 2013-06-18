@@ -24,7 +24,7 @@ class Connection:
 
     def __init__(self, roomID, userID):
         self.channelID = roomID+":"+userID
-        self.secretToken = channel.createChannel()
+        self.secretToken = channel.create_channel(self.channelID)
 
     def sendMessage(self, message):
-        channel.sendMessage(self.channelID,message)
+        channel.send_message(self.channelID,message)
