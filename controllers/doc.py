@@ -1,4 +1,6 @@
 import webapp2
+import classifier
+import vars
 from models import *
 
 
@@ -13,7 +15,15 @@ class add_bunny(webapp2.RequestHandler):
     def post(self):
         # TODO: check to see params exist
         # TODO: get attached bunnies
-        bunny = Bunny(lecture_id=self.request.get("lecture_id"), creator_id=self.request.get("creator_id"),
+        
+        # Send Bunny to Database
+        bunny = Bunny(lecture_id=self.request.get("lecture_id"),
+                      creator_id=self.request.get("creator_id"),
                       note=self.request.get("note"))
         bunny.put()
-        print "Adding a bunny: " + self.request.get("message")
+        
+        # Classify Bunny
+        tags = classifier.classify(bunny.note)
+        
+        # Stream to room
+        vars.stream_manager.message_room({'tags':tags, 'bunny': bunny})

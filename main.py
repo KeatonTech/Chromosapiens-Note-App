@@ -23,8 +23,8 @@ class RoomHandler(webapp2.RequestHandler):
         if not roomID:
             return self.redirect("/")
 
-        vars.streamManager.message_room(roomID, "{'event':'join','user':'"+userID+"'}")
-        token = vars.streamManager.connect_to_room(roomID,userID)
+        vars.stream_manager.message_room(roomID, "{'event':'join','user':'"+userID+"'}")
+        token = vars.stream_manager.connect_to_room(roomID,userID)
         vars.render(self, {'token': token}, 'jstest.html')
 
 

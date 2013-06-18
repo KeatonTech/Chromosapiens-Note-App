@@ -17,4 +17,4 @@ def renderError(self, code, message):
     template = JINJA_ENVIRONMENT.get_template(errorTemplate)
     self.response.write(template.render({'code':code,'message':message}))
 
-streamManager = Comm.streamer()
+stream_manager = Comm.streamer()
