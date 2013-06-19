@@ -121,5 +121,5 @@ app = webapp2.WSGIApplication([
                                   ('/documents/(\d+)', DocumentHandler),
                                   # ('/lectures/add', controllers.doc.add_lecture),
                                   ('/lectures/(\d+)', controllers.doc.join_lecture),
-                                  ('/bunny/get', controllers.doc.get_bunny),
+                                  ('/api/getbunnies', controllers.doc.get_bunnies),
                               ], debug=True)
