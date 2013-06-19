@@ -1,0 +1,68 @@
+<element name="type-ahead" attributes="query suggestion">
+	<template>
+		<style>
+		  .container {
+			position: relative;
+			width: 400px;
+			margin: 0 auto;
+			margin-top: 40px;
+		  }
+		  .container input {
+			position: absolute;
+			top: 0px; left: 0px;
+			width: 400px;
+			height: 40px;
+			border-radius: 3px;
+			font-size: 13pt;
+			padding: 0px 10px;
+		  }
+		  .container input#top {
+			border: 1px solid transparent;
+			background-color: transparent;
+		  }
+		  .container input#bottom {
+			border: 1px solid #aaa;
+			color: #888;
+			box-shadow: 0px 1px 1px #ddd;
+		  }
+		</style>
+		<div class="container">
+		  <input type="text" id="bottom" value="{{suggestion}}"/>
+		  <input type="text" id="top" value="{{query}}"/>
+		</div>
+	</template>
+	<script>
+		Polymer.register(this);
+	</script>
+</element>
+
+<element name="typeahead-model" attributes="items query suggestion">
+	<script>
+	
+	</script>
+</element>
+
+<element name="relations-model" attributes="data query output">
+	<script>
+		Polymer.register(this,{
+			queryChanged: function(){
+				this.output = [];
+				
+				var words = this.query.split(" "); words.pop();
+				if(words.length<1)return;
+				var rgx = new RegExp("("+words.join("|")+")","ig");
+				
+				for(id in this.data){
+					var oNote = this.data[id];
+					var matches = oNote.note.match(rgx);
+					if(matches != null && matches.length > 0){
+						this.output.push(oNote);
+					}
+				}
+				
+				this.output.sort(function(a,b){return a.rank > b.rank});
+				console.log(this.output.length+" matches");
+			}
+		});
+	</script>
+</element>
