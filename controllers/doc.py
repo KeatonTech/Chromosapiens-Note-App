@@ -5,6 +5,13 @@ from vars import render
 import vars
 
 
+class add_lecture(webapp2.RequestHandler):
+    def post(self):
+        lecture_id = self.request.get("lecture-id")
+        print lecture_id
+        self.redirect('/dashboard')
+
+
 class add_notebook(webapp2.RequestHandler):
     def post(self):
         title = self.request.get("notebook-title")
