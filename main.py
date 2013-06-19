@@ -26,8 +26,8 @@ class NotebookHandler(webapp2.RequestHandler):
             titles = list()
             for doc in notebook.document_ids:
                 titles.append(Document.get_by_id(int(doc)).title)
-            titles.append(notebook)
             template_vals['titles'] = titles
+            template_vals['nb_id'] = int(notebook_id)
             render(self, template_vals, 'mydocs.html')
         else:
             self.redirect(users.create_login_url(self.request.uri))

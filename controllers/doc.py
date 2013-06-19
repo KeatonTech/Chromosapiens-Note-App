@@ -24,7 +24,7 @@ class add_document(webapp2.RequestHandler):
                             notebook_id=self.request.get("notebook-id"))
         document.put()
         notebook = Notebook.get_by_id(int(notebook_id))
-        notebook.document_ids.append(notebook_id)
+        notebook.document_ids.append(str(document.key.id()))
         notebook.put()
         self.redirect('/notebooks/'+notebook_id)
 
