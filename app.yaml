@@ -8,6 +8,10 @@ handlers:
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
+- url: .*/(bunny-.*\.css)
+  mime_type: text/css
+  static_files: templates/elements/\1
+  upload: templates/elements/(.*\.css)
 - url: .*/(.*\.css)
   mime_type: text/css
   static_files: css/\1
@@ -20,10 +24,6 @@ handlers:
   mime_type: text/html
   static_files: templates/elements/\1
   upload: templates/elements/(.*\.html)
-- url: .*/(bunny-.*\.css)
-  mime_type: text/css
-  static_files: templates/elements/\1
-  upload: templates/elements/(.*\.css)
 - url: .*/(.*\.(bmp|gif|ico|jpeg|jpg|png))
   static_files: img/\1
   upload: img/(.*\.(bmp|gif|ico|jpeg|jpg|png))

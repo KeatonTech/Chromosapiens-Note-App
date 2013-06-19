@@ -1,13 +1,25 @@
 <element name="bunny-note" extends="article" attributes="content" on-blur="updateBunny">
 	<template>
-		<div contenteditable="true">
-			<p>{{content.text}}</p>
+		<div contenteditable="true" id="bunny" on-keyup="keyAction">
+			{{content.text}}
 		</div>
 	</template>
 	<script>
+		var ENTER_KEY = 13;
+    	var ESC_KEY = 27;
 		Polymer.register(this,{
 			updateBunny: function() {
-				alert("You've updated a Bunny");
+				this.content.text = this.$.bunny.innerHTML;
+				this.fire('bunny-updated');
+				alert(this.content.text);
+			},
+			keyAction: function(e, detail, sender) {
+				switch (e.keyCode) {
+					case ENTER_KEY:
+						updateBunny();
+					case ESC_KEY: 
+						break;
+				}
 			}
 		});
 	</script>
