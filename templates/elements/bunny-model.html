@@ -1,0 +1,15 @@
+<element name="bunny-model" attributes="notes">
+	<script>
+		Polymer.register(this,{
+			filtered: null,
+			completedCount: 0,
+			activeCount: 0,
+			allCompleted: false,
+			ready: function() {
+				this.asyncMethod(function() {
+					this.notes = this.notes || [{text:"asdfasdf"},{text:"asdfasdf"}];
+				});
+			}}
+		);
+	</script>
+</element>
