@@ -19,12 +19,14 @@ class add_notebook(webapp2.RequestHandler):
 class add_document(webapp2.RequestHandler):
     def post(self):
         title = self.request.get("document-title")
-        nb_id=self.request.get("notebook-id")
+        notebook_id = self.request.get("notebook-id")
         document = Document(title=title, lecture_id=self.request.get("lecture-id"),
                             notebook_id=self.request.get("notebook-id"))
         document.put()
-        print "Adding a document: " + self.request.get("message")
-        self.redirect('/notebooks/'+nb_id)
+        notebook = Notebook.get_by_id(int(notebook_id))
+        notebook.document_ids.append(notebook_id)
+        notebook.put()
+        self.redirect('/notebooks/'+notebook_id)
 
 
 class add_bunny(webapp2.RequestHandler):
@@ -33,11 +35,13 @@ class add_bunny(webapp2.RequestHandler):
         # TODO: get attached bunnies
         lecture_id = self.request.get("lecture_id")
         creator_id = users.get_current_user().user_id()
+        document_id = self.request.get("document_id")
         note = self.request.get("note")
 
         # Send Bunny to Database
         bunny = Bunny(lecture_id=lecture_id,
                       creator_id=creator_id,
+                      document_id=document_id,
                       note=note)
         bunny.put()
 
