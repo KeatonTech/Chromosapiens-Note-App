@@ -1,6 +1,7 @@
 <h3>Your Documents:</h3>
 {% if titles|length == 0 %}
     Get started by adding a document to the right.
+    {{ titles }}
 {% endif %}
 {% for title in titles %}
     <a href="{{title}}">{{ title }}</a><br>
