@@ -46,6 +46,9 @@ class add_bunny(webapp2.RequestHandler):
         bunny.put()
 
 
+# class get_bunnies(webapp2.RequestHandler):
+
+
 class join_lecture(webapp2.RequestHandler):
     def get(self, lecture_id):
         lecture = Lecture.get_by_id(int(lecture_id))
@@ -58,11 +61,19 @@ class join_lecture(webapp2.RequestHandler):
         template_vals['lecture'] = lecture
 
         if document_count == 0:
-            new_doc = Document(lecture_id=lecture_id, user_id=google_id)
-            new_doc.put()
+            document = Document(lecture_id=lecture_id, user_id=google_id)
+            document.put()
         else:
             document = documents.get()
-            template_vals['document'] = document
+
+        document_id = document.key.id()
+        template_vals['document'] = document
+
+        bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
+        bunnies = []
+        for bunny in bunnies_result:
+            bunnies.append(bunny)
+        template_vals['bunnies'] = bunnies
 
         vars.render(self, template_vals, 'workspace.html')
 
