@@ -111,4 +111,5 @@ app = webapp2.WSGIApplication([
                                   ('/notebooks/(\d+)', NotebookHandler),
                                   # ('/lectures/add', controllers.doc.add_lecture),
                                   ('/lectures/(\d+)', controllers.doc.join_lecture),
+                                  ('/bunny/get', controllers.doc.get_bunny),
                               ], debug=True)
