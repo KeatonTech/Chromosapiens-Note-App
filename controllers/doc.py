@@ -3,6 +3,8 @@ from models import *
 from google.appengine.api import users
 from vars import render
 import vars
+import json
+from json import JSONEncoder
 
 
 class add_notebook(webapp2.RequestHandler):
@@ -37,13 +39,16 @@ class add_bunny(webapp2.RequestHandler):
         creator_id = users.get_current_user().user_id()
         document_id = self.request.get("document-id")
         note = self.request.get("note")
-
+        
         # Send Bunny to Database
         bunny = Bunny(lecture_id=lecture_id,
                       creator_id=creator_id,
                       document_id=document_id,
                       note=note)
         bunny.put()
+        #document Document.get_by_id(int(document_id))
+        #document.bunny_ids.append(str(bunny.key.id()))
+        #document.put()
 
 
 # class get_bunnies(webapp2.RequestHandler):
@@ -73,6 +78,9 @@ class join_lecture(webapp2.RequestHandler):
         bunnies = []
         for bunny in bunnies_result:
             bunnies.append(bunny)
+        bunnies = json.dumps(bunnies)
+        # bunnies = JSONEncoder.encode()
+        print bunnies
         template_vals['bunnies'] = bunnies
 
         vars.render(self, template_vals, 'workspace.html')
@@ -84,3 +92,11 @@ class join_lecture(webapp2.RequestHandler):
     #     new_document = Document(lecture_id=lecture_id, user_id=users.get_current_user().user_id())
     #     new_document.put()
     #     render(self, {}, 'workspace.html')
+
+
+class get_bunny(webapp2.RequestHandler):
+    def get(self):
+        bunny = dict()
+        bunny['name'] = "test"
+        bunny = json.dumps(bunny)
+        return webapp2.Response(bunny)
