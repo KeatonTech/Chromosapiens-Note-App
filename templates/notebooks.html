@@ -1,4 +1,13 @@
 <h3>Your Notebooks:</h3>
+<form action="/notebooks/new" method="post">
+    <label for="notebook-title">Title</label>
+    <input type="text" name="notebook-title" id="notebook-title">
+
+    <input type="submit" value="New Notebook">
+</form>
+
+<strong>Your notebooks:</strong><br>
+
 {% if notebooks|length == 0 %}
     Get started by adding a notebook to the right.
 {% endif %}

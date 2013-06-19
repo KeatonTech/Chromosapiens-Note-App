@@ -9,7 +9,20 @@
 				this.asyncMethod(function() {
 					this.notes = this.notes || [{text:"asdfasdf"},{text:"asdfasdf"}];
 				});
-			}}
+			},
+			newBunny: function(title,text) {
+				title=String(title).trim();
+				text=String(text).trim();
+				if (title && text) {
+					var bunny = {
+						title: title,
+						text: text
+					};
+					this.notes.push(bunny);
+					this.fire('notes-updated')
+				}
+			}
+		}
 		);
 	</script>
 </element>

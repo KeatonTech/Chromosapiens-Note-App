@@ -73,6 +73,11 @@ class DashboardHandler(webapp2.RequestHandler):
         lectures = Lecture.query().order(Lecture.created_at).fetch(limit=10)
         return lectures
 
+    # def get_lectures(self, user):
+    #     lectures = dict()
+    #     for lecture_id in user.lecture_ids:
+    #         lectures
+
 
 class RoomHandler(webapp2.RequestHandler):
     def get(self):
@@ -85,21 +90,23 @@ class RoomHandler(webapp2.RequestHandler):
         if not roomID:
             return self.redirect("/")
 
-        vars.stream_manager.message_room(roomID, "{'event':'join','user':'"+userID+"'}")
-        token = vars.stream_manager.connect_to_room(roomID,userID)
+        vars.stream_manager.message_room(roomID, "{'event':'join','user':'" + userID + "'}")
+        token = vars.stream_manager.connect_to_room(roomID, userID)
         vars.render(self, {'token': token}, 'jstest.html')
 
 
 app = webapp2.WSGIApplication([
-    # Major Pages
-    ('/', MainHandler),
-    ('/note', RoomHandler),
-    
-    # API Methods (AJAXylicious)
-    ('/api/append', controllers.doc.add_bunny),
-    ('/document/add', controllers.doc.add_document),
-    ('/dashboard', DashboardHandler),
+                                  # Major Pages
+                                  ('/', MainHandler),
+                                  ('/note', RoomHandler),
+
+                                  # API Methods (AJAXylicious)
+                                  ('/api/append', controllers.doc.add_bunny),
+                                  ('/document/add', controllers.doc.add_document),
+                                  ('/dashboard', DashboardHandler),
                                   ('/notebooks/new', controllers.doc.add_notebook),
                                   ('/notebooks/(\d+)', NotebookHandler),
                                   ('/lectures/add', controllers.doc.add_lecture),
 ], debug=True)
+                                  ('/lectures/(\d+)', controllers.doc.join_lecture),
+                              ], debug=True)

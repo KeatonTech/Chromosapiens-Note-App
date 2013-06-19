@@ -5,6 +5,7 @@ class User(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
     notebook_ids = ndb.StringProperty(repeated=True)
+    lecture_ids = ndb.StringProperty(repeated=True)
 
     @classmethod
     def get_user(cls, google_id):
@@ -22,6 +23,7 @@ class Document(ndb.Model):
     title = ndb.StringProperty(default="untitled document")
     lecture_id = ndb.StringProperty()
     notebook_id = ndb.StringProperty()
+    user_id = ndb.StringProperty()
 
 
 class Lecture(ndb.Model):
