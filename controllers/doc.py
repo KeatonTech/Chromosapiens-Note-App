@@ -36,11 +36,9 @@ class add_bunny(webapp2.RequestHandler):
 
         # Send Bunny to Database
         bunny = Bunny(lecture_id=lecture_id,
-                      creator_id=self.request.get("creator_id"),
-                      note=self.request.get("note"))
+                      creator_id=creator_id,
+                      note=note)
         bunny.put()
-
-        print "Adding a bunny: " + self.request.get("message")
 
 
 class join_lecture(webapp2.RequestHandler):

@@ -4,7 +4,7 @@ from time import sleep
 
 # Controllers
 import controllers.doc
-from models import User, Notebook, Lecture
+from models import User, Notebook, Lecture, Document
 
 from google.appengine.api import users
 
@@ -12,6 +12,7 @@ from google.appengine.api import users
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         render(self, {}, 'index.html')
+
 
 class NotebookHandler(webapp2.RequestHandler):
     def get(self, notebook_id):
@@ -23,7 +24,6 @@ class NotebookHandler(webapp2.RequestHandler):
             notebook = Notebook.get_by_id(int(notebook_id))
                 
             #get all documents for notebook
-            titles = {}
             titles = list()
             for doc in notebook.document_ids:
                 titles.append(Document.get_by_id(int(doc)).title)
@@ -31,6 +31,7 @@ class NotebookHandler(webapp2.RequestHandler):
             render(self, template_vals, 'mydocs.html')
         else:
                 self.redirect(users.create_login_url(self.request.uri))
+
 
 class DashboardHandler(webapp2.RequestHandler):
     def get(self):
@@ -105,7 +106,6 @@ app = webapp2.WSGIApplication([
                                   ('/dashboard', DashboardHandler),
                                   ('/notebooks/new', controllers.doc.add_notebook),
                                   ('/notebooks/(\d+)', NotebookHandler),
-                                  ('/lectures/add', controllers.doc.add_lecture),
-], debug=True)
+                                  # ('/lectures/add', controllers.doc.add_lecture),
                                   ('/lectures/(\d+)', controllers.doc.join_lecture),
                               ], debug=True)
