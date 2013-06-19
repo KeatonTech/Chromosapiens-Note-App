@@ -1,5 +1,6 @@
 import webapp2
 from vars import render
+from time import time, sleep
 
 # Controllers
 import controllers.doc
@@ -36,6 +37,7 @@ class DashboardHandler(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
 
     def get_notebooks(self, user_id):
+        sleep(0.5)
         notebooks = {}
         try:
             # notebook_ids = user.notebook_ids
