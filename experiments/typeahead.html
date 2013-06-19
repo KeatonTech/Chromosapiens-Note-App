@@ -51,31 +51,39 @@
 	<script>
 		Polymer.register(this,{
 			queryChanged: function(){
+                // Reset Typeahead
 				this.suggestion = this.query;
 				
+                // Pull out the last word, for completing
 				var words = this.query.split(" "); 
 				var lastWord = words.pop();
                 if(lastWord.length<3)return;
+                var base = this.suggestion.slice(0,this.suggestion.length - lastWord.length);
                 
-				var base = this.suggestion.slice(0,this.suggestion.length - lastWord.length);
-				var rgx = new RegExp("[^A-z0-9]*("+lastWord+"[A-z0-9]*)","i");  
+                // Set up regex by combining every note into one long string.
+                var total = "";
+                for(id in this.data){total += this.data[id].note + " ";   }
+				var rgx = new RegExp("[^A-z0-9]("+lastWord+"[A-z0-9]*)","ig");  
                 
-				for(id in this.data){
-					var oNote = this.data[id];
-					var matches = rgx.exec(oNote.note);
-					if(matches != null && matches.length > 0){
-                        var w = matches[1].toLowerCase()
+                // Loop through matches
+                var matches;
+                while((matches = rgx.exec(total)) !== null){
+                    if(matches != null && matches.length > 0){
+                        var w = matches[1].toLowerCase();
+                        
+                        // Check to see if the word is excluded
                         var ct = false;
                         for(var exid in this.excludes){
                             if(this.excludes[exid] == w){
+                                // It is, break to find the next one
                                 ct = true;
+                                console.log("Mdnr: "+w);
                                 break;
                             }
                         }
-                        if(ct)continue;
-						return this.suggestion =  base + lastWord + matches[1].slice(lastWord.length);
-					}
-				}
+                        if(!ct) return this.suggestion =  base + lastWord + matches[1].slice(lastWord.length);
+                    }else return;
+                }
 			},
 		});
 	</script>
@@ -85,13 +93,21 @@
 	<script>
 		Polymer.register(this,{
 			queryChanged: function(){
+                // Only run this when the user has just finished writing a new word
                 if(this.query[this.query.length-1] != " ")return;
+                
+                // Clear the output
 				this.output = [];
-				
-				var words = this.query.split(" "); words.pop();
+
+                // Go through each word
+				var words = this.query.split(" "); //words.pop();
 				var query = "";
 				for(var id in words){
+                    
+                    // Short words don't matter
                     if(words[id].length < 3)continue;
+                    
+                    // Neither do excluded words
 					var ct = false;
 					for(var exid in this.excludes){
 						if(this.excludes[exid] == words[id].toLowerCase()){
@@ -100,6 +116,8 @@
 						}
 					}
 					if(ct)continue;
+                    
+                    // Combine every useful word into a regex query
 					if(query!=="")query+="|";
                     words[id] = words[id].replace(/[,.\?\"\'\\\/]/,"");
 					query += words[id]+"[^a-zA-Z0-9]+";
@@ -107,6 +125,7 @@
 				if(words.length<1 || query=="")return;
 				var rgx = new RegExp("("+query+")","ig");
 				
+                // Run the query, pull out matches
 				for(id in this.data){
 					var oNote = this.data[id];
 					var matches = (oNote.note+" ").match(rgx);
@@ -117,6 +136,7 @@
 					}
 				}
 				
+                // Sort the output by rank
 				this.output.sort(function(a,b){return a.queryRank < b.queryRank});
 			}
 		});
