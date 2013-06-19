@@ -33,9 +33,9 @@ class add_bunny(webapp2.RequestHandler):
     def post(self):
         # TODO: check to see params exist
         # TODO: get attached bunnies
-        lecture_id = self.request.get("lecture_id")
+        lecture_id = self.request.get("lecture-id")
         creator_id = users.get_current_user().user_id()
-        document_id = self.request.get("document_id")
+        document_id = self.request.get("document-id")
         note = self.request.get("note")
 
         # Send Bunny to Database
@@ -46,23 +46,34 @@ class add_bunny(webapp2.RequestHandler):
         bunny.put()
 
 
+# class get_bunnies(webapp2.RequestHandler):
+
+
 class join_lecture(webapp2.RequestHandler):
     def get(self, lecture_id):
         lecture = Lecture.get_by_id(int(lecture_id))
         google_id = users.get_current_user().user_id()
         documents = Document.query(Document.user_id == users.get_current_user().user_id(),
-                                  Document.lecture_id == lecture_id)
+                                   Document.lecture_id == lecture_id)
         document_count = documents.count()
 
         template_vals = dict()
         template_vals['lecture'] = lecture
 
         if document_count == 0:
-            new_doc = Document(lecture_id=lecture_id, user_id=google_id)
-            new_doc.put()
+            document = Document(lecture_id=lecture_id, user_id=google_id)
+            document.put()
         else:
             document = documents.get()
-            template_vals['document'] = document
+
+        document_id = document.key.id()
+        template_vals['document'] = document
+
+        bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
+        bunnies = []
+        for bunny in bunnies_result:
+            bunnies.append(bunny)
+        template_vals['bunnies'] = bunnies
 
         vars.render(self, template_vals, 'workspace.html')
 
