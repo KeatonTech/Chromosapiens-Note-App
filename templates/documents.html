@@ -4,7 +4,7 @@
     {{ titles }}
 {% endif %}
 {% for title in titles %}
-    <a href="{{title}}">{{ title }}</a><br>
+    <a href="{{nb_id}}/{{doc_ids[loop.index0]}}">{{ title }}</a><br>
 {% endfor %}
 
 <form action="/document/add" method="post">
