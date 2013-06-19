@@ -31,6 +31,7 @@ class add_document(webapp2.RequestHandler):
                             notebook_id=self.request.get("notebook_id"))
         document.put()
         print "Adding a document: " + self.request.get("message")
+        self.redirect('/dashboard')
 
 
 class add_bunny(webapp2.RequestHandler):

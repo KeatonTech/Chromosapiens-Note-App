@@ -14,6 +14,24 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
         render(self, {}, 'index.html')
 
+class NotebookHandler(webapp2.RequestHandler):
+    def get(self, notebook_id):
+        google_user = users.get_current_user()
+        if google_user:
+            google_id = google_user.user_id()
+            user = User.get_user(google_id=google_id)
+            template_vals = {'name_of_user': google_user.nickname()}
+            notebook = Notebook.get_by_id(int(notebook_id))
+                
+            #get all documents for notebook
+            titles = {}
+            titles = list()
+            for doc in notebook.document_ids:
+                titles.append(Document.get_by_id(int(doc)).title)
+            template_vals['titles'] = titles
+            render(self, template_vals, 'mydocs.html')
+        else:
+                self.redirect(users.create_login_url(self.request.uri))
 
 class DashboardHandler(webapp2.RequestHandler):
     def get(self):
@@ -82,5 +100,6 @@ app = webapp2.WSGIApplication([
     ('/document/add', controllers.doc.add_document),
     ('/dashboard', DashboardHandler),
                                   ('/notebooks/new', controllers.doc.add_notebook),
+                                  ('/notebooks/(\d+)', NotebookHandler),
                                   ('/lectures/add', controllers.doc.add_lecture),
 ], debug=True)
