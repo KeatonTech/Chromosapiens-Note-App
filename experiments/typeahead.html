@@ -49,18 +49,21 @@
 				this.output = [];
 				
 				var words = this.query.split(" "); words.pop();
+				for(var id in words) words[id] = words[id]+"[^a-zA-Z0-9]+";
 				if(words.length<1)return;
 				var rgx = new RegExp("("+words.join("|")+")","ig");
 				
 				for(id in this.data){
 					var oNote = this.data[id];
-					var matches = oNote.note.match(rgx);
+					var matches = (oNote.note+" ").match(rgx);
 					if(matches != null && matches.length > 0){
+						oNote["queryRank"] = oNote.rank * matches.length;
+						oNote["found"] = oNote.note.replace(rgx,"<b>\$1</b>");
 						this.output.push(oNote);
 					}
 				}
 				
-				this.output.sort(function(a,b){return a.rank > b.rank});
+				this.output.sort(function(a,b){return a.queryRank < b.queryRank});
 				console.log(this.output.length+" matches");
 			}
 		});

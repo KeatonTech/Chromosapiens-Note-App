@@ -9,7 +9,29 @@
 		
 		<element name="suggestion-item" attributes="message rank">
 			<template>
-				<li><b>{{rank}}:</b> {{message}}</li>
+				<style>
+					.row {
+						height: 35px;
+						background-color:#eee;
+						border-radius:3px;
+						box-shadow:0px 1px 2px #eee;
+					}
+					.rank {
+						min-width: 50px;
+						color: white;
+						size: 16pt;
+						text-align:center;
+						vertical-align: middle;
+						padding: 2px 0px;
+						background-color:#ccc;
+						text-shadow: 0px 1px 0px #999;
+					}
+					.message {
+						width: 100%;
+						padding: 10px;
+					}
+				</style>
+				<tr class="row"><td class="rank">{{rank}}:</td><td class="message">{{message}}</td></tr>
 			</template>
 			<script>
 				Polymer.register(this, {
@@ -33,11 +55,11 @@
 				</style>
 				<type-ahead query="{{query}}" suggestion="{{suggestion}}"></type-ahead>
 				<relations-model query="{{query}}" data="{{data}}" output={{output}}></relations-model>
-				<ul id="items">
-					<template repeat="{{item in output}}">
-						<suggestion-item message="{{item.note}}" rank="{{item.rank}}"></suggestion-item>
+				<table id="items">
+					<template repeat="{{output}}">
+						<suggestion-item message="{{found}}" rank="{{queryRank}}"></suggestion-item>
 					</template>
-				</ul>
+				</table>
 			</template>
 			<script>
 				Polymer.register(this, {
