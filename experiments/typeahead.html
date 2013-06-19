@@ -58,7 +58,7 @@
                 if(lastWord.length<3)return;
                 
 				var base = this.suggestion.slice(0,this.suggestion.length - lastWord.length);
-				var rgx = new RegExp("[^A-z0-9]("+lastWord+"[A-z0-9]*)","i");  
+				var rgx = new RegExp("[^A-z0-9]*("+lastWord+"[A-z0-9]*)","i");  
                 
 				for(id in this.data){
 					var oNote = this.data[id];
@@ -91,6 +91,7 @@
 				var words = this.query.split(" "); words.pop();
 				var query = "";
 				for(var id in words){
+                    if(words[id].length < 3)continue;
 					var ct = false;
 					for(var exid in this.excludes){
 						if(this.excludes[exid] == words[id].toLowerCase()){
@@ -100,6 +101,7 @@
 					}
 					if(ct)continue;
 					if(query!=="")query+="|";
+                    words[id] = words[id].replace(/[,.\?\"\'\\\/]/,"");
 					query += words[id]+"[^a-zA-Z0-9]+";
 				}
 				if(words.length<1 || query=="")return;
