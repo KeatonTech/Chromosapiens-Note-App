@@ -1,9 +1,11 @@
 import webapp2
 from vars import render
+from time import time, sleep
 
 # Controllers
 import controllers.doc
 from models import User, Notebook, Lecture
+import datetime
 
 from google.appengine.api import users
 
@@ -16,11 +18,11 @@ class MainHandler(webapp2.RequestHandler):
 class DashboardHandler(webapp2.RequestHandler):
     def get(self):
         google_user = users.get_current_user()
-        template_vals = {'name_of_user': google_user.nickname()}
 
         if google_user:
             google_id = google_user.user_id()
             user = User.get_user(google_id=google_id)
+            template_vals = {'name_of_user': google_user.nickname()}
             if user:
                 # print user
                 template_vals['notebooks'] = self.get_notebooks(google_id)
@@ -35,6 +37,7 @@ class DashboardHandler(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
 
     def get_notebooks(self, user_id):
+        sleep(0.5)
         notebooks = {}
         try:
             # notebook_ids = user.notebook_ids
@@ -47,8 +50,10 @@ class DashboardHandler(webapp2.RequestHandler):
             pass
         return notebooks
 
-    # def find_lectures(self, user_id):
-        # lecture_iter = Lecture.query(Lecture.start_time )
+    def find_lectures(self):
+        # time_window = datetime.datetime.now() - datetime.timedelta(days=3)
+        lectures = Lecture.query().order(Lecture.created_at).fetch(limit=10)
+        return lectures
 
 
 class RoomHandler(webapp2.RequestHandler):
@@ -77,4 +82,5 @@ app = webapp2.WSGIApplication([
     ('/document/add', controllers.doc.add_document),
     ('/dashboard', DashboardHandler),
                                   ('/notebooks/new', controllers.doc.add_notebook),
+                                  ('/lectures/add', controllers.doc.add_lecture),
 ], debug=True)
