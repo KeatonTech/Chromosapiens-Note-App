@@ -129,9 +129,16 @@
 				for(id in this.data){
 					var oNote = this.data[id];
 					var matches = (oNote.note+" ").match(rgx);
-					if(matches != null && matches.length > 0){
-						oNote["queryRank"] = oNote.rank * matches.length;
-						oNote["found"] = oNote.note.replace(rgx,"<b>\$1</b>");
+                    
+                    // This sneaky algorithm uses average word length to help determine relevance
+                    var averageWordLength = 0;
+					for(var wid in matches){ averageWordLength += matches[wid].length / matches.length };
+                    
+                    var age = new Date().getTime() - oNote.time;
+                    
+                    if(matches != null && matches.length > 0){
+						oNote["queryRank"] = oNote.rank * matches.length * parseInt(Math.sqrt(averageWordLength) + 5000/age);
+						oNote["found"] = oNote.note;//.replace(rgx,"<b>\$1</b>");
 						this.output.push(oNote);
 					}
 				}
