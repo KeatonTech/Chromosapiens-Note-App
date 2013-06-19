@@ -1,10 +1,11 @@
 <p><strong>Lectures starting soon:</strong></p>
-
+{% if lectures|length == 0 %}
+    There are no lectures starting within the next 24 hours.
+{% endif %}
 {% for lecture in lectures %}
     Title: {{ lecture.name }}<br>
     Professor: {{ lecture.professor }}<br>
     Start time: {{ lecture.start_time }}<br>
-    {{ lecture.key.id() }}
     <form action="/lectures/add" method="post">
         <input type="hidden" name="lecture-id" value={{ lecture.key.id() }}>
         <input type="submit" value="Join">

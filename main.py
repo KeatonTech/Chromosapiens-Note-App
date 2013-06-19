@@ -65,20 +65,20 @@ class RoomHandler(webapp2.RequestHandler):
         if not roomID:
             return self.redirect("/")
 
-        vars.stream_manager.message_room(roomID, "{'event':'join','user':'"+userID+"'}")
-        token = vars.stream_manager.connect_to_room(roomID,userID)
+        vars.stream_manager.message_room(roomID, "{'event':'join','user':'" + userID + "'}")
+        token = vars.stream_manager.connect_to_room(roomID, userID)
         vars.render(self, {'token': token}, 'jstest.html')
 
 
 app = webapp2.WSGIApplication([
-    # Major Pages
-    ('/', MainHandler),
-    ('/note', RoomHandler),
-    
-    # API Methods (AJAXylicious)
-    ('/api/append', controllers.doc.add_bunny),
-    ('/document/add', controllers.doc.add_document),
-    ('/dashboard', DashboardHandler),
+                                  # Major Pages
+                                  ('/', MainHandler),
+                                  ('/note', RoomHandler),
+
+                                  # API Methods (AJAXylicious)
+                                  ('/api/append', controllers.doc.add_bunny),
+                                  ('/document/add', controllers.doc.add_document),
+                                  ('/dashboard', DashboardHandler),
                                   ('/notebooks/new', controllers.doc.add_notebook),
                                   ('/lectures/add', controllers.doc.add_lecture),
-], debug=True)
+                              ], debug=True)
