@@ -1,8 +1,35 @@
 {% extends 'application.html' %}
 {% block content %}
 
+<<<<<<< HEAD
+<div class="row-fluid">
+				<aside class="span3 hidden-phone" id="sidebar">
+					<div class="row-fluid">
+						<div class="span12">
+                            <br>
+							<h3>Online Users</h3>
+							<ul>
+								<li>User 1</li>
+								<li>User 2</li>
+							</ul>
+						</div>
+					</div>
+				</aside>
+				<section class="span9" id="main">
+    <h1>Welcome to workspace for {{ lecture.name }}!</h1>
+    <br>
+    <div id="content">
+        <bunny-list></bunny-list>
+    </div>
+    </section>
+</div>
+    <!-- Scripts here. Don't remove this ↓ -->
+    <script src="polymer.min.js"></script>
+    <link rel="import" href="bunny-list.html">
+=======
 Welcome to workspace for {{ lecture.name }}!
 <br><br>
     Your document: {{ document.title }}
 
+>>>>>>> 6942cd170843d3b4d7ef1e4275309212040b777f
 {% endblock %}

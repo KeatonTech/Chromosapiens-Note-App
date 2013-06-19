@@ -1,26 +1,25 @@
 <element name="bunny-model" attributes="notes">
 	<script>
 		Polymer.register(this,{
-			filtered: null,
-			completedCount: 0,
-			activeCount: 0,
-			allCompleted: false,
+			bunnyCount: 2,
 			ready: function() {
 				this.asyncMethod(function() {
-					this.notes = this.notes || [{text:"asdfasdf"},{text:"asdfasdf"}];
+					this.notes = this.notes || [{bid:1,text:"asdfasdf"},{bid:2,text:"asdfasdf"}];
 				});
 			},
-			newBunny: function(title,text) {
-				title=String(title).trim();
-				text=String(text).trim();
-				if (title && text) {
+			newBunny: function(note) {
+				var text=String(note.value).trim();
+				this.bunnyCount++;
+				if (text) {
 					var bunny = {
-						title: title,
+						bid: this.bunnyCount,
+						context: "run context algorithm",
 						text: text
 					};
 					this.notes.push(bunny);
 					this.fire('notes-updated')
 				}
+				console.log(this.notes);
 			}
 		}
 		);
