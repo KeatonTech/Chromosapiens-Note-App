@@ -1,11 +1,14 @@
-<element name="bunny-note" extends="article" attributes="content">
-  <template>
-    <div contenteditable="true">
-      <p>This is sample text<p>
-      <p>{{content.text}}</p>
-    </div>
-  </template>
-  <script>
-      Polymer.register(this);
-  </script>
+<element name="bunny-note" extends="article" attributes="content" on-blur="updateBunny">
+	<template>
+		<div contenteditable="true">
+			<p>{{content.text}}</p>
+		</div>
+	</template>
+	<script>
+		Polymer.register(this,{
+			updateBunny: function() {
+				alert("You've updated a Bunny");
+			}
+		});
+	</script>
 </element>
