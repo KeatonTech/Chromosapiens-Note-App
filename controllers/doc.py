@@ -1,5 +1,5 @@
 import webapp2
-import classifier
+# import classifier
 import vars
 from models import *
 from google.appengine.api import users
