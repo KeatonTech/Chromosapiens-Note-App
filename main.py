@@ -1,11 +1,10 @@
 import webapp2
 from vars import render
-from time import time, sleep
+from time import sleep
 
 # Controllers
 import controllers.doc
 from models import User, Notebook, Lecture
-import datetime
 
 from google.appengine.api import users
 

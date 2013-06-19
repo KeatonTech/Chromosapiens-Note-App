@@ -19,8 +19,8 @@ class add_notebook(webapp2.RequestHandler):
 class add_document(webapp2.RequestHandler):
     def post(self):
         title = self.request.get("document-title")
-        document = Document(title=title, lecture_id=self.request.get("lecture_id"),
-                            notebook_id=self.request.get("notebook_id"))
+        document = Document(title=title, lecture_id=self.request.get("lecture-id"),
+                            notebook_id=self.request.get("notebook-id"))
         document.put()
         print "Adding a document: " + self.request.get("message")
 
@@ -29,9 +29,12 @@ class add_bunny(webapp2.RequestHandler):
     def post(self):
         # TODO: check to see params exist
         # TODO: get attached bunnies
+        lecture_id = self.request.get("lecture_id")
+        creator_id = users.get_current_user().user_id()
+        note = self.request.get("note")
 
         # Send Bunny to Database
-        bunny = Bunny(lecture_id=self.request.get("lecture_id"),
+        bunny = Bunny(lecture_id=lecture_id,
                       creator_id=self.request.get("creator_id"),
                       note=self.request.get("note"))
         bunny.put()
