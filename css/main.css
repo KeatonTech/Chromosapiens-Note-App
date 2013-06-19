@@ -23,3 +23,9 @@ body {
 	background-color: transparent;
 	box-shadow: none;
 }
+
+.block {
+    display:inline-block;
+    padding-right:50px;
+    vertical-align:top;
+}
