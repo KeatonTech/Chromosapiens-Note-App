@@ -1,0 +1,42 @@
+{
+    // Manifest Template
+    // Required
+    "name": "Notorious",
+    "version": "1",
+    "manifest_version": 1,
+    
+    // Recommended
+    "description": "A collabortive notetaking app for the web.",
+    "icons": { "128": "Bunny.128.png" },
+    "default_locale": "en",
+    
+    // Pick one (or none)
+    //"app": {...},
+    
+    // Add any of these that you need
+    /*
+    "background": {"persistent": false, ...},
+    "background": {"persistent": true, ...},
+    "chrome_url_overrides": {...},
+    "content_scripts": [...],
+    "content_security_policy": "policyString",
+    "file_browser_handlers": [...],
+    "file_handlers": {...},
+    "homepage_url": "http://path/to/homepage",
+    "incognito": "spanning" or "split",
+    "key": "publicKey",
+    "minimum_chrome_version": "versionString",
+    
+    "nacl_modules": [...],
+    "kiosk_enabled": true,
+    "offline_enabled": true,
+    "omnibox": { "keyword": "aString" },
+    "options_page": "aFile.html",
+    "permissions": [...],
+    "plugins": [...],
+    "requirements": {...},
+    "update_url": "http://path/to/updateInfo.xml",
+    "web_accessible_resources": [...],
+    "sandbox": [...]
+    */
+}

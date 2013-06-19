@@ -22,15 +22,15 @@ class NotebookHandler(webapp2.RequestHandler):
             user = User.get_user(google_id=google_id)
             template_vals = {'name_of_user': google_user.nickname()}
             notebook = Notebook.get_by_id(int(notebook_id))
-                
             #get all documents for notebook
             titles = list()
             for doc in notebook.document_ids:
                 titles.append(Document.get_by_id(int(doc)).title)
+            titles.append(notebook)
             template_vals['titles'] = titles
             render(self, template_vals, 'mydocs.html')
         else:
-                self.redirect(users.create_login_url(self.request.uri))
+            self.redirect(users.create_login_url(self.request.uri))
 
 
 class DashboardHandler(webapp2.RequestHandler):
