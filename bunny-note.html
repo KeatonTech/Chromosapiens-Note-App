@@ -1,0 +1,25 @@
+<link rel="stylesheet" type="text/css" href="bunny-note.css" />
+<script src="bunny-note.js"></script>
+<element name="bunny-note">
+  <section>
+    <div id="wrapper"> 
+      <div id="title">New Note</div>
+        <textarea type="text" name="content" id = "content"></textarea>
+        <input type="submit" value="submit" id="submit">
+     </div>
+  </section>
+  <script>
+    // When <element> is in document, might run in wrong context.
+    // Only do work when this == <element>.
+    if (this !== window) {
+      var section = this.querySelector('section');
+      this.register({
+        prototype: {
+          readyCallback: function() {
+            this.innerHTML = section.innerHTML;
+          }
+        }
+     });
+    }
+  </script>
+</element>

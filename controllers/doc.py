@@ -1,4 +1,6 @@
 import webapp2
+import classifier
+import vars
 from models import *
 from google.appengine.api import users
 from vars import render
@@ -30,24 +32,11 @@ class add_bunny(webapp2.RequestHandler):
     def post(self):
         # TODO: check to see params exist
         # TODO: get attached bunnies
-        bunny = Bunny(lecture_id=self.request.get("lecture_id"), creator_id=self.request.get("creator_id"),
+        
+        # Send Bunny to Database
+        bunny = Bunny(lecture_id=self.request.get("lecture_id"),
+                      creator_id=self.request.get("creator_id"),
                       note=self.request.get("note"))
         bunny.put()
+
         print "Adding a bunny: " + self.request.get("message")
-
-
-class register(webapp2.RequestHandler):
-    def post(self):
-        if users.get_current_user():
-            name = self.request.get("name")
-            email = self.request.get("email")
-            user_id = users.get_current_user().user_id()
-            new_notebook = Notebook(user_id=user_id, document_ids=[])
-            new_notebook.put()
-            notebook_ids = list()
-            notebook_ids.append(new_notebook.key)
-            new_user = User(user_id=user_id, name=name, email=email, notebook_ids=notebook_ids)
-            new_user.put()
-
-    def get(self):
-        render(self, {}, 'register.html')

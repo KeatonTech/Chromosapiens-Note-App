@@ -1,0 +1,11 @@
+<element name="bunny-note" extends="article" attributes="content">
+  <template>
+    <div contenteditable="true">
+      <p>This is sample text<p>
+      <p>{{content.text}}</p>
+    </div>
+  </template>
+  <script>
+      Polymer.register(this);
+  </script>
+</element>

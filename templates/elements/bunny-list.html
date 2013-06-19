@@ -1,0 +1,16 @@
+<link rel="import" href="bunny-model.html">
+<link rel="import" href="bunny-note.html">
+
+<element name="bunny-list">
+	<template>
+		<bunny-model id="model" notes="{{notes}}"></bunny-model>
+	    <section id="bunnies">
+	    	<template repeat="{{notes}}">
+	            <article is="bunny-note" content="{{}}"></article>
+	        </template>
+	    </section>
+	</template>
+	<script>
+		Polymer.register(this);
+	</script>
+</element>

@@ -46,6 +46,15 @@
                 elementum et turpis quis viverra. Ut nec augue pretium, bibendum erat at, adipiscing enim. Morbi sit
                 amet vehicula risus.
             </article>
+
+            <form action="/document/add">
+                Create new document:
+                <label for="document-title">Document name</label> <input type="text" id="document-title">
+            </form>
+            <bunny-list></bunny-list>
         </div>
     </section>
+    <!-- Scripts here. Don't remove this ↓ -->
+    <script src="polymer.min.js"></script>
+    <link rel="import" href="bunny-list.html">
 {% endblock %}
