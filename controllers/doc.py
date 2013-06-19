@@ -3,8 +3,6 @@ from models import *
 from google.appengine.api import users
 from vars import render
 import vars
-import json
-from json import JSONEncoder
 
 
 class add_notebook(webapp2.RequestHandler):
@@ -51,9 +49,6 @@ class add_bunny(webapp2.RequestHandler):
         #document.put()
 
 
-# class get_bunnies(webapp2.RequestHandler):
-
-
 class join_lecture(webapp2.RequestHandler):
     def get(self, lecture_id):
         lecture = Lecture.get_by_id(int(lecture_id))
@@ -71,17 +66,7 @@ class join_lecture(webapp2.RequestHandler):
         else:
             document = documents.get()
 
-        document_id = document.key.id()
         template_vals['document'] = document
-
-        # bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
-        # bunnies = []
-        # for bunny in bunnies_result:
-        #     bunnies.append(bunny)
-        # bunnies = json.dumps(bunnies)
-        # # bunnies = JSONEncoder.encode()
-        # print bunnies
-        # template_vals['bunnies'] = bunnies
 
         vars.render(self, template_vals, 'workspace.html')
 
@@ -92,25 +77,3 @@ class join_lecture(webapp2.RequestHandler):
     #     new_document = Document(lecture_id=lecture_id, user_id=users.get_current_user().user_id())
     #     new_document.put()
     #     render(self, {}, 'workspace.html')
-
-
-class get_bunnies(webapp2.RequestHandler):
-    def get(self):
-        document_id = self.request.get("document_id")
-        bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
-        bunnies = dict()
-        for bunny in bunnies_result:
-            raw_bunny = bunny
-            bunny = bunny.to_dict()
-            bunny['timestamp'] = str(bunny['timestamp'])
-            bunnies[raw_bunny.key.id()] = bunny
-            # print JSONEncoder().encode(bunny)
-            # print json.dumps(bunny)
-            # bunny = dict()
-            # bunny['lecture_id'] = bunny.lecture_id
-            # bunnies.append(bunny)
-        # bunnies = json.dumps(bunnies)
-        # bunnies = JSONEncoder.encode()
-        bunnies = json.dumps(bunnies)
-
-        return webapp2.Response(bunnies)

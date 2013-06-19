@@ -1,9 +1,7 @@
 import webapp2
 from vars import render
 from time import sleep
-
-# Controllers
-import controllers.doc
+from controllers import api, doc
 from models import User, Notebook, Lecture, Document, Bunny
 
 from google.appengine.api import users
@@ -113,13 +111,13 @@ app = webapp2.WSGIApplication([
                                   ('/note', RoomHandler),
 
                                   # API Methods (AJAXylicious)
-                                  ('/api/append', controllers.doc.add_bunny),
-                                  ('/document/add', controllers.doc.add_document),
+                                  ('/api/append', doc.add_bunny),
+                                  ('/document/add', doc.add_document),
                                   ('/dashboard', DashboardHandler),
-                                  ('/notebooks/new', controllers.doc.add_notebook),
+                                  ('/notebooks/new', doc.add_notebook),
                                   ('/notebooks/(\d+)', NotebookHandler),
                                   ('/documents/(\d+)', DocumentHandler),
                                   # ('/lectures/add', controllers.doc.add_lecture),
-                                  ('/lectures/(\d+)', controllers.doc.join_lecture),
-                                  ('/api/getbunnies', controllers.doc.get_bunnies),
+                                  ('/lectures/(\d+)', doc.join_lecture),
+                                  ('/api/getbunnies', api.get_bunnies),
                               ], debug=True)
