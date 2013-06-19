@@ -28,15 +28,26 @@
 		</style>
 		<div class="container">
 		  <input type="text" id="bottom" value="{{suggestion}}"/>
-		  <input type="text" id="top" value="{{query}}"/>
+		  <input type="text" id="top" value="{{query}}" on-keydown="keyDown" on-change="changed"/>
 		</div>
 	</template>
 	<script>
-		Polymer.register(this);
+		Polymer.register(this,{
+            keyDown: function(event){
+                if(event.keyCode == 9){ // Tab or Enter
+                    event.preventDefault();
+                    this.query = this.suggestion;
+                }
+            },
+            changed: function(event){
+                this.query = this.suggestion;
+                this.query += " ";
+            }
+        });
 	</script>
 </element>
 
-<element name="typeahead-model" attributes="data query suggestion">
+<element name="typeahead-model" attributes="data query suggestion excludes">
 	<script>
 		Polymer.register(this,{
 			queryChanged: function(){
@@ -44,19 +55,28 @@
 				
 				var words = this.query.split(" "); 
 				var lastWord = words.pop();
+                if(lastWord.length<3)return;
+                
 				var base = this.suggestion.slice(0,this.suggestion.length - lastWord.length);
-				
-				var rgx = new RegExp("[^A-z0-9]("+lastWord+"[A-z0-9]*)","i");
+				var rgx = new RegExp("[^A-z0-9]("+lastWord+"[A-z0-9]*)","i");  
+                
 				for(id in this.data){
 					var oNote = this.data[id];
 					var matches = rgx.exec(oNote.note);
 					if(matches != null && matches.length > 0){
-						this.suggestion = base + matches[1];
+                        var w = matches[1].toLowerCase()
+                        var ct = false;
+                        for(var exid in this.excludes){
+                            if(this.excludes[exid] == w){
+                                ct = true;
+                                break;
+                            }
+                        }
+                        if(ct)continue;
+						return this.suggestion =  base + lastWord + matches[1].slice(lastWord.length);
 					}
 				}
-				
-				//this.output.sort(function(a,b){return a.queryRank < b.queryRank});
-			}
+			},
 		});
 	</script>
 </element>
@@ -65,6 +85,7 @@
 	<script>
 		Polymer.register(this,{
 			queryChanged: function(){
+                if(this.query[this.query.length-1] != " ")return;
 				this.output = [];
 				
 				var words = this.query.split(" "); words.pop();

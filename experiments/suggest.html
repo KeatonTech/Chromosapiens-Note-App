@@ -56,10 +56,10 @@
 				</style>
 				<type-ahead query="{{query}}" suggestion="{{suggestion}}"></type-ahead>
 				
-				<typeahead-model query="{{query}}" data="{{data}}" suggestion="{{suggestion}}"></typeahead-model>
+				<typeahead-model query="{{query}}" data="{{data}}" suggestion="{{suggestion}}" excludes="{{excludes}}"></typeahead-model>
 				<relations-model query="{{query}}" data="{{data}}" output={{output}} excludes="{{excludes}}"></relations-model>
 				
-				<g-ajax url="../common_words.txt" auto="true" on-response="handleResponse"></g-ajax>
+				<g-ajax url="./common_words.txt" auto="true" on-response="handleResponse"></g-ajax>
 				<table id="items">
 					<template repeat="{{output}}">
 						<suggestion-item message="{{found}}" rank="{{queryRank}}"></suggestion-item>
@@ -83,7 +83,7 @@
 							{rank: 5,  time: 2,   note:"The CEO of Google is Larry Page."},
 							{rank: 4,  time: 113, note:"Dart uses some elements from Polymer"}
 						];
-						
+						this.data.sort(function(a,b){return a.rank < b.rank});
 					},
 					handleResponse: function(e, obj){
 						console.log("Added excludes list");
