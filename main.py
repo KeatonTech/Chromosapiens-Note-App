@@ -4,6 +4,7 @@ from vars import render
 # Controllers
 import controllers.doc
 from models import User, Notebook, Lecture
+import datetime
 
 from google.appengine.api import users
 
@@ -47,8 +48,14 @@ class DashboardHandler(webapp2.RequestHandler):
             pass
         return notebooks
 
-    # def find_lectures(self, user_id):
-        # lecture_iter = Lecture.query(Lecture.start_time )
+    def find_lectures(self):
+        time_window = datetime.datetime.now() - datetime.timedelta(days=3)
+        lecture_iter = Lecture.query(Lecture.start_time < time_window).fetch(
+            limit=10)
+        lectures = list()
+        for lecture in lecture_iter:
+            lectures.append(lecture)
+        return lectures
 
 
 class RoomHandler(webapp2.RequestHandler):
