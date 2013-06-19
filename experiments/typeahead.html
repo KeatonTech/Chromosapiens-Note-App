@@ -36,22 +36,53 @@
 	</script>
 </element>
 
-<element name="typeahead-model" attributes="items query suggestion">
+<element name="typeahead-model" attributes="data query suggestion">
 	<script>
-	
+		Polymer.register(this,{
+			queryChanged: function(){
+				this.suggestion = this.query;
+				
+				var words = this.query.split(" "); 
+				var lastWord = words.pop();
+				var base = this.suggestion.slice(0,this.suggestion.length - lastWord.length);
+				
+				var rgx = new RegExp("[^A-z0-9]("+lastWord+"[A-z0-9]*)","i");
+				for(id in this.data){
+					var oNote = this.data[id];
+					var matches = rgx.exec(oNote.note);
+					if(matches != null && matches.length > 0){
+						this.suggestion = base + matches[1];
+					}
+				}
+				
+				//this.output.sort(function(a,b){return a.queryRank < b.queryRank});
+			}
+		});
 	</script>
 </element>
 
-<element name="relations-model" attributes="data query output">
+<element name="relations-model" attributes="data query output excludes">
 	<script>
 		Polymer.register(this,{
 			queryChanged: function(){
 				this.output = [];
 				
 				var words = this.query.split(" "); words.pop();
-				for(var id in words) words[id] = words[id]+"[^a-zA-Z0-9]+";
-				if(words.length<1)return;
-				var rgx = new RegExp("("+words.join("|")+")","ig");
+				var query = "";
+				for(var id in words){
+					var ct = false;
+					for(var exid in this.excludes){
+						if(this.excludes[exid] == words[id].toLowerCase()){
+							ct = true;
+							break;
+						}
+					}
+					if(ct)continue;
+					if(query!=="")query+="|";
+					query += words[id]+"[^a-zA-Z0-9]+";
+				}
+				if(words.length<1 || query=="")return;
+				var rgx = new RegExp("("+query+")","ig");
 				
 				for(id in this.data){
 					var oNote = this.data[id];
@@ -64,7 +95,6 @@
 				}
 				
 				this.output.sort(function(a,b){return a.queryRank < b.queryRank});
-				console.log(this.output.length+" matches");
 			}
 		});
 	</script>

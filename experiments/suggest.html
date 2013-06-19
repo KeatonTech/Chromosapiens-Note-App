@@ -3,6 +3,7 @@
 	<head>
 		<title>Suggestion Test</title>
 		<link rel="import" href="typeahead.html">
+		<link rel="import" href="g-ajax.html">
 	</head>
 	<body>
 		<script src="../js/polymer.min.js"></script>
@@ -43,7 +44,7 @@
 			 </script>
 		</element>
 		
-		<element name="data-container" attributes="data query suggestion output">
+		<element name="data-container" attributes="data query suggestion output excludes">
 			<template>
 				<style>
 					#items {
@@ -54,7 +55,11 @@
 					}
 				</style>
 				<type-ahead query="{{query}}" suggestion="{{suggestion}}"></type-ahead>
-				<relations-model query="{{query}}" data="{{data}}" output={{output}}></relations-model>
+				
+				<typeahead-model query="{{query}}" data="{{data}}" suggestion="{{suggestion}}"></typeahead-model>
+				<relations-model query="{{query}}" data="{{data}}" output={{output}} excludes="{{excludes}}"></relations-model>
+				
+				<g-ajax url="../common_words.txt" auto="true" on-response="handleResponse"></g-ajax>
 				<table id="items">
 					<template repeat="{{output}}">
 						<suggestion-item message="{{found}}" rank="{{queryRank}}"></suggestion-item>
@@ -77,8 +82,13 @@
 							{rank: 9,  time: 134, note:"The link to dart: http://www.dartlang.org/"},
 							{rank: 5,  time: 2,   note:"The CEO of Google is Larry Page."},
 							{rank: 4,  time: 113, note:"Dart uses some elements from Polymer"}
-						];	
+						];
+						
 					},
+					handleResponse: function(e, obj){
+						console.log("Added excludes list");
+						this.excludes = obj.response.split("\n");
+					}
 				});
 			</script>
 		</element>
