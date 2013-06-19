@@ -4,26 +4,41 @@ from google.appengine.ext import ndb
 class User(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
-    notebook_id = ndb.StringProperty()
+    notebook_ids = ndb.StringProperty(repeated=True)
+
+    @classmethod
+    def get_user(cls, google_id):
+        return User.get_by_id(google_id)
 
 
 class Notebook(ndb.Model):
     user_id = ndb.StringProperty()
+    title = ndb.StringProperty(default="untitled notebook")
+    created_at = ndb.DateProperty(auto_now_add=True)
     document_ids = ndb.StringProperty(repeated=True)
 
 
 class Document(ndb.Model):
-    title = ndb.StringProperty(default="untitled")
+    title = ndb.StringProperty(default="untitled document")
     lecture_id = ndb.StringProperty()
     notebook_id = ndb.StringProperty()
 
 
+class Lecture(ndb.Model):
+    name = ndb.StringProperty(required=True)
+    description = ndb.TextProperty()
+    professor = ndb.StringProperty()
+    created_at = ndb.DateTimeProperty(auto_now_add=True)
+    start_time = ndb.DateTimeProperty()
+    is_active = ndb.BooleanProperty(default=False)
+
+
 class Bunny(ndb.Model):
-    lecture_id = ndb.StringProperty(required=True)     #identifier of lecture
+    lecture_id = ndb.StringProperty(required=True)
     document_id = ndb.StringProperty(required=True)
-    creator_id = ndb.StringProperty(required=True)      #identifier for creator
-    rating = ndb.IntegerProperty(default=0)         #note rating
-    timestamp = ndb.DateTimeProperty(auto_now_add=True) #timestamp for sorting
+    creator_id = ndb.StringProperty(required=True)
+    rating = ndb.IntegerProperty(default=0)
+    timestamp = ndb.DateTimeProperty(auto_now_add=True)
     attached_bunnies = ndb.StringProperty(repeated=True)
     note = ndb.TextProperty(required=True)
 
