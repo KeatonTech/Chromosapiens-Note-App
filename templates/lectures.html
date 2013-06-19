@@ -6,8 +6,8 @@
     Title: {{ lecture.name }}<br>
     Professor: {{ lecture.professor }}<br>
     Start time: {{ lecture.start_time }}<br>
-    <form action="/lectures/add" method="post">
-        <input type="hidden" name="lecture-id" value={{ lecture.key.id() }}>
+    <form action="/lectures/{{ lecture.key.id() }}" method="get">
+{#        <input type="hidden" name="lecture-id" value={{ lecture.key.id() }}>#}
         <input type="submit" value="Join">
     </form>
 {% endfor %}

@@ -55,6 +55,11 @@ class DashboardHandler(webapp2.RequestHandler):
         lectures = Lecture.query().order(Lecture.created_at).fetch(limit=10)
         return lectures
 
+    # def get_lectures(self, user):
+    #     lectures = dict()
+    #     for lecture_id in user.lecture_ids:
+    #         lectures
+
 
 class RoomHandler(webapp2.RequestHandler):
     def get(self):
@@ -82,5 +87,5 @@ app = webapp2.WSGIApplication([
                                   ('/document/add', controllers.doc.add_document),
                                   ('/dashboard', DashboardHandler),
                                   ('/notebooks/new', controllers.doc.add_notebook),
-                                  ('/lectures/add', controllers.doc.add_lecture),
+                                  ('/lectures/(\d+)', controllers.doc.join_lecture),
                               ], debug=True)
