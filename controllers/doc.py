@@ -74,14 +74,14 @@ class join_lecture(webapp2.RequestHandler):
         document_id = document.key.id()
         template_vals['document'] = document
 
-        bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
-        bunnies = []
-        for bunny in bunnies_result:
-            bunnies.append(bunny)
-        bunnies = json.dumps(bunnies)
-        # bunnies = JSONEncoder.encode()
-        print bunnies
-        template_vals['bunnies'] = bunnies
+        # bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
+        # bunnies = []
+        # for bunny in bunnies_result:
+        #     bunnies.append(bunny)
+        # bunnies = json.dumps(bunnies)
+        # # bunnies = JSONEncoder.encode()
+        # print bunnies
+        # template_vals['bunnies'] = bunnies
 
         vars.render(self, template_vals, 'workspace.html')
 
@@ -94,9 +94,23 @@ class join_lecture(webapp2.RequestHandler):
     #     render(self, {}, 'workspace.html')
 
 
-class get_bunny(webapp2.RequestHandler):
+class get_bunnies(webapp2.RequestHandler):
     def get(self):
-        bunny = dict()
-        bunny['name'] = "test"
-        bunny = json.dumps(bunny)
-        return webapp2.Response(bunny)
+        document_id = self.request.get("document_id")
+        bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
+        bunnies = dict()
+        for bunny in bunnies_result:
+            raw_bunny = bunny
+            bunny = bunny.to_dict()
+            bunny['timestamp'] = str(bunny['timestamp'])
+            bunnies[raw_bunny.key.id()] = bunny
+            # print JSONEncoder().encode(bunny)
+            # print json.dumps(bunny)
+            # bunny = dict()
+            # bunny['lecture_id'] = bunny.lecture_id
+            # bunnies.append(bunny)
+        # bunnies = json.dumps(bunnies)
+        # bunnies = JSONEncoder.encode()
+        bunnies = json.dumps(bunnies)
+
+        return webapp2.Response(bunnies)
