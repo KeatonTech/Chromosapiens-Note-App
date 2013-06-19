@@ -1,16 +1,17 @@
 {% extends 'application.html' %}
 {% block content %}
 
-    {{ message }}
-
-    <p>
+    <div class="block">
         {% include 'notebooks.html' %}
-    </p>
+    </div>
 
-    <p>
+    <div class="block">
+        {% include 'newnotebook.html' %}
+    </div>
+
+    <div class="block">
         {% include 'lectures.html' %}
-    </p>
-
+    </div>
 
 
 {% endblock %}
