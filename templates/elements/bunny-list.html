@@ -9,8 +9,26 @@
 	            <article is="bunny-note" content="{{}}"></article>
 	        </template>
 	    </section>
+	    <section on-click="renderField" on-blur="blurAction">
+	    	<div id="addBunny">+</div>
+	    	<textarea id="newBunny" style="display:none"></textarea>
+	    </section>
 	</template>
 	<script>
-		Polymer.register(this);
+		var ENTER_KEY = 13;
+    	var ESC_KEY = 27;
+		Polymer.register(this,{
+			renderField: function() {
+				this.$.addBunny.style.display = "none";
+				this.$.newBunny.style.display = "block";
+			},
+			blurAction: function() {
+				alert('blur');
+				alert("blur");
+				this.$.addBunny.style.display = "block";
+				this.$.newBunny.style.display = "none";
+				this.fire('bunny-added');
+			}
+		});
 	</script>
 </element>
