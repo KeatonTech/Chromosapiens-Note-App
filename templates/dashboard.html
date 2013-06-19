@@ -1,0 +1,16 @@
+{% extends 'application.html' %}
+{% block content %}
+
+    {{ message }}
+
+    <p>
+        {% include 'notebooks.html' %}
+    </p>
+
+    <p>
+        {% include 'lectures.html' %}
+    </p>
+
+
+
+{% endblock %}

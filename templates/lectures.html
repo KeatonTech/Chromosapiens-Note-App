@@ -1,0 +1,12 @@
+<p><strong>Lectures starting soon:</strong></p>
+
+{% for lecture in lectures %}
+    Title: {{ lecture.name }}<br>
+    Professor: {{ lecture.professor }}<br>
+    Start time: {{ lecture.start_time }}<br>
+    {{ lecture.key.id() }}
+    <form action="/lectures/add" method="post">
+        <input type="hidden" name="lecture-id" value={{ lecture.key.id() }}>
+        <input type="submit" value="Join">
+    </form>
+{% endfor %}

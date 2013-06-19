@@ -1,17 +1,9 @@
 {% extends 'application.html' %}
 {% block content %}
-    <section class="span9" id="main">
         <h1>Notes</h1>
-
         <div id="content">
-
-            <form action="/document/add">
-                Create new document:
-                <label for="document-title">Document name</label> <input type="text" id="document-title">
-            </form>
             <bunny-list></bunny-list>
         </div>
-    </section>
     <!-- Scripts here. Don't remove this ↓ -->
     <script src="polymer.min.js"></script>
     <link rel="import" href="bunny-list.html">
