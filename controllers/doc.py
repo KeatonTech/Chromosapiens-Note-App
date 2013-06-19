@@ -44,14 +44,22 @@ class add_bunny(webapp2.RequestHandler):
 class join_lecture(webapp2.RequestHandler):
     def get(self, lecture_id):
         lecture = Lecture.get_by_id(int(lecture_id))
-        # TODO: prepare document when user joins lecture. Should not be in database till user starts typing. On revisit,
-        # check to see if document already exists. Consider separating GET/POST
-        document = Document.query(Document.user_id == users.get_current_user().user_id(),
+        google_id = users.get_current_user().user_id()
+        documents = Document.query(Document.user_id == users.get_current_user().user_id(),
                                   Document.lecture_id == lecture_id)
-        for doc in document:
-            print doc
-        # TODO: CSS can't be found in /lectures/ subdirectory
-        vars.render(self, {'lecture': lecture}, 'workspace.html')
+        document_count = documents.count()
+
+        template_vals = dict()
+        template_vals['lecture'] = lecture
+
+        if document_count == 0:
+            new_doc = Document(lecture_id=lecture_id, user_id=google_id)
+            new_doc.put()
+        else:
+            document = documents.get()
+            template_vals['document'] = document
+
+        vars.render(self, template_vals, 'workspace.html')
 
     # def post(self, lecture_id):
     #     # TODO: add lecture to user's lectures
