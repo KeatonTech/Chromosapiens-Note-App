@@ -19,11 +19,12 @@ class add_notebook(webapp2.RequestHandler):
 class add_document(webapp2.RequestHandler):
     def post(self):
         title = self.request.get("document-title")
+        nb_id=self.request.get("notebook-id")
         document = Document(title=title, lecture_id=self.request.get("lecture-id"),
                             notebook_id=self.request.get("notebook-id"))
         document.put()
         print "Adding a document: " + self.request.get("message")
-        self.redirect('/dashboard')
+        self.redirect('/notebooks/'+nb_id)
 
 
 class add_bunny(webapp2.RequestHandler):
