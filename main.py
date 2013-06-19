@@ -4,7 +4,7 @@ from time import sleep
 
 # Controllers
 import controllers.doc
-from models import User, Notebook, Lecture, Document
+from models import User, Notebook, Lecture, Document, Bunny
 
 from google.appengine.api import users
 
@@ -35,7 +35,16 @@ class NotebookHandler(webapp2.RequestHandler):
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
-
+class DocumentHandler(webapp2.RequestHandler):
+    def get(self, document_id):
+        template_vals={}
+        bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
+        bunnies = []
+        for bunny in bunnies_result:
+            bunnies.append(bunny)
+        template_vals['bunnies'] = bunnies
+        render(self, template_vals, 'workspace.html')
+        
 class DashboardHandler(webapp2.RequestHandler):
     def get(self):
         google_user = users.get_current_user()
@@ -109,6 +118,7 @@ app = webapp2.WSGIApplication([
                                   ('/dashboard', DashboardHandler),
                                   ('/notebooks/new', controllers.doc.add_notebook),
                                   ('/notebooks/(\d+)', NotebookHandler),
+                                  ('/documents/(\d+)', DocumentHandler),
                                   # ('/lectures/add', controllers.doc.add_lecture),
                                   ('/lectures/(\d+)', controllers.doc.join_lecture),
                                   ('/bunny/get', controllers.doc.get_bunny),

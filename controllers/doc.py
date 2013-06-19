@@ -39,13 +39,16 @@ class add_bunny(webapp2.RequestHandler):
         creator_id = users.get_current_user().user_id()
         document_id = self.request.get("document-id")
         note = self.request.get("note")
-
+        
         # Send Bunny to Database
         bunny = Bunny(lecture_id=lecture_id,
                       creator_id=creator_id,
                       document_id=document_id,
                       note=note)
         bunny.put()
+        #document Document.get_by_id(int(document_id))
+        #document.bunny_ids.append(str(bunny.key.id()))
+        #document.put()
 
 
 # class get_bunnies(webapp2.RequestHandler):
