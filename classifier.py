@@ -1,3 +1,5 @@
+from bisect import *
+
 common_words_file = open("common_words.txt")
 common_words = []
 with open(common_words_file) as f:
@@ -5,8 +7,8 @@ with open(common_words_file) as f:
 
 def classify(note):
 	categories = []
-	for word in note:
-		if word.lower() in common_words:
-			categories.append(word)
+	if bisect_right(common_words, word.lower()) != 0:
+		categories.append(word.lower())
 	return categories
+
 
