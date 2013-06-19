@@ -23,10 +23,10 @@ class NotebookHandler(webapp2.RequestHandler):
             template_vals = {'name_of_user': google_user.nickname()}
             notebook = Notebook.get_by_id(int(notebook_id))
             #get all documents for notebook
-            titles = {}
             titles = list()
             for doc in notebook.document_ids:
                 titles.append(Document.get_by_id(int(doc)).title)
+            titles.append(notebook)
             template_vals['titles'] = titles
             render(self, template_vals, 'mydocs.html')
         else:
