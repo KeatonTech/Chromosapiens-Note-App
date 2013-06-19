@@ -33,9 +33,9 @@ class add_bunny(webapp2.RequestHandler):
     def post(self):
         # TODO: check to see params exist
         # TODO: get attached bunnies
-        lecture_id = self.request.get("lecture_id")
+        lecture_id = self.request.get("lecture-id")
         creator_id = users.get_current_user().user_id()
-        document_id = self.request.get("document_id")
+        document_id = self.request.get("document-id")
         note = self.request.get("note")
 
         # Send Bunny to Database
@@ -51,7 +51,7 @@ class join_lecture(webapp2.RequestHandler):
         lecture = Lecture.get_by_id(int(lecture_id))
         google_id = users.get_current_user().user_id()
         documents = Document.query(Document.user_id == users.get_current_user().user_id(),
-                                  Document.lecture_id == lecture_id)
+                                   Document.lecture_id == lecture_id)
         document_count = documents.count()
 
         template_vals = dict()
