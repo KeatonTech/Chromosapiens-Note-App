@@ -1,3 +1,4 @@
+<h3>Your Notebooks:</h3>
 <form action="/notebooks/new" method="post">
     <label for="notebook-title">Title</label>
     <input type="text" name="notebook-title" id="notebook-title">
@@ -8,8 +9,15 @@
 <strong>Your notebooks:</strong><br>
 
 {% if notebooks|length == 0 %}
-    Looks like you have no notebooks! How unacademic!
+    Get started by adding a notebook to the right.
 {% endif %}
 {% for notebook in notebooks %}
-    {{ notebook.title }}<br>
+    <a href="notebooks/{{notebook.key.id()}}">{{ notebook.title }}</a><br>
 {% endfor %}
+
+<form action="/notebooks/new" method="post">
+    <h3>Add New Notebook:</h3>
+    <input type="text" name="notebook-title" id="notebook-title" placeholder="Notebook Topic">
+    <br>
+    <input type="submit" value="Create">
+</form>

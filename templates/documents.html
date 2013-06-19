@@ -1,0 +1,14 @@
+<h3>Your Documents:</h3>
+{% if titles|length == 0 %}
+    Get started by adding a document to the right.
+{% endif %}
+{% for title in titles %}
+    <a href="{{title}}">{{ title }}</a><br>
+{% endfor %}
+
+<form action="/document/add" method="post">
+    <h3>Add New Document:</h3>
+    <input type="text" name="document-title" id="document-title" placeholder="Document Title">
+    <br>
+    <input type="submit" value="Add">
+</form>
