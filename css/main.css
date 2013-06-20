@@ -26,6 +26,16 @@ body {
 
 .block {
     display:inline-block;
-    padding-right:50px;
+    width:300px;
+    padding-right:25px;
     vertical-align:top;
+}
+
+#logo {
+    color:#000000;
+    text-decoration:none;
+    font-family:'Roboto Slab';
+    font-size:250%;
+    display:inline-block;
+    vertical-align:middle;   
 }
