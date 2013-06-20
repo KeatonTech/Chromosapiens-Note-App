@@ -1,0 +1,95 @@
+å
+		<link rel="import" href="bunny-typeahead.html">
+		<link rel="import" href="bunny-g-ajax.html">å
+		
+		<element name="suggestion-item" attributes="message rank">
+			<template>
+				<style>
+					.row {
+						height: 35px;
+						background-color:#eee;
+						border-radius:3px;
+						box-shadow:0px 1px 2px #eee;
+					}
+					.rank {
+						min-width: 50px;
+						color: white;
+						size: 16pt;
+						text-align:center;
+						vertical-align: middle;
+						padding: 2px 0px;
+						background-color:#ccc;
+						text-shadow: 0px 1px 0px #999;
+					}
+					.message {
+						width: 100%;
+						padding: 10px;
+					}
+				</style>
+				<tr class="row"><td class="rank">{{rank}}:</td><td class="message">
+                    <content></content>  
+                </td></tr>
+			</template>
+			<script>
+				Polymer.register(this, {
+					// These default values are overridden
+					// by the user's attribute values.
+					message: "",
+					rank: 0
+				});
+			 </script>
+		</element>
+		
+		<element name="data-container" attributes="data query suggestion output excludes">
+			<template>
+				<style>
+					#items {
+						width: 400px;
+						margin: 0 auto;
+						position:relative;
+						top: 80px;
+					}
+				</style>
+				<type-ahead query="{{query}}" suggestion="{{suggestion}}"></type-ahead>
+				
+				<typeahead-model query="{{query}}" data="{{data}}" suggestion="{{suggestion}}" excludes="{{excludes}}"></typeahead-model>
+				<relations-model query="{{query}}" data="{{data}}" output={{output}} excludes="{{excludes}}"></relations-model>
+				
+				<g-ajax url="bunny-common_words.txt" auto="true" on-response="handleResponse"></g-ajax>
+				<table id="items">
+					<template repeat="{{output}}" id="itemsTemplate">
+						<suggestion-item rank="{{queryRank}}" id="si">{{found}}</suggestion-item>
+					</template>
+				</table>
+			</template>
+			<script>
+				Polymer.register(this, {
+					ready: function(){
+                        var cTime = new Date().getTime();
+						this.data = [
+							{id: 1,  rank: 4,  time: cTime-10000, note:"Polymer is a revolutionary web library that allows HTML to be used modularly"},
+							{id: 2,  rank: 3,  time: cTime-2000,  note:"Performance matters"},
+							{id: 3,  rank: 6,  time: cTime-2100,  note:"This guy is, like, suuper bald"},
+							{id: 4,  rank: 1,  time: cTime-12000, note:"Dart is a whole new programming language that can compile into JavaScript"},
+							{id: 5,  rank: 2,  time: cTime-11000, note:"Angular, Polymer, and jQuery are all examples of Javascript Libraries"},
+							{id: 6,  rank: 2,  time: cTime-13000, note:"Dart, Elm and ASM are all examples of languages that can be compiled into Javascript"},
+							{id: 7,  rank: 9,  time: cTime-10000, note:"Google is responsible for making Angular, Polymer, and Dart"},
+							{id: 8,  rank: 20, time: cTime-0,     note:"Larry is Batman. Sergey is Iron Man."},
+							{id: 9,  rank: 1,  time: cTime-9000,  note:"I think Polymer might be really cool"},
+							{id: 10, rank: 9,  time: cTime-13400, note:"The link to dart: http://www.dartlang.org/"},
+							{id: 11, rank: 5,  time: cTime-200,   note:"The CEO of Google is Larry Page."},
+							{id: 12, rank: 4,  time: cTime-11300, note:"Dart uses some elements from Polymer"},
+                            {id: 13, rank: 4,  time: cTime-100,   note:"This system uses typeahead to help you complete words"},
+                            {id: 14, rank: 4,  time: cTime-113000,note:"Typeahead is like autocomplete built into your text field"},
+                            {id: 15, rank: 10, time: cTime-11300, note:"The Chromosapiens are masters of Polymer"},
+                            {id: 16, rank: 5,  time: cTime-11300, note:"I want to meet Sergey Brin"},
+						];
+						this.data.sort(function(a,b){return a.rank < b.rank});
+					},
+					handleResponse: function(e, obj){
+						console.log("Added excludes list");
+						this.excludes = obj.response.split("\n");
+					}
+				});
+			</script>
+		</element>
