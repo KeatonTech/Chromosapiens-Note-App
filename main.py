@@ -43,6 +43,10 @@ class DocumentHandler(webapp2.RequestHandler):
         for bunny in bunnies_result:
             bunnies.append(bunny)
         template_vals['bunnies'] = bunnies
+        template_vals['doc_id'] = document_id
+        doc = Document.get_by_id(int(document_id))
+        template_vals['doc_name'] = doc.title
+        template_vals['lecture'] = doc.lecture_id
         render(self, template_vals, 'workspace.html')
         
 class DashboardHandler(webapp2.RequestHandler):

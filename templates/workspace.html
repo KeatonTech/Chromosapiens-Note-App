@@ -1,35 +1,35 @@
 {% extends 'application.html' %}
 {% block content %}
 <div class="row-fluid">
-				<aside class="span3 hidden-phone" id="sidebar">
-					<div class="row-fluid">
-						<div class="span12">
-                            <br>
-							<h3>Online Users</h3>
-							<ul>
-								<li>User 1</li>
-								<li>User 2</li>
-							</ul>
-						</div>
-					</div>
-				</aside>
-				<section class="span9" id="main">
+    <aside class="span3 hidden-phone" id="sidebar">
+        <div class="row-fluid">
+            <div class="span12">
+                <br>
+                <h3>Online Users</h3>
+                <ul>
+                    <li>User 1</li>
+                    <li>User 2</li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+	<section class="span9" id="main">
     <br>
     <div id="content">
         <bunny-list></bunny-list>
     </div>
     </section>
 </div>
-    <!-- Scripts here. Don't remove this ↓ -->
-    <script src="polymer.min.js"></script>
-    <script>
-    	window.identifiers = {
-    		document: {{document.key.id()}},
-    		lecture: {{lecture.key.id()}}
-    	}
-    	console.log(identifiers);
-    </script>
-    <link rel="import" href="bunny-list.html">
+<!-- Scripts here. Don't remove this ↓ -->
+<script src="polymer.min.js"></script>
+<script>
+    window.identifiers = {
+        document: {{document_id}},
+        lecture: {{lecture_id}}
+    }
+    console.log(identifiers);
+</script>
+<link rel="import" href="bunny-list.html">
 
 
 {% endblock %}
