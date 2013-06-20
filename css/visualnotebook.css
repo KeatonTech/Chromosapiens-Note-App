@@ -5,7 +5,11 @@
 	float: left;
 	margin-right: 2%;
 	margin-bottom: 2%;
+	padding-left: 20px;
 	text-align: center;
+	background-image: url('spiral_bound.png');
+	background-color: #FFFFFF;
+	background-repeat: no-repeat;
 }
 
 .notebook h3 {

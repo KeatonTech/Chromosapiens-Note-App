@@ -13,6 +13,8 @@
             </div>
         </div>
     </aside>
+    {{ lecture_id }}<br>
+    {{ document_name }}
 	<section class="span9" id="main">
     <br>
     <div id="content">
@@ -24,7 +26,7 @@
 <script src="polymer.min.js"></script>
 <script>
     window.identifiers = {
-        document: {{doc_id}}//,
+        document: {{document_id}}//,
         //lecture: {{lecture_id}}
     }
     console.log(identifiers);

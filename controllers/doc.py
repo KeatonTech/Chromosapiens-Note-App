@@ -36,6 +36,18 @@ class add_document(AuthHandler):
 
 
 class join_lecture(AuthHandler):
+    def get(self):
+        lecture_id = self.request.get("lecture_id")
+        # lecture_future = Lecture.get_by_id_async(lecture_id)
+        document = Document.query(Document.lecture_id == lecture_id).get()
+        template_vals = dict()
+        # template_vals['lecture'] = lecture_future.get_result()
+        template_vals['lecture_id'] = lecture_id
+        template_vals['document_id'] = document.key.id()
+        template_vals['document_name'] = document.title
+
+        vars.render(self, template_vals, 'workspace.html')
+
     def post(self):
         lecture_id = self.request.get("lecture_id")
         lecture = Lecture.get_by_id(lecture_id)
@@ -64,7 +76,7 @@ class join_lecture(AuthHandler):
 
             vars.render(self, template_vals, 'workspace.html')
         else:
-            # Do with ajax instead; won't keep old notebooks
+            # Bug: Do with ajax instead; won't keep old notebooks
             vars.render(self, {'message': 'Lecture is invalid.'}, 'dashboard.html')
 
 
@@ -78,6 +90,9 @@ class new_lecture(AuthHandler):
         user = User.get_user(google_id)
         user.lecture_ids.append(lecture_name)
         user.put()
+
+        document = Document(lecture_id=lecture_name, user_id=google_id)
+        document.put()
         
         template_vals = dict()
         template_vals['lecture_id'] = lecture_name
