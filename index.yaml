@@ -14,3 +14,8 @@ indexes:
   properties:
   - name: document_id
   - name: timestamp
+
+- kind: Notebook
+  properties:
+  - name: user_id
+  - name: title
