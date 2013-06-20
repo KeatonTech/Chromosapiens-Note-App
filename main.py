@@ -3,11 +3,11 @@ from time import sleep
 import webapp2
 from google.appengine.api import users
 
-from auth import AuthHandler, GoogleLoginLink
+from auth import AuthHandler, GoogleLoginLink, RegisterHandler
 
 from vars import render
 from controllers import api, doc
-from models import Notebook, Lecture, Document, Bunny, User
+from models import Notebook, Document, Bunny, User
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -109,6 +109,7 @@ routes = [
     ('/lectures/new', doc.new_lecture),
     ('/notebooks/rm', doc.delete_notebook),
     ('/notebooks/color', doc.change_notebook_color),
+    ('/register', RegisterHandler),
 
     # API Methods (AJAXylicious)
     ('/api/add_bunny', api.add_bunny),
