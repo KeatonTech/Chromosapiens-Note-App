@@ -3,7 +3,7 @@ body {
 }
 
 h1, h2, h3, h4, .btn-large, .navbar {
-    font-family: 'Roboto Slab';
+    font-family: 'Roboto Slab', sans-serif;
     text-shadow: 0 0 1px #666;
 }
 
@@ -12,6 +12,14 @@ h1, h2, h3, h4, .btn-large, .navbar {
 
 #sidebar h3, #main h1 {
     text-align: center;
+}
+
+.accordion-heading {
+    box-shadow: 0 0 3px #D3D3D3;
+}
+
+.accordion-inner {
+    background-color: #fff;
 }
 
 #content {
@@ -37,7 +45,7 @@ h1, h2, h3, h4, .btn-large, .navbar {
 #logo {
     color:#000000;
     text-decoration:none;
-    font-family:'Roboto Slab';
+    font-family:'Roboto Slab', sans-serif;
     display:inline-block;
     vertical-align:middle;   
 }
@@ -46,7 +54,7 @@ footer {
     padding: 10px;
     background-color: #eee;
     color: #666;
-    font-family: 'Roboto Slab';
+    font-family: 'Roboto Slab', sans-serif;
     margin-top: 20px;
 }
 
