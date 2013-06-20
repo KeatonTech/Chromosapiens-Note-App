@@ -62,7 +62,7 @@ class join_lecture(AuthHandler):
 class new_lecture(AuthHandler):
     def post(self):
         lecture_name = str(self.request.get("lecture_id"))
-        new_lecture = Lecture(id=lecture_name, name=lecture_name, professor=users.get_current_user().user_id())
+        new_lecture = Lecture(id=lecture_name, name=lecture_name, creator=users.get_current_user().user_id())
         new_lecture.put()
         
         google_id = users.get_current_user().user_id()
