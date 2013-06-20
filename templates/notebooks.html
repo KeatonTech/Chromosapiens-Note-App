@@ -3,6 +3,15 @@
 {% if notebooks|length == 0 %}
     Get started by adding a notebook to the right.
 {% endif %}
+<<<<<<< HEAD
 {% for lecture in lectures %}
     <a href="/lectures/join?lecture_id={{ lecture }}">{{ lecture }}</a><br>
+=======
+<ul>
+{% for notebook in notebooks %}
+    <li>
+        <a href="notebooks/{{notebook.key.id()}}" class="notebooks">{{ notebook.title }}</a> 
+        <a href="/notebooks/rm?notebook-id={{notebook.key.id()}}"><small>[delete]</small></a>
+    </li>
+>>>>>>> ace4e133c21182162ecf4a188a5de3a32759ff37
 {% endfor %}
