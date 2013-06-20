@@ -14,7 +14,7 @@ class User(ndb.Model):
 
 class Notebook(ndb.Model):
     user_id = ndb.StringProperty()
-    title = ndb.StringProperty(default="untitled notebook")
+    title = ndb.StringProperty()
     lecture_id = ndb.StringProperty()
     document_ids = ndb.StringProperty(repeated=True)
     created_at = ndb.DateProperty(auto_now_add=True)

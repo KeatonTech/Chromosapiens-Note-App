@@ -95,21 +95,20 @@ class join_lecture(AuthHandler):
 
 class new_lecture(AuthHandler):
     def post(self):
-        lecture_name = str(self.request.get("lecture_id"))
-        notebook_id = str(self.request.get("notebook_id"))
-        new_lecture = Lecture(id=lecture_name, name=lecture_name, creator=users.get_current_user().user_id())
-        new_lecture.put()
+        lecture_id = str(self.request.get("lecture_id"))
+        user_id = users.get_current_user().user_id()
+        notebook = Notebook(title=lecture_id+' Notes', lecture_id=lecture_id, user_id=user_id)
+        future_notebook = notebook.put_async()
+        new_lecture = Lecture(id=lecture_id, name=lecture_id, creator=user_id)
+        new_lecture.put_async()
 
-        google_id = users.get_current_user().user_id()
-        user = User.get_user(google_id)
-        user.lecture_ids.append(lecture_name)
-        user.put()
+        user = User.get_user(user_id)
+        user.lecture_ids.append(lecture_id)
+        future_user = user.put_async()
 
-        # TODO: add notebook id (popup window)
-        document = Document(lecture_id=lecture_name, user_id=google_id, notebook_id=notebook_id)
+        document = Document(lecture_id=lecture_id, user_id=user_id, notebook_id=str(future_notebook.get_result().id()))
         document.put()
 
-        template_vals = dict()
-        template_vals['lecture_id'] = lecture_name
+        future_user.get_result()
 
         self.redirect('/dashboard')

@@ -7,7 +7,7 @@
 
     {% for notebook in notebooks %}
         <a href="notebooks/{{ notebook.key.id()}}">
-            <div class="notebook" style="background-color:#{{notebook.color}}">
+            <div class="notebook" style="background-color:#{{ notebook.color }}">
                 <h3>{{ notebook.title }}</h3>
             </div>
         </a>
@@ -37,7 +37,8 @@
                            placeholder="Notebook Topic">
                     <button class="btn" type="submit">Create</button>
                 </div>
-        </div></form>
+            </div>
+        </form>
     </div>
     </form>
 </div>
