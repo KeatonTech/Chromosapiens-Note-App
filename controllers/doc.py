@@ -21,6 +21,7 @@ class delete_notebook(AuthHandler):
         google_id = users.get_current_user().user_id()
         user = User.get_user(google_id)
         user.lecture_ids.remove(notebook.lecture_id)
+        user.put()
         notebook.key.delete()
         
         self.redirect('/dashboard')
