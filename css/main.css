@@ -28,11 +28,25 @@ h1, h2, h3 {
 	box-shadow: none;
 }
 
+#navbar {
+    position:fixed; 
+    width: 100%;
+}
+
+#main-body {
+    padding-top:100px;   
+}
+
 .block {
     display:inline-block;
     width:300px;
-    padding-right:25px;
+    height:500px;
+    margin-top:20px;
+    margin-right:25px;
+    padding-left:30px;
+    margin-bottom:20px;
     vertical-align:top;
+    background-color:#e3dfdf;
 }
 
 #logo {

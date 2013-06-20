@@ -43,6 +43,10 @@ class DocumentHandler(webapp2.RequestHandler):
         for bunny in bunnies_result:
             bunnies.append(bunny)
         template_vals['bunnies'] = bunnies
+        template_vals['doc_id'] = document_id
+        doc = Document.get_by_id(int(document_id))
+        template_vals['doc_name'] = doc.title
+        template_vals['lecture'] = doc.lecture_id
         render(self, template_vals, 'workspace.html')
         
 class DashboardHandler(webapp2.RequestHandler):
@@ -67,13 +71,13 @@ class DashboardHandler(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
 
     def get_notebooks(self, user_id):
-        sleep(0.5)
+        sleep(0.10)
         notebooks = {}
         try:
             # notebook_ids = user.notebook_ids
             notebooks = list()
             # for notebook_id in notebook_ids:
-            notebook_iter = Notebook.query(Notebook.user_id == user_id).iter()
+            notebook_iter = Notebook.query(Notebook.user_id == user_id).order(Notebook.title).iter()
             for notebook in notebook_iter:
                 notebooks.append(notebook)
         except BaseException:
