@@ -19,7 +19,7 @@
                     {% endif %}
                     <ul>
                     {% for notebook in notebooks %}
-					    <li><a href="notebooks/{{notebook.key.id()}}" class="notebooks" style="color: #{{notebook.color}};">{{ notebook.title }}</a> <a href="/notebooks/rm?notebook-id={{notebook.key.id()}}"><small>[delete]</small></a></li>
+					    <li><a href="notebooks/?lecture_id={{notebook.lecture_id}}" class="notebooks" style="color: #{{notebook.color}};">{{ notebook.title }}</a> <a href="/notebooks/rm?notebook-id={{notebook.key.id()}}"><small>[delete]</small></a></li>
                         <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=E0E0E0"><div class="color-box" style="background-color:#E0E0E0;"></div></a>
                         <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=F3EC46"><div class="color-box" style="background-color:#F3EC46;"></div></a>
                         <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=85C8FD"><div class="color-box" style="background-color:#85C8FD;"></div></a>

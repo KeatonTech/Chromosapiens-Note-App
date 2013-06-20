@@ -47,10 +47,12 @@ class change_notebook_color(AuthHandler):
 
 class join_lecture(AuthHandler):
     def get(self):
+        print "We're here"
         lecture_id = self.request.get("lecture_id")
         # lecture_future = Lecture.get_by_id_async(lecture_id)
         notebook = Notebook.query(Notebook.lecture_id == lecture_id).get()
-        documents = Document.query(Document.lecture_id == lecture_id, Document.user_id == users.get_current_user().user_id())
+        documents = Document.query(Document.lecture_id == lecture_id,
+                                   Document.user_id == users.get_current_user().user_id())
 
         template_vals = dict()
         # template_vals['lecture'] = lecture_future.get_result()
@@ -72,10 +74,11 @@ class join_lecture(AuthHandler):
 
             if notebooks.count == 0:
 
-                notebook = Notebook(title=lecture_id+' Notes', lecture_id=lecture_id, user_id=google_id)
+                notebook = Notebook(title=lecture_id + ' Notes', lecture_id=lecture_id, user_id=google_id)
                 future_notebook = notebook.put_async()
 
-                document = Document(lecture_id=lecture_id, notebook_id=str(future_notebook.get_result().id()))
+                document = Document(lecture_id=lecture_id, notebook_id=str(future_notebook.get_result().id()),
+                                    user_id=google_id)
                 future_document = document.put_async()
 
                 user = User.get_user(google_id)
@@ -85,7 +88,7 @@ class join_lecture(AuthHandler):
 
                 template_vals['lecture_id'] = lecture.key.id()
                 template_vals['document_id'] = future_document.get_result().id()
-                template_vals['notebook_name'] = lecture_id+'Notes'
+                template_vals['notebook_name'] = lecture_id + 'Notes'
 
                 self.response.write(json.dumps(template_vals))
             else:
@@ -97,19 +100,22 @@ class join_lecture(AuthHandler):
 class new_lecture(AuthHandler):
     def post(self):
         lecture_id = str(self.request.get("lecture_id"))
-        user_id = users.get_current_user().user_id()
-        notebook = Notebook(title=lecture_id+' Notes', lecture_id=lecture_id, user_id=user_id)
-        future_notebook = notebook.put_async()
-        new_lecture = Lecture(id=lecture_id, name=lecture_id, creator=user_id)
+        google_id = users.get_current_user().user_id()
+
+        new_lecture = Lecture(id=lecture_id, name=lecture_id, creator=google_id)
         new_lecture.put_async()
 
-        user = User.get_user(user_id)
+        notebook = Notebook(title=lecture_id + ' Notes', lecture_id=lecture_id, user_id=google_id)
+        future_notebook = notebook.put_async()
+
+        document = Document(lecture_id=lecture_id, notebook_id=str(future_notebook.get_result().id()),
+                            user_id=google_id)
+        future_document = document.put_async()
+
+        user = User.get_user(google_id)
         user.lecture_ids.append(lecture_id)
-        future_user = user.put_async()
+        user.put()
 
-        document = Document(lecture_id=lecture_id, user_id=user_id, notebook_id=str(future_notebook.get_result().id()))
-        document.put()
-
-        future_user.get_result()
+        future_document.get_result()
 
         self.redirect('/dashboard')
