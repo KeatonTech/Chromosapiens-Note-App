@@ -3,30 +3,14 @@ from time import sleep
 import webapp2
 from google.appengine.api import users
 
+from auth import AuthHandler
+
 from vars import render
 from controllers import api, doc
-from models import User, Notebook, Lecture, Document, Bunny
+from models import Notebook, Lecture, Document, Bunny
 
 
-class AuthHandler(webapp2.RequestHandler):
-    def dispatch(self):
-        google_user = users.get_current_user()
-        if google_user:
-            google_id = google_user.user_id()
-            user = User.get_user(google_id=google_id)
-            if user:
-                super(AuthHandler, self).dispatch()
-            else:
-                new_user = User(id=google_id, name=google_user.nickname(), email=google_user.email(), notebook_ids=[])
-                new_user.put()
-                template_vals = {'name_of_user': google_user.nickname()}
-                template_vals['message'] = 'Welcome to NoteBunnies! We have finished setting up your account.'
-                render(self, template_vals, 'dashboard.html')
-        else:
-            self.redirect(users.create_login_url(self.request.uri))
-
-
-class MainHandler(webapp2.RequestHandler):
+class MainHandler(AuthHandler):
     def get(self):
         render(self, {}, 'index.html')
 
@@ -49,7 +33,7 @@ class NotebookHandler(AuthHandler):
 
 class DocumentHandler(AuthHandler):
     def get(self, document_id):
-        template_vals={}
+        template_vals = {}
         bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
         bunnies = []
         for bunny in bunnies_result:
@@ -89,13 +73,13 @@ class DashboardHandler(AuthHandler):
         lectures = Lecture.query().order(Lecture.created_at).fetch(limit=10)
         return lectures
 
-    # def get_lectures(self, user):
-    #     lectures = dict()
-    #     for lecture_id in user.lecture_ids:
-    #         lectures
+        # def get_lectures(self, user):
+        #     lectures = dict()
+        #     for lecture_id in user.lecture_ids:
+        #         lectures
 
 
-class RoomHandler(webapp2.RequestHandler):
+class RoomHandler(AuthHandler):
     def get(self):
         userObject = users.get_current_user()
         if not userObject:
@@ -111,19 +95,25 @@ class RoomHandler(webapp2.RequestHandler):
         vars.render(self, {'token': token}, 'jstest.html')
 
 
-app = webapp2.WSGIApplication([
-                                  # Major Pages
-                                  ('/', MainHandler),
-                                  ('/note', RoomHandler),
+routes = [
+    # Major Pages
+    ('/', MainHandler),
+    ('/note', RoomHandler),
+    ('/dashboard', DashboardHandler),
 
-                                  # API Methods (AJAXylicious)
-                                  ('/document/add', doc.add_document),
-                                  ('/api/add_bunny', doc.add_bunny),
-                                  ('/dashboard', DashboardHandler),
-                                  ('/notebooks/new', doc.add_notebook),
-                                  ('/notebooks/(\d+)', NotebookHandler),
-                                  ('/documents/(\d+)', DocumentHandler),
-                                  # ('/lectures/add', controllers.doc.add_lecture),
-                                  ('/lectures/(\d+)', doc.join_lecture),
-                                  ('/api/getbunnies', api.get_bunnies),
-                              ], debug=True)
+    # User pages
+    ('/documents/(\d+)', DocumentHandler),
+    ('/notebooks/(\d+)', NotebookHandler),
+
+    # User actions
+    ('/document/add', doc.add_document),
+    ('/notebooks/new', doc.add_notebook),
+    ('/lectures/(\d+)', doc.join_lecture),
+
+    # API Methods (AJAXylicious)
+    ('/api/add_bunny', api.add_bunny),
+    ('/api/getbunnies', api.get_bunnies),
+    ('/api/update_bunny', api.update_bunny),
+]
+
+app = webapp2.WSGIApplication(routes=routes, debug=True)
