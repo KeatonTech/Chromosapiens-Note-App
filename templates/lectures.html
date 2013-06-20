@@ -1,14 +1,19 @@
 <h3>Lectures starting soon:</h3>
-<strong>Lectures starting soon:</strong><br>
+<div class="row">
+<div class="span2">
 {% if lectures|length == 0 %}
     There are no lectures starting within the next 24 hours.
 {% endif %}
 {% for lecture in lectures %}
-    Title: {{ lecture.name }}<br>
-    Professor: {{ lecture.professor }}<br>
-    Start time: {{ lecture.start_time }}<br>
+    <h4>{{ lecture.name }}</h4>
+    <em>Professor: {{ lecture.professor }}<br>
+    Start time: {{ lecture.start_time }}</em>
+</div>
+<div class="span2">
     <form action="/lectures/{{ lecture.key.id() }}" method="get">
 {#        <input type="hidden" name="lecture-id" value={{ lecture.key.id() }}>#}
-        <input type="submit" value="Join">
+        <button class="btn" type="submit">Join</button>
     </form>
+</div>
+</div>
 {% endfor %}
