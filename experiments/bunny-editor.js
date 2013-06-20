@@ -49,7 +49,7 @@ function editor(bunnies, mainUL, suggestUL){
 		if(ulList === undefined)ulList = $("#myBunnies");
 		var newNode = $(nodeText);
 		$(ulList).append(newNode);
-		if(shouldEdit)edit.startEdit.call($(ulList.lastChild).children(".ti")[0]);
+		if(shouldEdit)edit.startEdit($(ulList.lastChild).children(".ti")[0]);
 		$(ulList).last().children("textarea.ti").focus();
 	}
 	
@@ -94,13 +94,13 @@ function editor(bunnies, mainUL, suggestUL){
 	// Remove a bunny from its list
 	this.deleteBunny = function(element){
 		if($(element).hasClass("toDelete")){
-			$(element).remove();
 			$(element).trigger("removed");
+			$(element).remove();
 		}else{
 			$(element).css('-webkit-animation', 'remove 300ms');
 			$(element).bind('webkitAnimationEnd',function(){
-				$(element).remove();
 				$(element).trigger("removed");
+				$(element).remove();
 			});
 		}
 	}
@@ -132,7 +132,7 @@ function editor(bunnies, mainUL, suggestUL){
 			
 			beforeStop: function(e,obj){
 				if($(obj.item[0]).hasClass("toDelete")){
-					$(obj.item[0]).trigger("delete");
+					$(obj.item[0]).trigger("removed");
 					return $(obj.item[0]).remove();
 				}
 				if($(obj.item[0]).hasClass("other") && !$(obj.item[0]).hasClass("pulled")){
@@ -156,7 +156,7 @@ function editor(bunnies, mainUL, suggestUL){
 		$( "#myBunnies,#otherBunnies" ).disableSelection();
 		 
 		// Setup basic event handlers
-		$( "body" ).on("dblclick",".ti",this.startEdit);
+		$( "body" ).on("dblclick","p.ti",this.startEdit);
 		$( "body" ).on("change blur focusout","textarea.ti,input.ti",this.finishEdit);
 		 
 		// Setup tab handlers
@@ -171,7 +171,7 @@ function editor(bunnies, mainUL, suggestUL){
 					}else if($(this).parent().nextAll(".mine")[0]!=undefined){
 						edit.startEdit($(this).parent().nextAll(".mine").children(".ti")[0]);
 						$(this).parent().nextAll(".mine").children("textarea.ti").focus();
-					}else{newElement($(this).parents("ul")[0]);}
+					}else{edit.newBunny($(this).parents("ul")[0]);}
 				}else{
 					// Backwards tabbing
 					
@@ -194,7 +194,7 @@ function editor(bunnies, mainUL, suggestUL){
 			$(event.target).removeAttr("style");
 		});
 		
-		$("body").on("removed",".bunny",function(event){
+		$("body").on("removed added created edited",".bunny",function(event){
 			console.debug(event);
 		});
 	}
