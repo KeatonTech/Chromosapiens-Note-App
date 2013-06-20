@@ -19,20 +19,20 @@ class streamer:
             self.rooms[roomID][userKey].send_message(message)
         return True
 	
-	def send-user(self, roomID, userObject):
-		self.message_room(roomID,{cmd: "newUser", payload: userObject});
+	def send_user(self, roomID, userObject):
+		self.message_room(roomID,{cmd: "newUser", payload: userObject})
 		
-	def logout-user(self, roomID, userID):
-		self.message_room(roomID,{cmd: "deleteUser", id: userID});
+	def logout_user(self, roomID, userID):
+		self.message_room(roomID,{cmd: "deleteUser", id: userID})
 	
-	def send-bunny(self, roomID, bunnyObject):
-		self.message_room(roomID,{cmd: "newBunny", payload: bunnyObject});
+	def send_bunny(self, roomID, bunnyObject):
+		self.message_room(roomID,{cmd: "newBunny", payload: bunnyObject})
 	
-	def send-bunny-update(self, roomID, bunnyObject):
-		self.message_room(roomID,{cmd: "bunnyUpdate", id: bunnyObject.id, payload: bunnyObject});
+	def send_bunny_update(self, roomID, bunnyObject):
+		self.message_room(roomID,{cmd: "bunnyUpdate", id: bunnyObject.id, payload: bunnyObject})
 	
-	def bunny-death-ray(self, roomID, bunnyID):
-		self.message_room(roomID,{cmd: "deleteBunny", id: bunnyID});
+	def bunny_death_ray(self, roomID, bunnyID):
+		self.message_room(roomID,{cmd: "deleteBunny", id: bunnyID})
 
 # Connection Class handles the actual Channel API stuff
 class connection:
