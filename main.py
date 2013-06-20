@@ -33,6 +33,7 @@ class NotebookHandler(webapp2.RequestHandler):
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
+
 class DocumentHandler(webapp2.RequestHandler):
     def get(self, document_id):
         template_vals={}
@@ -42,7 +43,8 @@ class DocumentHandler(webapp2.RequestHandler):
             bunnies.append(bunny)
         template_vals['bunnies'] = bunnies
         render(self, template_vals, 'workspace.html')
-        
+
+
 class DashboardHandler(webapp2.RequestHandler):
     def get(self):
         google_user = users.get_current_user()
@@ -120,4 +122,4 @@ app = webapp2.WSGIApplication([
                                   # ('/lectures/add', controllers.doc.add_lecture),
                                   ('/lectures/(\d+)', doc.join_lecture),
                                   ('/api/getbunnies', api.get_bunnies),
-                              ], debug=True)
+                              ], debug=False)

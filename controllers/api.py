@@ -13,7 +13,6 @@ class get_bunnies(webapp2.RequestHandler):
             bunny = bunny.to_dict()
             bunny['timestamp'] = str(bunny['timestamp'])
             bunnies[raw_bunny.key.id()] = bunny
-        # bunnies = json.dumps(bunnies)
         # bunnies = JSONEncoder.encode()
         bunnies = json.dumps(bunnies)
 
