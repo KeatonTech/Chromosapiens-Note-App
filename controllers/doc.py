@@ -18,8 +18,11 @@ class delete_notebook(AuthHandler):
     def get(self):
         nb_id = self.request.get("notebook-id")
         notebook = Notebook.get_by_id(int(nb_id))
+        google_id = users.get_current_user().user_id()
+        user = User.get_user(google_id)
+        user.lecture_ids.remove(notebook.lecture_id)
         notebook.key.delete()
-
+        
         self.redirect('/dashboard')
 
 
