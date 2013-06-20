@@ -1,0 +1,20 @@
+<h3>Existing Lecture:</h3>
+<form action="/lectures/join" method="post">
+    <div class="input-append">
+		<input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id" placeholder="Enter Code">
+		<button class="btn" type="submit">Join</button>
+        <h5>
+            - Lecture A<br>
+            - Lecture B<br>
+            - Lecture C
+        </h5>
+	</div>
+</form>
+<h3>Create Lecture:</h3>
+<form action="/lectures/new" method="post">
+    <div class="input-append">
+		<input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id" placeholder="New Lecture Code">
+		<button class="btn" type="submit">Create</button>
+	</div>
+</form>
+{{ message }}

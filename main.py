@@ -103,6 +103,7 @@ routes = [
     ('/document/add', doc.add_document),
     ('/notebooks/new', doc.add_notebook),
     ('/lectures/join', doc.join_lecture),
+    ('/lectures/new', doc.new_lecture),
 
     # API Methods (AJAXylicious)
     ('/api/add_bunny', api.add_bunny),
