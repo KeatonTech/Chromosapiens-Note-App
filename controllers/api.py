@@ -16,8 +16,6 @@ class get_bunnies(webapp2.RequestHandler):
             bunny['timestamp'] = str(bunny['timestamp'])
             bunnies[raw_bunny.key.id()] = bunny
         # bunnies = JSONEncoder.encode()
-        for bunny in bunnies:
-            print str(bunny['note'])
         bunnies = json.dumps(bunnies)
 
         return webapp2.Response(bunnies)
