@@ -1,10 +1,30 @@
-import webapp2
-from vars import render
 from time import sleep
+
+import webapp2
+from google.appengine.api import users
+
+from vars import render
 from controllers import api, doc
 from models import User, Notebook, Lecture, Document, Bunny
+import auth
 
-from google.appengine.api import users
+
+class AuthHandler(webapp2.RequestHandler):
+    def dispatch(self):
+        google_user = users.get_current_user()
+        if google_user:
+            google_id = google_user.user_id()
+            user = User.get_user(google_id=google_id)
+            if user:
+                super(AuthHandler, self).dispatch()
+            else:
+                new_user = User(id=google_id, name=google_user.nickname(), email=google_user.email(), notebook_ids=[])
+                new_user.put()
+                template_vals = {'name_of_user': google_user.nickname()}
+                template_vals['message'] = 'Welcome to NoteBunnies! We have finished setting up your account.'
+                render(self, template_vals, 'dashboard.html')
+        else:
+            self.redirect(users.create_login_url(self.request.uri))
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -12,29 +32,23 @@ class MainHandler(webapp2.RequestHandler):
         render(self, {}, 'index.html')
 
 
-class NotebookHandler(webapp2.RequestHandler):
+class NotebookHandler(AuthHandler):
     def get(self, notebook_id):
-        google_user = users.get_current_user()
-        if google_user:
-            google_id = google_user.user_id()
-            user = User.get_user(google_id=google_id)
-            template_vals = {'name_of_user': google_user.nickname()}
-            notebook = Notebook.get_by_id(int(notebook_id))
-            #get all documents for notebook
-            titles = list()
-            docs = list()
-            for doc in notebook.document_ids:
-                docs.append(int(doc))
-                titles.append(Document.get_by_id(int(doc)).title)
-            template_vals['titles'] = titles
-            template_vals['nb_id'] = int(notebook_id)
-            template_vals['doc_ids'] = docs
-            render(self, template_vals, 'mydocs.html')
-        else:
-            self.redirect(users.create_login_url(self.request.uri))
+        template_vals = {'name_of_user': users.get_current_user().nickname()}
+        notebook = Notebook.get_by_id(int(notebook_id))
+        #get all documents for notebook
+        titles = list()
+        docs = list()
+        for doc in notebook.document_ids:
+            docs.append(int(doc))
+            titles.append(Document.get_by_id(int(doc)).title)
+        template_vals['titles'] = titles
+        template_vals['nb_id'] = int(notebook_id)
+        template_vals['doc_ids'] = docs
+        render(self, template_vals, 'mydocs.html')
 
 
-class DocumentHandler(webapp2.RequestHandler):
+class DocumentHandler(AuthHandler):
     def get(self, document_id):
         template_vals={}
         bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
@@ -45,35 +59,22 @@ class DocumentHandler(webapp2.RequestHandler):
         render(self, template_vals, 'workspace.html')
 
 
-class DashboardHandler(webapp2.RequestHandler):
+class DashboardHandler(AuthHandler):
     def get(self):
-        google_user = users.get_current_user()
-
-        if google_user:
-            google_id = google_user.user_id()
-            user = User.get_user(google_id=google_id)
-            template_vals = {'name_of_user': google_user.nickname()}
-            if user:
-                # print user
-                template_vals['notebooks'] = self.get_notebooks(google_id)
-                template_vals['lectures'] = self.find_lectures()
-                template_vals['message'] = 'Welcome back, ' + user.name + '!'
-            else:
-                new_user = User(id=google_id, name=google_user.nickname(), email=google_user.email(), notebook_ids=[])
-                new_user.put()
-                template_vals['message'] = 'Welcome to NoteBunnies! We have finished setting up your account.'
-            render(self, template_vals, 'dashboard.html')
-        else:
-            self.redirect(users.create_login_url(self.request.uri))
+        template_vals = dict()
+        template_vals['name_of_user'] = users.get_current_user().nickname()
+        template_vals['notebooks'] = self.get_notebooks(users.get_current_user().user_id())
+        template_vals['lectures'] = self.find_lectures()
+        render(self, template_vals, 'dashboard.html')
 
     def get_notebooks(self, user_id):
-        sleep(0.5)
+        sleep(0.10)
         notebooks = {}
         try:
             # notebook_ids = user.notebook_ids
             notebooks = list()
             # for notebook_id in notebook_ids:
-            notebook_iter = Notebook.query(Notebook.user_id == user_id).iter()
+            notebook_iter = Notebook.query(Notebook.user_id == user_id).order(Notebook.title).iter()
             for notebook in notebook_iter:
                 notebooks.append(notebook)
         except BaseException:
@@ -113,8 +114,8 @@ app = webapp2.WSGIApplication([
                                   ('/note', RoomHandler),
 
                                   # API Methods (AJAXylicious)
-                                  ('/api/append', doc.add_bunny),
                                   ('/document/add', doc.add_document),
+                                  ('/api/add_bunny', doc.add_bunny),
                                   ('/dashboard', DashboardHandler),
                                   ('/notebooks/new', doc.add_notebook),
                                   ('/notebooks/(\d+)', NotebookHandler),
@@ -122,4 +123,4 @@ app = webapp2.WSGIApplication([
                                   # ('/lectures/add', controllers.doc.add_lecture),
                                   ('/lectures/(\d+)', doc.join_lecture),
                                   ('/api/getbunnies', api.get_bunnies),
-                              ], debug=False)
+                              ], debug=True)

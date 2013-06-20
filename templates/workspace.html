@@ -1,6 +1,5 @@
 {% extends 'application.html' %}
 {% block content %}
-
 <div class="row-fluid">
 				<aside class="span3 hidden-phone" id="sidebar">
 					<div class="row-fluid">
@@ -15,7 +14,6 @@
 					</div>
 				</aside>
 				<section class="span9" id="main">
-    <h1>Welcome to workspace for {{ lecture.name }}!</h1>
     <br>
     <div id="content">
         <bunny-list></bunny-list>
@@ -24,10 +22,14 @@
 </div>
     <!-- Scripts here. Don't remove this ↓ -->
     <script src="polymer.min.js"></script>
+    <script>
+    	window.identifiers = {
+    		document: {{document_id}},
+    		lecture: {{lecture.key.id()}}
+    	}
+    	console.log(identifiers);
+    </script>
     <link rel="import" href="bunny-list.html">
 
-Welcome to workspace for {{ lecture.name }}!
-<br><br>
-    Your document: {{ document.title }}
-{% endblock %}
 
+{% endblock %}

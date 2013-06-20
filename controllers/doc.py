@@ -70,7 +70,8 @@ class join_lecture(webapp2.RequestHandler):
         else:
             document = documents.get()
 
-        template_vals['document'] = document
+        template_vals['document_id'] = document.key.id()
+        template_vals['document_name'] = document.title
 
         vars.render(self, template_vals, 'workspace.html')
 
