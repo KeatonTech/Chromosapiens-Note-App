@@ -13,25 +13,13 @@
 			    </div>
 			    <div id="collapseOne" class="accordion-body collapse in">
 			      <div class="accordion-inner">
-			        <h4>Your Notebooks:</h4>
+			        <h4>Lecture Notebooks:</h4>
                     {% if notebooks|length == 0 %}
                         Get started by adding a notebook to the right.
                     {% endif %}
-                    <ul>
-                    {% for notebook in notebooks %}
-                        <a>
-                            <div style="height:15px;width:15px;background-color:#{{notebook.color}};display:inline-block;"></div>
-                        </a>
-					    <li><a href="notebooks/{{notebook.key.id()}}" class="notebooks">{{ notebook.title }}</a> <a href="/notebooks/rm?notebook-id={{notebook.key.id()}}"><small>[delete]</small></a></li>
+                    {% for lecture in lectures %}
+					    <a href="/lectures/join?lecture_id={{ lecture }}">{{ lecture }}</a><br>
 					{% endfor %}
-                    </ul>
-			        <h4>Add New Notebook:</h4>
-                    <form action="/notebooks/new" method="post">
-                        <div class="input-append">
-                            <input class="span2" id="appendedInputButtons" type="text" name="notebook-title" id="notebook-title" placeholder="Notebook Topic">
-                            <button class="btn" type="submit">Create</button>
-                        </div>
-                    </form>
 			      </div>
 			    </div>
 			  </div>
