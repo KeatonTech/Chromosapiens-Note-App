@@ -1,13 +1,10 @@
+<link rel="stylesheet" href="notebooks.css">
 <h4>Your Notebooks:</h4>
 {% if notebooks|length == 0 %}
     Get started by adding a notebook to the right.
 {% endif %}
 <ul>
 {% for notebook in notebooks %}
-    <li><a href="notebooks/{{notebook.key.id()}}">{{ notebook.title }}</a></li>
-    <form action="/notebooks/rm" method="post">
-        <input id="notebook-id" name="notebook-id" type="hidden" value="{{notebook.key.id()}}">
-        <button class="btn" type="submit">X</button>
-    </form>
+    <li><a href="notebooks/{{notebook.key.id()}}" class="notebooks">{{ notebook.title }}</a> <a href="/notebooks/rm?notebook-id={{notebook.key.id()}}"><small>[delete]</small></a></li>
 {% endfor %}
 </ul>
