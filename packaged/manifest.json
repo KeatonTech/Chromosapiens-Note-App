@@ -1,0 +1,11 @@
+{
+  "name": "Notorious",
+  "description": "Collaborate with your classmates with our note-matching algorithms!",
+  "version": "0.1",
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "icons": { "16": "Bunny-16.png", "128": "Bunny-128.png" }
+}
