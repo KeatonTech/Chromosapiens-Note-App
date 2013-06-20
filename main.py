@@ -75,11 +75,6 @@ class DashboardHandler(AuthHandler):
             pass
         return notebooks
 
-        # def get_lectures(self, user):
-        #     lectures = dict()
-        #     for lecture_id in user.lecture_ids:
-        #         lectures
-
 
 class RoomHandler(AuthHandler):
     def get(self):

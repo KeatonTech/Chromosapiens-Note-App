@@ -1,5 +1,5 @@
 {% if lectures|length == 0 %}
-        <h5>No active lectures.</h5>
+    <h5>No active lectures.</h5>
 {% endif %}
 {% for lecture in lectures %}
     <a href="/lectures/join?lecture_id={{ lecture }}">{{ lecture }}</a><br>
@@ -7,16 +7,27 @@
 <br>
 <strong>Join Lecture:</strong>
 <form action="/lectures/join" method="post">
+    <script>
+        $.ajax({
+            type: "/lectures/join",
+            url: "test.html",
+            data: {lecture_id: $('#join-button').val()}
+        }).done(function () {
+                    $(this).addClass("done");
+                });
+    </script>
     <div class="input-append">
-		<input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id" placeholder="Enter Code">
-		<button class="btn" type="submit">Join</button>
-    {{ message }}
-	</div>
+        <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
+               placeholder="Enter Code">
+        <button class="btn" type="submit" id="join-button">Join</button>
+        {{ message }}
+    </div>
 </form>
 <strong>Create Lecture:</strong>
 <form action="/lectures/new" method="post">
     <div class="input-append">
-		<input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id" placeholder="New Lecture Code">
-		<button class="btn" type="submit">Create</button>
-	</div>
+        <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
+               placeholder="New Lecture Code">
+        <button class="btn" type="submit">Create</button>
+    </div>
 </form>

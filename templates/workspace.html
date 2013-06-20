@@ -15,7 +15,10 @@
             </div>
         </aside>
         {{ lecture_id }}<br>
-        {{ document_name }}<br>
+        Documents:<br>
+        {% for document in documents %}
+        {{ document.title }}<br>
+        {% endfor %}
 
         <div class="block">
             <a href="#newNotebook" role="button" data-toggle="modal">
@@ -38,7 +41,7 @@
                     <div class="input-append">
                         <input class="span2" id="appendedInputButtons" type="text" name="document-title"
                                id="document-title" placeholder="Document name">
-                        <input type="hidden" id="notebook-id" name="notebook-id" value="{{ nb_id }}">
+                        <input type="hidden" id="notebook_id" name="notebook_id" value="{{ notebook_id }}">
                         <input type="hidden" id="lecture_id" name="lecture_id" value="{{ lecture_id }}">
                         <button class="btn" type="submit">Add</button>
                     </div>

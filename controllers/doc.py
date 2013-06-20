@@ -26,6 +26,7 @@ class add_document(AuthHandler):
     def post(self):
         title = self.request.get("document-title")
         notebook_id = self.request.get("notebook-id")
+        print notebook_id
         document = Document(title=title, lecture_id=self.request.get("lecture-id"),
                             notebook_id=self.request.get("notebook-id"), user_id=users.get_current_user().user_id())
         document.put()
@@ -39,13 +40,13 @@ class join_lecture(AuthHandler):
     def get(self):
         lecture_id = self.request.get("lecture_id")
         # lecture_future = Lecture.get_by_id_async(lecture_id)
-        document = Document.query(Document.lecture_id == lecture_id).get()
+        documents = Document.query(Document.lecture_id == lecture_id, Document.user_id == users.get_current_user().user_id())
 
         template_vals = dict()
         # template_vals['lecture'] = lecture_future.get_result()
         template_vals['lecture_id'] = lecture_id
-        template_vals['document_id'] = document.key.id()
-        template_vals['document_name'] = document.title
+        template_vals['documents'] = documents
+        template_vals['document_id'] = documents.get().key.id()
 
         vars.render(self, template_vals, 'workspace.html')
 
