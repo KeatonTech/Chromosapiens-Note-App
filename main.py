@@ -25,7 +25,7 @@ class NotebookHandler(AuthHandler):
     def get(self, notebook_id):
         template_vals = {'name_of_user': users.get_current_user().nickname()}
         notebook = Notebook.get_by_id(int(notebook_id))
-        #get all documents for notebook
+        #   Get all documents for notebook
         titles = list()
         docs = list()
         for doc in notebook.document_ids:
@@ -34,7 +34,7 @@ class NotebookHandler(AuthHandler):
         template_vals['titles'] = titles
         template_vals['nb_id'] = int(notebook_id)
         template_vals['doc_ids'] = docs
-        render(self, template_vals, 'mydocs.html')
+        render(self, template_vals, 'notebook-documents.html')
 
 
 class DocumentHandler(AuthHandler):
@@ -108,7 +108,7 @@ routes = [
     ('/notebooks/(\d+)', NotebookHandler),
 
     # User actions
-    ('/document/add', doc.add_document),
+    ('/documents/add', doc.add_document),
     ('/notebooks/new', doc.add_notebook),
     ('/lectures/join', doc.join_lecture),
     ('/lectures/new', doc.new_lecture),
