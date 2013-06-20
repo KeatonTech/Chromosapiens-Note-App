@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="visualnotebook.css">
+<div class="row">
+	<h3>Your Notebooks:</h3>
+	{% if notebooks|length == 0 %}
+	    Get started by adding a notebook to the right.
+	{% endif %}
+
+	{% for notebook in notebooks %}
+		<a href="notebooks/{{notebook.key.id()}}"><div class="notebook">
+			<h3>{{ notebook.title }}</h3>
+		</div></a>
+	{% endfor %}
+
+	<div class="notebook" id="addNotebook">
+			<div id="plus" style="font-size: 500%;">+<br><br><h3>New Notebook</h3></div>
+	</div>
+
+	<script>
+		$("#addNotebook").click(function() {
+			$("#appendedInputButtons").focus();
+		});
+	</script>
+
+</div>
