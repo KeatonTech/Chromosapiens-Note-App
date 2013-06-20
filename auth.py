@@ -24,4 +24,4 @@ class AuthHandler(webapp2.RequestHandler):
 
 class GoogleLoginLink(webapp2.RequestHandler):
     def get(self):
-        self.redirect(users.create_login_url(self.request.uri))
+        self.redirect(users.create_login_url('/'))
