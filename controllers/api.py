@@ -18,7 +18,9 @@ class get_bunnies(AuthHandler):
             bunnies[raw_bunny.key.id()] = bunny
         # bunnies = JSONEncoder.encode()
         bunnies = json.dumps(bunnies)
-
+        #print bunnies
+        #This function was not giving me a correct response at like 2 AM, so I think I fixed it, but I'm not a Python expert so idk if what I did was correct
+        self.response.write(bunnies)
         return webapp2.Response(bunnies)
 
 

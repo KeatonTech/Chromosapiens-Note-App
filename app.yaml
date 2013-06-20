@@ -24,6 +24,10 @@ handlers:
   mime_type: text/html
   static_files: templates/elements/\1
   upload: templates/elements/(.*\.html)
+- url: .*/(bunny-.*\.txt)
+  mime_type: text/html
+  static_files: templates/elements/\1
+  upload: templates/elements/(.*\.txt)
 - url: .*/(.*\.(bmp|gif|ico|jpeg|jpg|png))
   static_files: img/\1
   upload: img/(.*\.(bmp|gif|ico|jpeg|jpg|png))
