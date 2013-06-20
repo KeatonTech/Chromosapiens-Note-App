@@ -43,15 +43,12 @@ class join_lecture(AuthHandler):
         else:
             document = documents.get()
 
+        user = User.get_user(google_id)
+        if lecture_id not in user.lecture_ids:
+            user.lecture_ids.append(lecture_id)
+            user.put()
+
         template_vals['document_id'] = document.key.id()
         template_vals['document_name'] = document.title
 
         vars.render(self, template_vals, 'workspace.html')
-
-    # def post(self, lecture_id):
-    #     # TODO: add lecture to user's lectures
-    #     # user = User.get_by_id(users.get_current_user().user_id())
-    #     # user.lecture_ids.append(lecture_id)
-    #     new_document = Document(lecture_id=lecture_id, user_id=users.get_current_user().user_id())
-    #     new_document.put()
-    #     render(self, {}, 'workspace.html')

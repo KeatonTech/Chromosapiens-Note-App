@@ -2,52 +2,159 @@
 <html>
     <head>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-        <script type="text/javascript" src="jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
         <script type="application/javascript">
              $(function() {
-                $( "#bunnies" ).sortable();
-                $( "#bunnies" ).disableSelection();
+				 
+				// Setup jQuery UI Behaviors
+				var dontDelete = function(e,obj){
+					$(".toDelete").removeClass("toDelete");
+					setTimeout(function(){$(".toDelete").removeClass("toDelete");},10);
+				}
+				$( "#myBunnies" ).sortable({
+					dropOnEmpty: true,
+					distance: 15,
+					
+					// Handles drag-to-delete
+					out: function(e,obj){$(obj.item[0]).addClass("toDelete");},
+					over: dontDelete, stop: dontDelete,
+					
+					beforeStop: function(e,obj){
+						if($(obj.item[0]).hasClass("toDelete")){
+							$(obj.item[0]).trigger("delete");
+							return $(obj.item[0]).remove();
+						}
+					},
+					update: function(e,obj){
+						dontDelete();
+						var j = $(obj.item[0]);
+						j.trigger("order");
+						if(j.hasClass("other") && j.attr("bound")==undefined){
+							j.trigger("bind");
+						}
+					}
+				});
+				$( "#otherBunnies" ).sortable({
+					connectWith: "#myBunnies",
+					dropOnEmpty: true,
+				});
+				$( "#myBunnies,#otherBunnies" ).disableSelection();
+				
+				// Handle editing
+				function elementToTextArea(){
+					if($(this).hasClass("ph")){$(this).html("");$(this).removeClass("ph");}
+					var newObject = $("<textarea class='"+$(this).attr("class")+"'>"+$(this).html()+"</textarea>");
+					$( this ).replaceWith(newObject);
+					$( newObject ).height($(newObject)[0].scrollHeight);
+					$( newObject ).focus();	
+				}
+				function textAreaToElement(){
+					if($(this).val()==""||$(this).val()==" "){$(this).val("Blank");$(this).addClass("ph");}
+					$( this ).replaceWith("<p class='"+$(this).attr("class")+"'>"+$(this).val()+"</p>");
+				}
+				 
+				// Setup basic event handlers
+				$( "body" ).on("dblclick",".ti",elementToTextArea);
+				$( "body" ).on("change blur focusout","textarea.ti,input.ti",textAreaToElement);
+				 
+				//$( "body" ).on("bind",".bunny",function(){alert("Added bunny");});
+				 
+				// Setup tab handlers
+				$( "body" ).on("keydown","textarea.ti",function(e){
+					if(e.keyCode == 9){ // User tabbed to next field
+						e.preventDefault();
+						if($(this).next(".ti")[0]!=undefined){
+							elementToTextArea.call($(this).next(".ti"));
+							$(this).next("textarea.ti").focus();
+						}else if($(this).parent().next("li")[0]!=undefined){
+							elementToTextArea.call($(this).parent().next("li").children(".ti")[0]);
+							$(this).parent().next("li").children("textarea.ti").focus();
+						}else{
+							var newNode = $('<li class="bunny">\
+												<p class="ti head ph">Double click to add title</p>\
+												<p class="ti ct ph">Edit content</p>\
+											</li>');
+							$($(this).parents("ul")[0]).append(newNode);
+							elementToTextArea.call($(this).parent().next("li").children(".ti")[0]);
+							$(this).parent().next("li").children("textarea.ti").focus();
+						}
+					}
+				});
               });
         </script>
         <style type="text/css">
             body {
                 background-color: #eee;   
             }
-            #bunnies {
-                display: block;
+			textarea {
+				width: 100%;
+				font-family: "Times New Roman";
+				border: none;
+				margin: 0;
+				overflow: visible;
+			}
+			ul{padding:0;}
+			
+            .bunnyList {
                 width: 600px;
                 margin: 0 auto;
-                background-color: white;
+				padding: 20px 0px;
+                background-color: none;
+				min-height: 100px;
             }
             .bunny {
+				list-style-type:none;
                 background-color: white;
-                float: left;
                 width: 100%;
                 border-radius: 4px;
-                margin: 5px 0px;
+                margin: 10px 0px;
                 box-shadow: 0px 1px 0px #ddd;
+				border: 1px solid #ccc;
+				-webkit-transition: opacity 0.1s linear;
             }
             .bunny .head {
-                background-color: #fafafa;
+                background-color: #f7f7f7;
                 font-weight: bold;
-                font-size: 18px;
-                padding: 4px;
+                font-size: 16px;
+                padding: 6px 10px;
                 margin: 0;
+				border-radius: 4px 4px 0px 0px;
+				box-shadow: 0px 1px 1px #e0e0e0, inset 0px 1px 0px white;
             }
             .bunny .ct {
-                padding: 7px 10px;   
+				font-size: 12pt;
+                padding: 0px 10px;
             }
+			
+			.bunny.other {background-color: #fafbff;}
+			.bunny.other .head {background-color: #f0f7ff;	}
+			
+			.bunny textarea.head {padding: 6px 10px 0px 10px;height: 30px !important;}
+			.bunny textarea.ct {padding: 16px 10px 0px 10px;}
+			
+			.ph{color: #999;}
+			.toDelete{opacity: 0.33; -webkit-transition: opacity 0.1s linear;}
             .ui-sortable-helper {
-                box-shadow: 0px 1px 9px #777;   
+                box-shadow: 0px 1px 7px #999;   
             }
+			
+			hr {
+				width: 100%;
+			}
         </style>
     </head>
     <body>
-        <ul id="bunnies">
-            <li class="bunny"><p class="head">Amazing News!</p><p class="ct">I just made a draggable thing</p></li>
-            <li class="bunny">Did you know that Drag and Drop is a new API in HTML5</li>
-            <li class="bunny">It's funny because this is just using jQuery UI</li>
-            <li class="bunny"><p class="head">jQuery UI</p>It's a very large library™</li>
+        <ul id="myBunnies" class="bunnyList">
+            <li class="bunny"><p class="ti head">Amazing News!</p><p class="ti ct">I just made a draggable thing</p></li>
+            <li class="bunny"><p class="ti ct">Did you know that Drag and Drop is a new API in HTML5</p></li>
+            <li class="bunny"><p class="ti ct">It's funny because this is just using jQuery UI</p></li>
+            <li class="bunny"><p class="ti head">jQuery UI</p><p class="ti ct">It's a very large library™</p></li>
+			<li class="bunny"><p class="ti head ph">Double click to add title</p><p class="ti ct ph">Edit content</p></li>
+        </ul>
+		<hr/>
+		<ul id="otherBunnies" class="bunnyList">
+            <li class="bunny other"><p class="ti head">Other users!</p><p class="ti ct">Somebody else made this post</p></li>
+            <li class="bunny other"><p class="ti ct">Stupid people make tons of posts like this</p></li>
         </ul>
     </body>
 </html>

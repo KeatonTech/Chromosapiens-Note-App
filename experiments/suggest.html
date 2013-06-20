@@ -64,7 +64,7 @@
 				<g-ajax url="./common_words.txt" auto="true" on-response="handleResponse"></g-ajax>
 				<table id="items">
 					<template repeat="{{output}}" id="itemsTemplate">
-						<suggestion-item rank="{{queryRank}}" id="si{{id}}"><p id="ct-{{id}}"></p></suggestion-item>
+						<suggestion-item rank="{{queryRank}}" id="si">{{found}}</suggestion-item>
 					</template>
 				</table>
 			</template>
@@ -95,15 +95,7 @@
 					handleResponse: function(e, obj){
 						console.log("Added excludes list");
 						this.excludes = obj.response.split("\n");
-					},
-                    outputChanged: function(){
-                        for(oid in this.output){
-                            var obj = this.output[oid];
-                            var elm = this.$.itemsTemplate;
-                            console.debug(elm);
-                            elm.innerHTML = "TEST";
-                        }
-                    }
+					}
 				});
 			</script>
 		</element>

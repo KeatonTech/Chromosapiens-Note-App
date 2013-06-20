@@ -138,7 +138,7 @@
                     
                     if(matches != null && matches.length > 0){
 						oNote["queryRank"] = oNote.rank * matches.length * parseInt(Math.sqrt(averageWordLength) + 5000/age);
-						oNote["found"] = oNote.note.replace(rgx,"<b>\$1</b>");
+						oNote["found"] = oNote.note;//.replace(rgx,"<b>\$1</b>");
 						this.output.push(oNote);
 					}
 				}
