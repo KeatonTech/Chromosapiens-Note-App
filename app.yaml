@@ -1,13 +1,13 @@
-application: Notorious
+application: notorious
 version: 1
 runtime: python27
 api_version: 1
 threadsafe: true
 
 handlers:
-- url: /Bunny_icon.ico
-  static_files: Bunny_icon.ico
-  upload: Bunny_icon.ico
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
 - url: .*/(bunny-.*\.css)
   mime_type: text/css
   static_files: templates/elements/\1
