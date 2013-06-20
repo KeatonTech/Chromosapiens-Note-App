@@ -26,7 +26,8 @@ body {
 
 .block {
     display:inline-block;
-    padding-right:50px;
+    width:300px;
+    padding-right:25px;
     vertical-align:top;
 }
 
