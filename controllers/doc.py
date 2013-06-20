@@ -1,7 +1,6 @@
 import webapp2
 from models import *
 from google.appengine.api import users
-from vars import render
 import vars
 
 

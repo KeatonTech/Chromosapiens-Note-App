@@ -6,7 +6,6 @@ from google.appengine.api import users
 from vars import render
 from controllers import api, doc
 from models import User, Notebook, Lecture, Document, Bunny
-import auth
 
 
 class AuthHandler(webapp2.RequestHandler):
@@ -56,6 +55,10 @@ class DocumentHandler(AuthHandler):
         for bunny in bunnies_result:
             bunnies.append(bunny)
         template_vals['bunnies'] = bunnies
+        template_vals['doc_id'] = document_id
+        doc = Document.get_by_id(int(document_id))
+        template_vals['doc_name'] = doc.title
+        template_vals['lecture'] = doc.lecture_id
         render(self, template_vals, 'workspace.html')
 
 
