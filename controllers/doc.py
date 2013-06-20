@@ -55,6 +55,7 @@ class join_lecture(AuthHandler):
 
             vars.render(self, template_vals, 'workspace.html')
         else:
+            # Do with ajax instead; won't keep old notebooks
             vars.render(self, {'message': 'Lecture is invalid.'}, 'dashboard.html')
 
 
