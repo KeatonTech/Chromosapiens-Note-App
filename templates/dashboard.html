@@ -1,6 +1,108 @@
 {% extends 'application.html' %}
 {% block content %}
 
+<<<<<<< HEAD
+    <div class="row">
+        <div class="span4">
+            <span class="text-center"><h1><a id="logo" href="/dashboard"><img style="float:right; margin-left: 10px;"
+                                                                              src="Bunny_4.png">Notorious <h4>Hop on
+                your notes.</h4></a></h1></span>
+
+            <div class="accordion" id="accordion2">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseOne">
+                            {{ message }}
+                            <h3>Notebooks</h3>
+                        </a>
+                    </div>
+                    <div id="collapseOne" class="accordion-body collapse in">
+                        <div class="accordion-inner">
+                            <h4>Lecture Notebooks:</h4>
+                            {% if notebooks|length == 0 %}
+                                Get started by adding a notebook to the right.
+                            {% endif %}
+                            <ul>
+                                {% for notebook in notebooks %}
+                                    <li><a href="notebooks/?lecture_id={{ notebook.lecture_id }}" class="notebooks"
+                                           style="color: #{{ notebook.color }};">{{ notebook.title }}</a> <a
+                                            href="/notebooks/rm?notebook-id={{ notebook.key.id()}}">
+                                        <small>[delete]</small>
+                                    </a></li>
+                                    <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=E0E0E0">
+                                        <div class="color-box" style="background-color:#E0E0E0;"></div>
+                                    </a>
+                                    <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=F3EC46">
+                                        <div class="color-box" style="background-color:#F3EC46;"></div>
+                                    </a>
+                                    <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=85C8FD">
+                                        <div class="color-box" style="background-color:#85C8FD;"></div>
+                                    </a>
+                                    <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=332E16">
+                                        <div class="color-box" style="background-color:#332E16;"></div>
+                                    </a>
+                                    <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=D8303D">
+                                        <div class="color-box" style="background-color:#D8303D;"></div>
+                                    </a>
+                                    <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=139849">
+                                        <div class="color-box" style="background-color:#139849;"></div>
+                                    </a>
+                                    <br>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseTwo">
+                            <h3>Lectures</h3>
+                        </a>
+                    </div>
+                    <div id="collapseTwo" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            <h4>Recent Lectures</h4>
+                            <ul>
+                                {% if lectures|length == 0 %}
+                                    <h5>No active lectures.</h5>
+                                {% endif %}
+                                {% for lecture in lectures %}
+                                    <a href="/lectures/join?lecture_id={{ lecture }}">{{ lecture }}</a><br>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span1 visible-desktop"></div>
+        <div class="span7 visible-desktop">
+        <div id="lecture-boxes">
+            <form id="join-lecture">
+                <div class="input-append">
+                    <input class="span2" id="appendedInputButtons" type="text" name="lecture_id"
+                           id="lecture_id"
+                           placeholder="Enter a lecture code">
+                    <button class="btn" type="submit">Join Lecture</button>
+                </div>
+            </form>
+            <span id="message"></span>
+
+            <form action="/lectures/new" method="post">
+                <div class="input-append">
+                    <input class="span2" id="appendedInputButtons" type="text" name="lecture_id"
+                           id="lecture_id"
+                           placeholder="Enter a unique code">
+                    <button class="btn" type="submit">Create Lecture</button>
+                </div>
+            </form>
+        </div>
+            {% include 'visualnotebooks.html' %}
+        </div>
+    </div>
+=======
 	<div class="row">
 	    <div class="span4">
 	    	<div class="text-center visible-desktop"><h1><a id="logo" href="/dashboard"><img style="float:right; margin-left: 10px;" src="Bunny_4.png">Notorious <h4>Hop on your notes.</h4></a></h1></div>
@@ -57,5 +159,6 @@
 	    	{% include 'visualnotebooks.html' %}
 	    </div>
 	</div>
+>>>>>>> 0f2340e4d420ef636ff7791c7b349f071604f1b9
 
 {% endblock %}
