@@ -62,30 +62,34 @@ class join_lecture(AuthHandler):
     def post(self):
         lecture_id = self.request.get("lecture_id")
         lecture = Lecture.get_by_id(lecture_id)
-        template_vals = dict()
+        template_vals = {'message': "Lecture invalid."}
         if lecture:
             google_id = users.get_current_user().user_id()
 
-            notebook = Notebook(title=lecture_id+' Notes', lecture_id=lecture_id, user_id=google_id)
-            future_notebook = notebook.put_async()
+            notebooks = Notebook.query(Notebook.lecture_id == lecture_id)
 
-            document = Document(lecture_id=lecture_id, notebook_id=str(future_notebook.get_result().id()))
-            future_document = document.put_async()
+            if notebooks.count == 0:
 
-            user = User.get_user(google_id)
-            if lecture_id not in user.lecture_ids:
-                user.lecture_ids.append(lecture_id)
-                user.put()
+                notebook = Notebook(title=lecture_id+' Notes', lecture_id=lecture_id, user_id=google_id)
+                future_notebook = notebook.put_async()
 
-            template_vals['lecture_id'] = lecture.key.id()
-            template_vals['document_id'] = future_document.get_result().id()
-            template_vals['notebook_name'] = lecture_id+'Notes'
+                document = Document(lecture_id=lecture_id, notebook_id=str(future_notebook.get_result().id()))
+                future_document = document.put_async()
 
-            self.response.write(json.dumps(template_vals))
+                user = User.get_user(google_id)
+                if lecture_id not in user.lecture_ids:
+                    user.lecture_ids.append(lecture_id)
+                    user.put()
 
-        else:
-            template_vals['message'] = "Lecture invalid."
-            self.response.write(template_vals)
+                template_vals['lecture_id'] = lecture.key.id()
+                template_vals['document_id'] = future_document.get_result().id()
+                template_vals['notebook_name'] = lecture_id+'Notes'
+
+                self.response.write(json.dumps(template_vals))
+            else:
+                template_vals['message'] = "Lecture already added."
+
+        self.response.write(template_vals)
 
 
 class new_lecture(AuthHandler):
