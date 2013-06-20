@@ -100,7 +100,7 @@ routes = [
 
     # User pages
     ('/documents/(\d+)', DocumentHandler),
-    ('/notebooks/(\d+)', NotebookHandler),
+    ('/notebooks/', doc.join_lecture),
 
     # User actions
     ('/documents/add', doc.add_document),
