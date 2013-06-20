@@ -49,10 +49,12 @@ class join_lecture(AuthHandler):
     def get(self):
         lecture_id = self.request.get("lecture_id")
         # lecture_future = Lecture.get_by_id_async(lecture_id)
+        notebook = Notebook.query(Notebook.lecture_id == lecture_id).get()
         documents = Document.query(Document.lecture_id == lecture_id, Document.user_id == users.get_current_user().user_id())
 
         template_vals = dict()
         # template_vals['lecture'] = lecture_future.get_result()
+        template_vals['notebook_id'] = notebook.key.id()
         template_vals['lecture_id'] = lecture_id
         template_vals['documents'] = documents
         template_vals['document_id'] = documents.get().key.id()
@@ -61,38 +63,35 @@ class join_lecture(AuthHandler):
 
     def post(self):
         lecture_id = self.request.get("lecture_id")
-        notebook_id = self.request.get("notebook_id")
         lecture = Lecture.get_by_id(lecture_id)
-        template_vals = dict()
+        template_vals = {'message': "Lecture invalid."}
         if lecture:
             google_id = users.get_current_user().user_id()
-            documents = Document.query(Document.user_id == google_id,
-                                       Document.lecture_id == lecture_id)
-            document_count = documents.count()
 
-            template_vals['lecture_id'] = lecture.key.id()
+            notebooks = Notebook.query(Notebook.lecture_id == lecture_id)
 
-            if document_count == 0:
-                document = Document(lecture_id=lecture_id, user_id=google_id, notebook_id=notebook_id)
-                document.put()
+            if notebooks.count == 0:
+
+                notebook = Notebook(title=lecture_id+' Notes', lecture_id=lecture_id, user_id=google_id)
+                future_notebook = notebook.put_async()
+
+                document = Document(lecture_id=lecture_id, notebook_id=str(future_notebook.get_result().id()))
+                future_document = document.put_async()
+
+                user = User.get_user(google_id)
+                if lecture_id not in user.lecture_ids:
+                    user.lecture_ids.append(lecture_id)
+                    user.put()
+
+                template_vals['lecture_id'] = lecture.key.id()
+                template_vals['document_id'] = future_document.get_result().id()
+                template_vals['notebook_name'] = lecture_id+'Notes'
+
+                self.response.write(json.dumps(template_vals))
             else:
-                document = documents.get()
+                template_vals['message'] = "Lecture already added."
 
-            user = User.get_user(google_id)
-            if lecture_id not in user.lecture_ids:
-                user.lecture_ids.append(lecture_id)
-                user.put()
-
-            template_vals['document_id'] = document.key.id()
-            template_vals['document_name'] = document.title
-            template_vals['notebook_name'] = Notebook.get_by_id(int(notebook_id)).title
-
-            self.response.write(json.dumps(template_vals))
-
-            # vars.render(self, template_vals, 'workspace.html')
-        else:
-            template_vals['message'] = "Lecture invalid."
-            self.response.write(template_vals)
+        self.response.write(template_vals)
 
 
 class new_lecture(AuthHandler):

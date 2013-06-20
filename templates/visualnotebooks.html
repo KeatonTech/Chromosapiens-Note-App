@@ -25,17 +25,24 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="myModalLabel">New Notebook</h3>
         </div>
-        <form action="/notebooks/new" method="post">
-            <div class="modal-body">
-                <h4>Give your new notebook a name</h4>
-
+        <div class="modal-body">
+            <h4>Join Existing Lecture</h4>
+            <form id="join-lecture">
                 <div class="input-append">
-                    <input class="span2" id="appendedInputButtons" type="text" name="notebook-title" id="notebook-title"
-                           placeholder="Notebook Topic">
+                    <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
+                           placeholder="Lecture Code">
+                    <button class="btn" type="submit">Join</button>
+                </div>
+            </form>
+            <h4>Create New Lecture</h4>
+            <form action="/lectures/new" method="post">
+                <div class="input-append">
+                    <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
+                           placeholder="New Lecture Code">
                     <button class="btn" type="submit">Create</button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     </form>
 </div>
