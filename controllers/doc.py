@@ -27,32 +27,37 @@ class add_document(AuthHandler):
 
 
 class join_lecture(AuthHandler):
-    def get(self, lecture_id):
-        lecture = Lecture.get_by_id(int(lecture_id))
-        google_id = users.get_current_user().user_id()
-        documents = Document.query(Document.user_id == users.get_current_user().user_id(),
-                                   Document.lecture_id == lecture_id)
-        document_count = documents.count()
+    def post(self):
+        lecture_id = self.request.get("lecture_id")
+        lecture = Lecture.get_by_id(lecture_id)
+        if lecture:
+            google_id = users.get_current_user().user_id()
+            documents = Document.query(Document.user_id == users.get_current_user().user_id(),
+                                       Document.lecture_id == lecture_id)
+            document_count = documents.count()
 
-        template_vals = dict()
-        template_vals['lecture'] = lecture
+            template_vals = dict()
+            template_vals['lecture'] = lecture
 
-        if document_count == 0:
-            document = Document(lecture_id=lecture_id, user_id=google_id)
-            document.put()
+            if document_count == 0:
+                document = Document(lecture_id=lecture_id, user_id=google_id)
+                document.put()
+            else:
+                document = documents.get()
+
+            user = User.get_user(google_id)
+            if lecture_id not in user.lecture_ids:
+                user.lecture_ids.append(lecture_id)
+                user.put()
+
+            template_vals['document_id'] = document.key.id()
+            template_vals['document_name'] = document.title
+
+            vars.render(self, template_vals, 'workspace.html')
         else:
-            document = documents.get()
+            vars.render(self, {'message': 'Lecture is invalid.'}, 'dashboard.html')
 
-        user = User.get_user(google_id)
-        if lecture_id not in user.lecture_ids:
-            user.lecture_ids.append(lecture_id)
-            user.put()
 
-        template_vals['document_id'] = document.key.id()
-        template_vals['document_name'] = document.title
-
-        vars.render(self, template_vals, 'workspace.html')
-        
 class create_lecture(AuthHandler):
     def post(self):
         lecture_name = self.request.get("lecture-name")
@@ -60,7 +65,7 @@ class create_lecture(AuthHandler):
         new_lecture.put()
         
         template_vals = dict()
-        template_vals['lecture_id'] = lecture-name
+        template_vals['lecture_id'] = lecture_name
 
         vars.render(self, template_vals, 'managelecture.html')
 
