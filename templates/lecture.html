@@ -13,10 +13,28 @@
     {{ message }}
 	</div>
 </form>
+
 <strong>Create Lecture:</strong>
 <form action="/lectures/new" method="post">
     <div class="input-append">
 		<input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id" placeholder="New Lecture Code">
-		<button class="btn" type="submit">Create</button>
+		<button data-target="#newLecture" data-toggle="modal" class="btn" type="submit">Create</button>
 	</div>
+	<div id="newLecture" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myLectureLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myLectureLabel">Create Lecture</h3>
+        </div>
+        <div class="modal-body">
+                <h4>Select a Notebook:</h4>
+
+            	<select name="notebook_id">
+            		{% for notebook in notebooks %}
+            			<option value={{notebook.key.id()}}>{{notebook.title}}</option>
+					{% endfor %}
+				</select>
+                <button class="btn" type="submit">Create</button>
+        </div>
+    </div>
 </form>

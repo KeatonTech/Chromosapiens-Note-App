@@ -28,10 +28,12 @@
 		</style>
 		<div class="container">
 		  <!--<input type="text" id="bottom" value="{{suggestion}}" style="position:relative;top:250px;"/>-->
-		  <textarea type="text" id="top" on-keyup="keyDown" on-change="changed"/>{{query}}</textarea>
+		  <textarea type="text" id="top" on-keyup="keyAction" on-change="changed"/>{{query}}</textarea>
 		</div>
 	</template>
 	<script>
+		var ENTER_KEY = 13;
+    	var ESC_KEY = 27;
 		Polymer.register(this,{
             keyDown: function(event, detail, sender){
                 if(event.keyCode == 9){ // Tab or Enter
@@ -43,7 +45,22 @@
             changed: function(event){
                 this.query = this.suggestion;
                 this.query += " ";
-            }
+            },
+			keyAction: function(e, detail, sender) {
+				switch (e.keyCode) {
+					case ENTER_KEY:
+						this.fire('added-bunny',sender);
+						Platform.flush();
+					case ESC_KEY: 
+						sender.value = '';
+						break;
+					case 9:
+						e.preventDefault();
+					default:
+						this.query=sender.value;
+						break;
+				}
+			}
         });
 	</script>
 </element>
