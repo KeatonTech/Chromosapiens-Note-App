@@ -1,0 +1,17 @@
+header {
+	margin-top: 50px;
+	text-align: center;
+}
+
+#login {
+	text-align: center;
+	margin: 0 auto;
+}
+
+#login input {
+	width: 90%;
+}
+
+#login button {
+	font-family: 'Roboto Slab';
+}
