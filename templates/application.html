@@ -12,7 +12,7 @@
 	</head>
 	<body>
         
-		<div id="navbar" class="navbar navbar-static-top">
+		<div class="navbar navbar-static-top">
 			<div class="navbar-inner">
 				<div class="container">
                     
@@ -24,10 +24,10 @@
 					</a>
 
 					<!-- Be sure to leave the brand out there if you want it shown -->
-					<a id="brand" href="/">Notorious</a>
+					<a class="brand" href="/">Notorious</a>
 
 					<!-- Everything you want hidden at 940px or less, place within here -->
-					<div id="navbar-links" class="nav-collapse collapse">
+					<div class="nav-collapse collapse">
 						<ul class="nav">
 							<li><a href="/dashboard">Dashboard</a></li>
 							<li><a href="#">Link</a></li>
@@ -40,13 +40,12 @@
 		</div>
 		<br>
 		<section id="main" class="container">{% block content %}{% endblock %}</section>
-        
-		<script type="text/javascript" src="bootstrap.js"></script>
-		<footer class="navbar-fixed-bottom">
+		<footer class="navbar-bottom">
 			<div class="text-center">
 				<p>Notorious created by Calvin Chan, Keaton Brandt, Krystal Xu, Ruben Martinez, and Will Tesler</p>		
 				<p>Chrome Academy 2013</p>	
 			</div>
 		</footer>
+		<script type="text/javascript" src="bootstrap.js"></script>
 	</body>
 </html>
