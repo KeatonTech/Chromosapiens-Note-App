@@ -67,13 +67,13 @@ class DashboardHandler(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
 
     def get_notebooks(self, user_id):
-        sleep(0.5)
+        sleep(0.10)
         notebooks = {}
         try:
             # notebook_ids = user.notebook_ids
             notebooks = list()
             # for notebook_id in notebook_ids:
-            notebook_iter = Notebook.query(Notebook.user_id == user_id).iter()
+            notebook_iter = Notebook.query(Notebook.user_id == user_id).order(Notebook.title).iter()
             for notebook in notebook_iter:
                 notebooks.append(notebook)
         except BaseException:
