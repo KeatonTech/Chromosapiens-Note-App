@@ -24,10 +24,10 @@
 					</a>
 
 					<!-- Be sure to leave the brand out there if you want it shown -->
-					<a class="brand" href="/">Notorious</a>
+					<a id="brand" href="/">Notorious</a>
 
 					<!-- Everything you want hidden at 940px or less, place within here -->
-					<div class="nav-collapse collapse">
+					<div id="navbar-links" class="nav-collapse collapse">
 						<ul class="nav">
 							<li><a href="/dashboard">Dashboard</a></li>
 							<li><a href="#">Link</a></li>
@@ -39,7 +39,7 @@
 			</div>
 		</div>
 		<br>
-		<section class="container">{% block content %}{% endblock %}</section>
+		<section id="main" class="container">{% block content %}{% endblock %}</section>
         
 		<script type="text/javascript" src="bootstrap.js"></script>
 	</body>
