@@ -2,6 +2,7 @@ from auth import AuthHandler
 from models import *
 from google.appengine.api import users
 import vars
+import json
 
 
 class add_notebook(AuthHandler):
@@ -54,14 +55,14 @@ class join_lecture(AuthHandler):
         lecture_id = self.request.get("lecture_id")
         notebook_id = self.request.get("notebook_id")
         lecture = Lecture.get_by_id(lecture_id)
+        template_vals = dict()
         if lecture:
             google_id = users.get_current_user().user_id()
             documents = Document.query(Document.user_id == google_id,
                                        Document.lecture_id == lecture_id)
             document_count = documents.count()
 
-            template_vals = dict()
-            template_vals['lecture'] = lecture
+            template_vals['lecture_id'] = lecture.key.id()
 
             if document_count == 0:
                 document = Document(lecture_id=lecture_id, user_id=google_id, notebook_id=notebook_id)
@@ -77,10 +78,12 @@ class join_lecture(AuthHandler):
             template_vals['document_id'] = document.key.id()
             template_vals['document_name'] = document.title
 
-            vars.render(self, template_vals, 'workspace.html')
+            self.response.write(json.dumps(template_vals))
+
+            # vars.render(self, template_vals, 'workspace.html')
         else:
-            # Bug: Do with ajax instead; won't keep old notebooks
-            vars.render(self, {'message': 'Lecture is invalid.'}, 'dashboard.html')
+            template_vals['message'] = "Lecture invalid."
+            self.response.write(template_vals)
 
 
 class new_lecture(AuthHandler):

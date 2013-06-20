@@ -6,28 +6,88 @@
 {% endfor %}
 <br>
 <strong>Join Lecture:</strong>
-<form action="/lectures/join" method="post">
-    <script>
-        $.ajax({
-            type: "/lectures/join",
-            url: "test.html",
-            data: {lecture_id: $('#join-button').val()}
-        }).done(function () {
-                    $(this).addClass("done");
-                });
-    </script>
+<form id="join-lecture">
     <div class="input-append">
         <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
                placeholder="Enter Code">
-        <button class="btn" type="submit" id="join-button">Join</button>
-        {{ message }}
+        <button class="btn" type="submit">Join</button>
     </div>
 </form>
+<span id="message"></span>
+
 <strong>Create Lecture:</strong>
 <form action="/lectures/new" method="post">
     <div class="input-append">
         <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
                placeholder="New Lecture Code">
-        <button class="btn" type="submit">Create</button>
+        <button data-target="#newLecture" data-toggle="modal" class="btn" type="submit">Create</button>
+    </div>
+    <div id="newLecture" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myLectureLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myLectureLabel">Create Lecture</h3>
+        </div>
+        <div class="modal-body">
+            <h4>Select a Notebook:</h4>
+
+            <select name="notebook_id">
+                {% for notebook in notebooks %}
+                    <option value={{ notebook.key.id() }}>{{ notebook.title }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn" type="submit">Create</button>
+        </div>
     </div>
 </form>
+
+<script>
+    $("#join-lecture").submit(function (event) {
+        // setup some local variables
+        var $form = $(this);
+        // let's select and cache all the fields
+        var $inputs = $form.find("button");
+        // serialize the data in the form
+        var serializedData = $form.serialize();
+
+        // let's disable the inputs for the duration of the ajax request
+        $inputs.prop("disabled", true);
+
+        // fire off the request to /form.php\`
+        $.ajax({
+            type: "POST",
+            url: "/lectures/join",
+            data: serializedData,
+            success: function (data) {
+                parsed_data = jQuery.parseJSON(data);
+                console.log(parsed_data);
+                $("#message").text(parsed_data.message);
+            }
+        })
+
+        {#        // callback handler that will be called on success#}
+        {#        request.done(function (response, textStatus, jqXHR) {#}
+        {#            // log a message to the console#}
+        {#            console.log("Hooray, it worked!");#}
+        {#        });#}
+        {##}
+        {#        // callback handler that will be called on failure#}
+        {#        request.fail(function (jqXHR, textStatus, errorThrown) {#}
+        {#            // log the error to the console#}
+        {#            console.error(#}
+        {#                    "The following error occured: " +#}
+        {#                            textStatus, errorThrown#}
+        {#            );#}
+        {#        });#}
+
+        {#            // callback handler that will be called regardless#}
+        {#            // if the request failed or succeeded#}
+        .always(function () {
+            // reenable the inputs
+            $inputs.prop("disabled", false);
+        });
+
+        // prevent default posting of form
+        event.preventDefault();
+    });
+</script>
