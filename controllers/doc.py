@@ -12,7 +12,16 @@ class add_notebook(AuthHandler):
         new_notebook.put()
         self.redirect('/dashboard')
 
-
+class delete_notebook(AuthHandler):
+    def post(self):
+        nb_id = self.request.get("notebook-id")
+        google_id = users.get_current_user().user_id()
+        user = User.get_user(google_id)
+        notebook = Notebook.get_by_id(int(nb_id))
+        notebook.key.delete()
+        
+        self.redirect('/dashboard')
+        
 class add_document(AuthHandler):
     def post(self):
         title = self.request.get("document-title")
@@ -27,12 +36,24 @@ class add_document(AuthHandler):
 
 
 class join_lecture(AuthHandler):
+    def get(self):
+        lecture_id = self.request.get("lecture_id")
+        # lecture_future = Lecture.get_by_id_async(lecture_id)
+        document = Document.query(Document.lecture_id == lecture_id).get()
+        template_vals = dict()
+        # template_vals['lecture'] = lecture_future.get_result()
+        template_vals['lecture_id'] = lecture_id
+        template_vals['document_id'] = document.key.id()
+        template_vals['document_name'] = document.title
+
+        vars.render(self, template_vals, 'workspace.html')
+
     def post(self):
         lecture_id = self.request.get("lecture_id")
         lecture = Lecture.get_by_id(lecture_id)
         if lecture:
             google_id = users.get_current_user().user_id()
-            documents = Document.query(Document.user_id == users.get_current_user().user_id(),
+            documents = Document.query(Document.user_id == google_id,
                                        Document.lecture_id == lecture_id)
             document_count = documents.count()
 
@@ -55,24 +76,26 @@ class join_lecture(AuthHandler):
 
             vars.render(self, template_vals, 'workspace.html')
         else:
+            # Bug: Do with ajax instead; won't keep old notebooks
             vars.render(self, {'message': 'Lecture is invalid.'}, 'dashboard.html')
 
 
-class create_lecture(AuthHandler):
+class new_lecture(AuthHandler):
     def post(self):
-        lecture_name = self.request.get("lecture-name")
-        new_lecture = Lecture(id=lecture_name)
+        lecture_name = str(self.request.get("lecture_id"))
+        new_lecture = Lecture(id=lecture_name, name=lecture_name, creator=users.get_current_user().user_id())
         new_lecture.put()
+        
+        google_id = users.get_current_user().user_id()
+        user = User.get_user(google_id)
+        user.lecture_ids.append(lecture_name)
+        user.put()
+
+        # TODO: add notebook id (popup window)
+        document = Document(lecture_id=lecture_name, user_id=google_id)
+        document.put()
         
         template_vals = dict()
         template_vals['lecture_id'] = lecture_name
 
-        vars.render(self, template_vals, 'managelecture.html')
-
-    # def post(self, lecture_id):
-    #     # TODO: add lecture to user's lectures
-    #     # user = User.get_by_id(users.get_current_user().user_id())
-    #     # user.lecture_ids.append(lecture_id)
-    #     new_document = Document(lecture_id=lecture_id, user_id=users.get_current_user().user_id())
-    #     new_document.put()
-    #     render(self, {}, 'workspace.html')
+        self.redirect('/dashboard')

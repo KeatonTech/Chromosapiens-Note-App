@@ -13,8 +13,8 @@
 	            <article is="bunny-note" content="{{}}"></article><br>
 	        </template>
 	    </section>
-	    <section class="controls">
-	    	<textarea id="newBunny" on-keyup="keyAction"></textarea>
+	    <section class="controls" on-added-bunny="newBunny">
+	    	<!--<textarea id="newBunny" on-keyup="keyAction"></textarea>-->
 	    	<data-container></data-container>
 	    </section>
 	</template>
@@ -36,6 +36,9 @@
 						sender.value = '';
 						break;
 				}
+			},
+			newBunny: function(e,data) {
+				this.$.model.newBunny(data);
 			}
 		});
 	</script>

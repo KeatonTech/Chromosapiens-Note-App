@@ -29,7 +29,7 @@ class Document(ndb.Model):
 class Lecture(ndb.Model):
     name = ndb.StringProperty(required=True)
     description = ndb.TextProperty()
-    professor = ndb.StringProperty()
+    creator = ndb.StringProperty()
     created_at = ndb.DateTimeProperty(auto_now_add=True)
     start_time = ndb.DateTimeProperty()
     is_active = ndb.BooleanProperty(default=False)

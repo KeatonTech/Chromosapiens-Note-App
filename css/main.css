@@ -1,8 +1,8 @@
 body {
-	background: #eee;
+    background: #eee;
 }
 
-h1, h2, h3, h4, .btn-large {
+h1, h2, h3, h4, .btn-large, .navbar {
     font-family: 'Roboto Slab';
     text-shadow: 0 0 1px #666;
 }
@@ -11,22 +11,22 @@ h1, h2, h3, h4, .btn-large {
 }
 
 #sidebar h3, #main h1 {
-	text-align: center;
+    text-align: center;
 }
 
 #content {
-	margin: 20px;
+    margin: 20px;
 }
 
 #content article {
-	margin: 20px 0;
+    margin: 20px 0;
 }
 
 #content textarea {
-	width: 100%;
-	border: none;
-	background-color: transparent;
-	box-shadow: none;
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
 }
 
 #main-body {
@@ -40,4 +40,12 @@ h1, h2, h3, h4, .btn-large {
     font-family:'Roboto Slab';
     display:inline-block;
     vertical-align:middle;   
+}
+
+footer {
+    padding: 10px;
+    background-color: #666;
+    color: #eee;
+    font-family: 'Roboto Slab';
+    margin-top: 20px;
 }

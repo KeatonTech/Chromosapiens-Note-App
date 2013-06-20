@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Note Bunnies</title>
+		<title>Notorious</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="bootstrap-responsive.css">
@@ -12,7 +12,7 @@
 	</head>
 	<body>
         
-		<div id="navbar" class="navbar navbar-static-top">
+		<div class="navbar navbar-static-top">
 			<div class="navbar-inner">
 				<div class="container">
                     
@@ -39,8 +39,14 @@
 			</div>
 		</div>
 		<br>
-		<section class="container">{% block content %}{% endblock %}</section>
-        
+		<section id="main" class="container">{% block content %}{% endblock %}</section>
+		<br><br><br><br><br><br>
+		<footer class="navbar-bottom">
+			<div class="text-center">
+				<p>Notorious created by Calvin Chan, Keaton Brandt, Krystal Xu, Ruben Martinez, and Will Tesler</p>		
+				<p>Chrome Academy 2013</p>	
+			</div>
+		</footer>
 		<script type="text/javascript" src="bootstrap.js"></script>
 	</body>
 </html>

@@ -7,11 +7,17 @@ from auth import AuthHandler, GoogleLoginLink
 
 from vars import render
 from controllers import api, doc
-from models import Notebook, Lecture, Document, Bunny
+from models import Notebook, Lecture, Document, Bunny, User
 
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        google_user = users.get_current_user()
+        if google_user:
+            google_id = google_user.user_id()
+            user = User.get_user(google_id=google_id)
+            if user:
+                self.redirect('/dashboard')
         render(self, {}, 'index.html')
 
 
@@ -19,7 +25,7 @@ class NotebookHandler(AuthHandler):
     def get(self, notebook_id):
         template_vals = {'name_of_user': users.get_current_user().nickname()}
         notebook = Notebook.get_by_id(int(notebook_id))
-        #get all documents for notebook
+        #   Get all documents for notebook
         titles = list()
         docs = list()
         for doc in notebook.document_ids:
@@ -28,7 +34,7 @@ class NotebookHandler(AuthHandler):
         template_vals['titles'] = titles
         template_vals['nb_id'] = int(notebook_id)
         template_vals['doc_ids'] = docs
-        render(self, template_vals, 'mydocs.html')
+        render(self, template_vals, 'notebook-documents.html')
 
 
 class DocumentHandler(AuthHandler):
@@ -51,6 +57,8 @@ class DashboardHandler(AuthHandler):
         template_vals = dict()
         template_vals['name_of_user'] = users.get_current_user().nickname()
         template_vals['notebooks'] = self.get_notebooks(users.get_current_user().user_id())
+        lectures = User.get_user(users.get_current_user().user_id()).lecture_ids
+        template_vals['lectures'] = lectures
         render(self, template_vals, 'dashboard.html')
 
     def get_notebooks(self, user_id):
@@ -100,9 +108,11 @@ routes = [
     ('/notebooks/(\d+)', NotebookHandler),
 
     # User actions
-    ('/document/add', doc.add_document),
+    ('/documents/add', doc.add_document),
     ('/notebooks/new', doc.add_notebook),
     ('/lectures/join', doc.join_lecture),
+    ('/lectures/new', doc.new_lecture),
+    ('/notebooks/rm', doc.delete_notebook),
 
     # API Methods (AJAXylicious)
     ('/api/add_bunny', api.add_bunny),

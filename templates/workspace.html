@@ -13,6 +13,13 @@
             </div>
         </div>
     </aside>
+    {{ lecture_id }}<br>
+    {{ document_name }}<br>
+{#    <form action="/documents/add" method="post">#}
+{#        <div class="input-append">#}
+{#            <button class="btn" type="submit">New Document</button>#}
+{#        </div>#}
+{#    </form>#}
 	<section class="span9" id="main">
     <br>
     <div id="content">
@@ -24,8 +31,8 @@
 <script src="polymer.min.js"></script>
 <script>
     window.identifiers = {
-        document: {{doc_id}}//,
-        //lecture: {{lecture_id}}
+        document: {{document_id}},
+        lecture: "{{lecture_id}}"
     }
     console.log(identifiers);
 </script>
