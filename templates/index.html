@@ -1,10 +1,25 @@
 {% extends 'application.html' %}
 {% block content %}
-        <h1>Notes</h1>
-        <div id="content">
-            <bunny-list></bunny-list>
-        </div>
-    <!-- Scripts here. Don't remove this ↓ -->
-    <script src="polymer.min.js"></script>
-    <link rel="import" href="bunny-list.html">
+	<link rel="stylesheet" href="index.css">
+	<div class="row">
+	<header class="span12">
+		<h1><a id="logo" href="/dashboard">Notorious <img src="Bunny_4.png"></a></h1><br>
+		<div class="span4"></div>
+		<section class="span4" id="login">
+			<h3>Ready to get started?</h3>
+			<form class="form">
+			<div class="controls">
+			<input type="text" id="inputEmail" placeholder="Email">
+			</div>
+			<div class="controls">
+			<input type="password" id="inputPassword" placeholder="Password">
+			</div>
+			<button type="submit" class="btn btn-large">Sign in</button>
+			</form>
+		</section>
+    	<!-- Scripts here. Don't remove this ↓ -->
+    	<script src="polymer.min.js"></script>
+    	<link rel="import" href="bunny-list.html">
+	</header>
+	</div>
 {% endblock %}
