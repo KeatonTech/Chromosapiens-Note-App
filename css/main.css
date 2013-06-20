@@ -49,3 +49,9 @@ footer {
     font-family: 'Roboto Slab';
     margin-top: 20px;
 }
+
+.color-box {
+    height:15px;
+    width:15px;
+    display:inline-block;
+}

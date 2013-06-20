@@ -5,6 +5,9 @@
 {% endif %}
 <ul>
 {% for notebook in notebooks %}
-    <li><a href="notebooks/{{notebook.key.id()}}" class="notebooks">{{ notebook.title }}</a> <a href="/notebooks/rm?notebook-id={{notebook.key.id()}}"><small>[delete]</small></a></li>
+    <li>
+        <a href="notebooks/{{notebook.key.id()}}" class="notebooks">{{ notebook.title }}</a> 
+        <a href="/notebooks/rm?notebook-id={{notebook.key.id()}}"><small>[delete]</small></a>
+    </li>
 {% endfor %}
 </ul>
