@@ -56,6 +56,18 @@
 					if($(this).val()==""||$(this).val()==" "){$(this).val("Blank");$(this).addClass("ph");}
 					$( this ).replaceWith("<p class='"+$(this).attr("class")+"'>"+$(this).val()+"</p>");
 				}
+				
+				function createElement(ulList){
+					ulList;
+					var newNode = $('<li class="bunny">\
+												<p class="ti head ph">Double click to add title</p>\
+												<p class="ti ct ph">Edit content</p>\
+											</li>');
+					$(ulList).append(newNode);
+					elementToTextArea.call($(ulList.lastChild).children(".ti")[0]);
+					$(ulList.lastChild).children("textarea.ti").focus();
+					$(ulList.lastChild).trigger("created");
+				}
 				 
 				// Setup basic event handlers
 				$( "body" ).on("dblclick",".ti",elementToTextArea);
@@ -73,16 +85,7 @@
 						}else if($(this).parent().nextAll(".mine")[0]!=undefined){
 							elementToTextArea.call($(this).parent().nextAll(".mine").children(".ti")[0]);
 							$(this).parent().nextAll(".mine").children("textarea.ti").focus();
-						}else{
-							var newNode = $('<li class="bunny">\
-												<p class="ti head ph">Double click to add title</p>\
-												<p class="ti ct ph">Edit content</p>\
-											</li>');
-							$($(this).parents("ul")[0]).append(newNode);
-							elementToTextArea.call($(this).parent().next("li").children(".ti")[0]);
-							$(this).parent().next("li").children("textarea.ti").focus();
-							$(this).parent().next("li").trigger("created");
-						}
+						}else{createElement($(this).parents("ul")[0]);}
 					}
 				});
 			});
@@ -155,7 +158,6 @@
             <li class="bunny mine"><p class="ti ct">Did you know that Drag and Drop is a new API in HTML5</p></li>
             <li class="bunny mine"><p class="ti ct">It's funny because this is just using jQuery UI</p></li>
             <li class="bunny mine"><p class="ti head">jQuery UI</p><p class="ti ct">It's a very large library™</p></li>
-			<li class="bunny mine"><p class="ti head ph">Double click to add title</p><p class="ti ct ph">Edit content</p></li>
         </ul>
 		<hr/>
 		<ul id="otherBunnies" class="bunnyList">
