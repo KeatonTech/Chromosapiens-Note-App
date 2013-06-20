@@ -1,5 +1,6 @@
 import webapp2
 from models import Bunny
+from google.appengine.api import users
 import json
 
 
@@ -20,3 +21,30 @@ class get_bunnies(webapp2.RequestHandler):
         bunnies = json.dumps(bunnies)
 
         return webapp2.Response(bunnies)
+
+
+class add_bunny(webapp2.RequestHandler):
+    def post(self):
+        # TODO: check to see params exist
+        # TODO: get attached bunnies
+        lecture_id = self.request.get("lecture_id")
+        creator_id = users.get_current_user().user_id()
+        document_id = self.request.get("document_id")
+        note = self.request.get("note")
+
+        # Send Bunny to Database
+        bunny = Bunny(lecture_id=lecture_id,
+                      creator_id=creator_id,
+                      document_id=document_id,
+                      note=note)
+        bunny.put_async()
+        #document Document.get_by_id(int(document_id))
+        #document.bunny_ids.append(str(bunny.key.id()))
+        #document.put()
+
+
+class update_bunny(webapp2.RequestHandler):
+    def post(self, bunny_id, note):
+        bunny = Bunny.get_by_id(bunny_id)
+        bunny.note = note
+        bunny.put_async()

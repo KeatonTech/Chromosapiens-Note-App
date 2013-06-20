@@ -1,21 +1,19 @@
-import webapp2
+from auth import AuthHandler
 from models import *
 from google.appengine.api import users
 import vars
 
 
-class add_notebook(webapp2.RequestHandler):
+class add_notebook(AuthHandler):
     def post(self):
         title = self.request.get("notebook-title")
         google_id = users.get_current_user().user_id()
         new_notebook = Notebook(user_id=google_id, title=title, document_ids=[])
         new_notebook.put()
-        # if Notebook.get_by_id(new_notebook.key.id()):
         self.redirect('/dashboard')
-        # vars.render(self, {'message': 'Created notebook '+title+'.'}, 'dashboard.html')
 
 
-class add_document(webapp2.RequestHandler):
+class add_document(AuthHandler):
     def post(self):
         title = self.request.get("document-title")
         notebook_id = self.request.get("notebook-id")
@@ -28,31 +26,7 @@ class add_document(webapp2.RequestHandler):
         self.redirect('/notebooks/'+notebook_id)
 
 
-class add_bunny(webapp2.RequestHandler):
-    def post(self):
-        # TODO: check to see params exist
-        # TODO: get attached bunnies
-        lecture_id = self.request.get("lecture_id")
-        creator_id = users.get_current_user().user_id()
-        document_id = self.request.get("document_id")
-        note = self.request.get("note")
-        
-        # Send Bunny to Database
-        bunny = Bunny(lecture_id=lecture_id,
-                      creator_id=creator_id,
-                      document_id=document_id,
-                      note=note)
-        bunny.put()
-        #document Document.get_by_id(int(document_id))
-        #document.bunny_ids.append(str(bunny.key.id()))
-        #document.put()
-
-
-# class update_bunny(webapp2.RequestHandler):
-#     def post(self, note):
-
-
-class join_lecture(webapp2.RequestHandler):
+class join_lecture(AuthHandler):
     def get(self, lecture_id):
         lecture = Lecture.get_by_id(int(lecture_id))
         google_id = users.get_current_user().user_id()
