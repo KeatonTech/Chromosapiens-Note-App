@@ -8,6 +8,10 @@
 	text-align: center;
 }
 
+.notebook h3 {
+	overflow: hidden;
+}
+
 #addNotebook {
 	border: 1px dashed #888;
 	cursor: pointer;

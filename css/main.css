@@ -48,4 +48,6 @@ footer {
     color: #eee;
     font-family: 'Roboto Slab';
     margin-top: 20px;
+    position: fixed;
+    bottom: 0px;
 }
