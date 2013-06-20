@@ -14,9 +14,14 @@ class AuthHandler(webapp2.RequestHandler):
                 super(AuthHandler, self).dispatch()
             else:
                 new_user = User(id=google_id, name=google_user.nickname(), email=google_user.email(), notebook_ids=[])
-                new_user.put_async()
+                new_user.put()
                 template_vals = {'name_of_user': google_user.nickname()}
                 template_vals['message'] = 'Welcome to NoteBunnies! We have finished setting up your account.'
                 render(self, template_vals, 'dashboard.html')
         else:
-            self.redirect(users.create_login_url(self.request.uri))
+            self.redirect('/')
+
+
+class GoogleLoginLink(webapp2.RequestHandler):
+    def get(self):
+        self.redirect(users.create_login_url('/'))

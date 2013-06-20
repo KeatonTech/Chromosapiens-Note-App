@@ -43,6 +43,11 @@ class join_lecture(AuthHandler):
         else:
             document = documents.get()
 
+        user = User.get_user(google_id)
+        if lecture_id not in user.lecture_ids:
+            user.lecture_ids.append(lecture_id)
+            user.put()
+
         template_vals['document_id'] = document.key.id()
         template_vals['document_name'] = document.title
 

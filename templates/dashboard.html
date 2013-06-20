@@ -1,17 +1,17 @@
 {% extends 'application.html' %}
 {% block content %}
 
-    <div class="block">
-        {% include 'notebooks.html' %}
-    </div>
+	<div class="row">
+	    <div class="span4">
+	        {% include 'notebooks.html' %}
+	        {% include 'newnotebook.html' %}
+	        {% include 'lectures.html' %}
+	    </div>
 
-    <div class="block">
-        {% include 'newnotebook.html' %}
-    </div>
-
-    <div class="block">
-        {% include 'lectures.html' %}
-    </div>
+	    <div class="span8 visible-desktop">
+	    	{% include 'visualnotebooks.html' %}
+	    </div>
+	</div>
 
 
 {% endblock %}

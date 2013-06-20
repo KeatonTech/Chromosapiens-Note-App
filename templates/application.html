@@ -6,26 +6,41 @@
 		<link rel="stylesheet" type="text/css" href="bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="bootstrap-responsive.css">
 		<link rel="stylesheet" type="text/css" href="main.css">
+		<link rel="stylesheet" type="text/css" href="bootstrap.icon-large.min.css">
         <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:100' rel='stylesheet' type='text/css'>
+        <script type="text/javascript" src="jquery.js"></script>
 	</head>
 	<body>
         
 		<div id="navbar" class="navbar navbar-static-top">
 			<div class="navbar-inner">
 				<div class="container">
-                    <img src="Bunny_4.png">
-					<a id="logo" href="/dashboard">
-                        Notorious
-                    </a>
+                    
+                    <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</a>
+
+					<!-- Be sure to leave the brand out there if you want it shown -->
+					<a class="brand" href="/">Notorious</a>
+
+					<!-- Everything you want hidden at 940px or less, place within here -->
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li><a href="/dashboard">Dashboard</a></li>
+							<li><a href="#">Link</a></li>
+							<li><a href="#">Link</a></li><li><a href="#">Link</a></li>
+						</ul>
+					<!-- .nav, .navbar-search, .navbar-form, etc -->
+					</div>
 				</div>
 			</div>
 		</div>
+		<br>
+		<section class="container">{% block content %}{% endblock %}</section>
         
-		<div id="main-body" class="container">
-			{% block content %}{% endblock %}
-		</div>
-        
-		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="bootstrap.js"></script>
 	</body>
 </html>

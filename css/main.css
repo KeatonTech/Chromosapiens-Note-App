@@ -2,6 +2,11 @@ body {
 	background: #eee;
 }
 
+h1, h2, h3, h4, .btn-large {
+    font-family: 'Roboto Slab';
+    text-shadow: 0 0 1px #666;
+}
+
 #sidebar, #main {
 }
 
@@ -24,32 +29,15 @@ body {
 	box-shadow: none;
 }
 
-#navbar {
-    position:fixed; 
-    width: 100%;
-}
-
 #main-body {
     padding-top:100px;   
 }
 
-.block {
-    display:inline-block;
-    width:300px;
-    height:500px;
-    margin-top:20px;
-    margin-right:25px;
-    padding-left:30px;
-    margin-bottom:20px;
-    vertical-align:top;
-    background-color:#e3dfdf;
-}
 
 #logo {
     color:#000000;
     text-decoration:none;
     font-family:'Roboto Slab';
-    font-size:250%;
     display:inline-block;
     vertical-align:middle;   
 }

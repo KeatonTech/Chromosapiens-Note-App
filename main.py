@@ -3,14 +3,14 @@ from time import sleep
 import webapp2
 from google.appengine.api import users
 
-from auth import AuthHandler
+from auth import AuthHandler, GoogleLoginLink
 
 from vars import render
 from controllers import api, doc
 from models import Notebook, Lecture, Document, Bunny
 
 
-class MainHandler(AuthHandler):
+class MainHandler(webapp2.RequestHandler):
     def get(self):
         render(self, {}, 'index.html')
 
@@ -114,6 +114,7 @@ routes = [
     ('/api/add_bunny', api.add_bunny),
     ('/api/getbunnies', api.get_bunnies),
     ('/api/update_bunny', api.update_bunny),
+    ('/api/google_login_link', GoogleLoginLink),
 ]
 
 app = webapp2.WSGIApplication(routes=routes, debug=True)
