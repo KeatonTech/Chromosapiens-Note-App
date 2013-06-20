@@ -13,7 +13,26 @@
         {% endfor %}
     </div>
     <div class="block">
-        [put add new document button here]
+        <a href="#newNotebook" role="button" data-toggle="modal"><div class="notebook" id="addNotebook">
+			<div id="plus" style="font-size: 500%;">+<br><br><h3>New Document</h3></div>
+	    </div></a>
     </div>
+    <!-- Modal -->
+	<div id="newNotebook" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">New Document</h3>
+	  </div>
+	  <form action="/documents/add" method="post">
+	  <div class="modal-body">
+		    <div class="input-append">
+				<input class="span2" id="appendedInputButtons" type="text" name="document-title" id="document-title" placeholder="Document name">
+				<input type="hidden" id="notebook-id" name="notebook-id" value="{{ nb_id }}">
+                <button class="btn" type="submit">Add</button>
+			</div>
+		</form>
+	  </div>
+	  </form>
+	</div>
 
 {% endblock %}
