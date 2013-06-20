@@ -19,6 +19,9 @@
                     {% endif %}
                     <ul>
                     {% for notebook in notebooks %}
+                        <a>
+                            <div style="height:15px;width:15px;background-color:#{{notebook.color}};display:inline-block;"></div>
+                        </a>
 					    <li><a href="notebooks/{{notebook.key.id()}}" class="notebooks">{{ notebook.title }}</a> <a href="/notebooks/rm?notebook-id={{notebook.key.id()}}"><small>[delete]</small></a></li>
 					{% endfor %}
                     </ul>
