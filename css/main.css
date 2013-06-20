@@ -18,6 +18,10 @@ h1, h2, h3, h4, .btn-large, .navbar {
     box-shadow: 0 0 3px #D3D3D3;
 }
 
+.accordion-inner {
+    background-color: #fff;
+}
+
 #content {
     margin: 20px;
 }
