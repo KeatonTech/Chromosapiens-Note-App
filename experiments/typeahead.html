@@ -7,8 +7,9 @@
 			margin: 0 auto;
 			margin-top: 40px;
 		  }
-		  .container input {
+		  .container textarea {
 			position: absolute;
+			resize: none; 
 			top: 0px; left: 0px;
 			width: 400px;
 			height: 40px;
@@ -16,19 +17,19 @@
 			font-size: 13pt;
 			padding: 0px 10px;
 		  }
-		  .container input#top {
+		  .container textarea#top {
 			border: 1px solid transparent;
 			background-color: transparent;
 		  }
-		  .container input#bottom {
+		  .container textarea#bottom {
 			border: 1px solid #aaa;
 			color: #888;
 			box-shadow: 0px 1px 1px #ddd;
 		  }
 		</style>
 		<div class="container">
-		  <input type="text" id="bottom" value="{{suggestion}}"/>
-		  <input type="text" id="top" value="{{query}}" on-keydown="keyDown" on-change="changed"/>
+		  <textarea pseudo="text-area" id="bottom">{{suggestion}}</textarea>
+		  <textarea pseudo="text-area" id="top" on-keydown="keyDown" on-change="changed">{{query}}</textarea>
 		</div>
 	</template>
 	<script>
@@ -36,9 +37,13 @@
             keyDown: function(event){
                 if(event.keyCode == 9){ // Tab or Enter
                     event.preventDefault();
-                    this.query = this.suggestion;
+                    event.target.value = this.query = this.suggestion;
                 }
+				this.query = event.target.value;
             },
+			suggestionChanged: function(event){
+				this.$.bottom.value = this.suggestion;
+			},
             changed: function(event){
                 this.query = this.suggestion;
                 this.query += " ";
