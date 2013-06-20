@@ -34,7 +34,11 @@ class add_document(AuthHandler):
         notebook.put()
         self.redirect('/notebooks/' + notebook_id)
 
-
+class change_notebook_color(AuthHandler):
+    def post(self):
+        Notebook.set_color(self.request.get("notebook_id"), self.request.get("color"))
+        self.redirect('/dashboard')
+        
 class join_lecture(AuthHandler):
     def get(self):
         lecture_id = self.request.get("lecture_id")
@@ -75,6 +79,7 @@ class join_lecture(AuthHandler):
 
             template_vals['document_id'] = document.key.id()
             template_vals['document_name'] = document.title
+            template_vals['notebook_name'] = Notebook.get_by_id(int(notebook_id)).title
 
             vars.render(self, template_vals, 'workspace.html')
         else:
