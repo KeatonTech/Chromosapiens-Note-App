@@ -42,10 +42,15 @@ h1, h2, h3, h4, .btn-large, .navbar {
     vertical-align:middle;   
 }
 
+#main {
+    position: relative;
+    z-index: 5;
+}
+
 footer {
     padding: 10px;
-    background-color: #666;
-    color: #eee;
+    background-color: #eee;
+    color: #666;
     font-family: 'Roboto Slab';
     margin-top: 20px;
 }
