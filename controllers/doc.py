@@ -57,6 +57,7 @@ class create_lecture(AuthHandler):
     def post(self):
         lecture_name = self.request.get("lecture-name")
         new_lecture = Lecture(id=lecture-name)
+        new_lecture.put()
         
         template_vals = dict()
         template_vals['lecture_id'] = lecture-name
