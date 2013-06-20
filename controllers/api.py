@@ -2,9 +2,10 @@ import webapp2
 from models import Bunny
 from google.appengine.api import users
 import json
+from auth import AuthHandler
 
 
-class get_bunnies(webapp2.RequestHandler):
+class get_bunnies(AuthHandler):
     def get(self):
         document_id = self.request.get("document_id")
         bunnies_result = Bunny.query(Bunny.document_id == str(document_id)).order(Bunny.timestamp).iter()
@@ -21,7 +22,7 @@ class get_bunnies(webapp2.RequestHandler):
         return webapp2.Response(bunnies)
 
 
-class add_bunny(webapp2.RequestHandler):
+class add_bunny(AuthHandler):
     def post(self):
         # TODO: check to see params exist
         # TODO: get attached bunnies
@@ -41,7 +42,7 @@ class add_bunny(webapp2.RequestHandler):
         #document.put()
 
 
-class update_bunny(webapp2.RequestHandler):
+class update_bunny(AuthHandler):
     def post(self):
         bunny_id = self.request.get("bunny_id")
         note = self.request.get("note")

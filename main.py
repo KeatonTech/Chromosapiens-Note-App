@@ -51,7 +51,6 @@ class DashboardHandler(AuthHandler):
         template_vals = dict()
         template_vals['name_of_user'] = users.get_current_user().nickname()
         template_vals['notebooks'] = self.get_notebooks(users.get_current_user().user_id())
-        template_vals['lectures'] = self.find_lectures()
         render(self, template_vals, 'dashboard.html')
 
     def get_notebooks(self, user_id):
@@ -67,11 +66,6 @@ class DashboardHandler(AuthHandler):
         except BaseException:
             pass
         return notebooks
-
-    def find_lectures(self):
-        # time_window = datetime.datetime.now() - datetime.timedelta(days=3)
-        lectures = Lecture.query().order(Lecture.created_at).fetch(limit=10)
-        return lectures
 
         # def get_lectures(self, user):
         #     lectures = dict()
@@ -108,7 +102,7 @@ routes = [
     # User actions
     ('/document/add', doc.add_document),
     ('/notebooks/new', doc.add_notebook),
-    ('/lectures/(\d+)', doc.join_lecture),
+    ('/lectures/join', doc.join_lecture),
 
     # API Methods (AJAXylicious)
     ('/api/add_bunny', api.add_bunny),
