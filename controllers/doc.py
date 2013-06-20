@@ -47,6 +47,16 @@ class join_lecture(AuthHandler):
         template_vals['document_name'] = document.title
 
         vars.render(self, template_vals, 'workspace.html')
+        
+class create_lecture(AuthHandler):
+    def post(self):
+        lecture_name = self.request.get("lecture-name")
+        new_lecture = Lecture(id=lecture-name)
+        
+        template_vals = dict()
+        template_vals['lecture_id'] = lecture-name
+
+        vars.render(self, template_vals, 'managelecture.html')
 
     # def post(self, lecture_id):
     #     # TODO: add lecture to user's lectures
