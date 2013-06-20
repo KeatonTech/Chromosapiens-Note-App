@@ -44,13 +44,13 @@ class join_lecture(AuthHandler):
         lecture_id = self.request.get("lecture_id")
         # lecture_future = Lecture.get_by_id_async(lecture_id)
         document = Document.query(Document.lecture_id == lecture_id).get()
-
+        
         template_vals = dict()
         # template_vals['lecture'] = lecture_future.get_result()
         template_vals['lecture_id'] = lecture_id
         template_vals['document_id'] = document.key.id()
         template_vals['document_name'] = document.title
-
+        template_vals['notebook_name'] = Notebook.get_by_id(int(document.notebook_id)).title
         vars.render(self, template_vals, 'workspace.html')
 
     def post(self):
@@ -79,7 +79,7 @@ class join_lecture(AuthHandler):
 
             template_vals['document_id'] = document.key.id()
             template_vals['document_name'] = document.title
-            template_vals['notebook_name'] = notebook_id
+            template_vals['notebook_name'] = Notebook.get_by_id(int(notebook_id)).title
 
             vars.render(self, template_vals, 'workspace.html')
         else:
