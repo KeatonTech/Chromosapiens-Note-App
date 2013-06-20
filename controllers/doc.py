@@ -59,11 +59,16 @@ class join_lecture(AuthHandler):
             vars.render(self, {'message': 'Lecture is invalid.'}, 'dashboard.html')
 
 
-class create_lecture(AuthHandler):
+class new_lecture(AuthHandler):
     def post(self):
-        lecture_name = self.request.get("lecture-name")
-        new_lecture = Lecture(id=lecture_name)
+        lecture_name = str(self.request.get("lecture_id"))
+        new_lecture = Lecture(id=lecture_name, name=lecture_name, professor=users.get_current_user().user_id())
         new_lecture.put()
+        
+        google_id = users.get_current_user().user_id()
+        user = User.get_user(google_id)
+        user.lecture_ids.append(lecture_name)
+        user.put()
         
         template_vals = dict()
         template_vals['lecture_id'] = lecture_name

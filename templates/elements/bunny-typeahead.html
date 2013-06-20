@@ -1,0 +1,151 @@
+<element name="type-ahead" attributes="query suggestion">
+	<link rel="stylesheet" type="text/css" href="bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap-responsive.css">
+	<template>
+		
+		<style>
+		  input#bottom {
+			border: 1px solid #aaa;
+			color: #888;
+			box-shadow: 0px 1px 1px #ddd;
+		  }
+		  #top {
+		  	width: 100%;
+		  }
+		</style>
+		<div class="controls">
+		  <!--<input type="text" id="bottom" value="{{suggestion}}" style="position:relative;top:250px;"/>-->
+		  <textarea type="text" id="top" on-keydown="keyDown" on-change="changed" on-keyup="keyAction"/>{{query}}</textarea>
+		</div>
+	</template>
+	<script>
+		var ENTER_KEY = 13;
+    	var ESC_KEY = 27;
+		Polymer.register(this,{
+            keyDown: function(event, detail, sender){
+                if(event.keyCode == 9){ // Tab or Enter
+                    event.preventDefault();
+                    //	this.query = this.suggestion;
+                }
+                this.query = sender.value;
+            },
+            changed: function(event){
+                this.query = this.suggestion;
+                this.query += " ";
+            },
+            keyAction: function(e, detail, sender) {
+				switch (e.keyCode) {
+					case ENTER_KEY:
+						this.fire('added-bunny',sender);
+						Platform.flush();
+					case ESC_KEY: 
+						sender.value = '';
+						break;
+				}
+			}
+        });
+	</script>
+</element>
+
+<element name="typeahead-model" attributes="data query suggestion excludes">
+	<script>
+		Polymer.register(this,{
+			queryChanged: function(){
+                // Reset Typeahead
+				this.suggestion = this.query;
+				
+                // Pull out the last word, for completing
+				var words = this.query.split(" "); 
+				var lastWord = words.pop();
+                if(lastWord.length<3)return;
+                var base = this.suggestion.slice(0,this.suggestion.length - lastWord.length);
+                
+                // Set up regex by combining every note into one long string.
+                var total = "";
+                for(id in this.data){total += this.data[id].note + " ";   }
+				var rgx = new RegExp("[^A-z0-9]("+lastWord+"[A-z0-9]*)","ig");  
+                
+                // Loop through matches
+                var matches;
+                while((matches = rgx.exec(total)) !== null){
+                    if(matches != null && matches.length > 0){
+                        var w = matches[1].toLowerCase();
+                        
+                        // Check to see if the word is excluded
+                        var ct = false;
+                        for(var exid in this.excludes){
+                            if(this.excludes[exid] == w){
+                                // It is, break to find the next one
+                                ct = true;
+                                console.log("Mdnr: "+w);
+                                break;
+                            }
+                        }
+                        if(!ct) return this.suggestion =  base + lastWord + matches[1].slice(lastWord.length);
+                    }else return;
+                }
+			},
+		});
+	</script>
+</element>
+
+<element name="relations-model" attributes="data query output excludes">
+	<script>
+		Polymer.register(this,{
+			queryChanged: function(){
+                // Only run this when the user has just finished writing a new word
+                if(this.query[this.query.length-1] != " ")return;
+                
+                // Clear the output
+				this.output = [];
+
+                // Go through each word
+				var words = this.query.split(" "); //words.pop();
+				var query = "";
+				for(var id in words){
+                    
+                    // Short words don't matter
+                    if(words[id].length < 3)continue;
+                    
+                    // Neither do excluded words
+					var ct = false;
+					for(var exid in this.excludes){
+						if(this.excludes[exid] == words[id].toLowerCase()){
+							ct = true;
+							break;
+						}
+					}
+					if(ct)continue;
+                    
+                    // Combine every useful word into a regex query
+					if(query!=="")query+="|";
+                    words[id] = words[id].replace(/[,.\?\"\'\\\/]/,"");
+					query += words[id]+"[^a-zA-Z0-9]+";
+				}
+				if(words.length<1 || query=="")return;
+				var rgx = new RegExp("("+query+")","ig");
+				
+                // Run the query, pull out matches
+				for(id in this.data){
+					var oNote = this.data[id];
+					var matches = (oNote.note+" ").match(rgx);
+                    
+                    // This sneaky algorithm uses average word length to help determine relevance
+                    var averageWordLength = 0;
+					for(var wid in matches){ averageWordLength += matches[wid].length / matches.length };
+                    
+                    var age = new Date().getTime() - oNote.time;
+                    
+                    if(matches != null && matches.length > 0){
+						oNote["queryRank"] = oNote.rank * matches.length * parseInt(Math.sqrt(averageWordLength) + 5000/age);
+						oNote["found"] = oNote.note;//.replace(rgx,"<b>\$1</b>");
+						this.output.push(oNote);
+					}
+				}
+				
+                // Sort the output by rank
+				this.output.sort(function(a,b){return a.queryRank < b.queryRank});
+			}
+		});
+	</script>
+</element>

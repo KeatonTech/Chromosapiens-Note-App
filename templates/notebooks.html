@@ -1,8 +1,0 @@
-<h3>Your Notebooks:</h3>
-{% if notebooks|length == 0 %}
-    Get started by adding a notebook to the right.
-{% endif %}
-{% for notebook in notebooks %}
-    - <a href="notebooks/{{notebook.key.id()}}">{{ notebook.title }}</a><br>
-{% endfor %}
-<br>
