@@ -12,7 +12,16 @@ class add_notebook(AuthHandler):
         new_notebook.put()
         self.redirect('/dashboard')
 
-
+class delete_notebook(AuthHandler):
+    def post(self):
+        nb_id = self.request.get("notebook-id")
+        google_id = users.get_current_user().user_id()
+        user = User.get_user(google_id)
+        notebook = Notebook.get_by_id(int(nb_id))
+        notebook.key.delete()
+        
+        self.redirect('/dashboard')
+        
 class add_document(AuthHandler):
     def post(self):
         title = self.request.get("document-title")
@@ -44,7 +53,7 @@ class join_lecture(AuthHandler):
         lecture = Lecture.get_by_id(lecture_id)
         if lecture:
             google_id = users.get_current_user().user_id()
-            documents = Document.query(Document.user_id == users.get_current_user().user_id(),
+            documents = Document.query(Document.user_id == google_id,
                                        Document.lecture_id == lecture_id)
             document_count = documents.count()
 
@@ -82,18 +91,11 @@ class new_lecture(AuthHandler):
         user.lecture_ids.append(lecture_name)
         user.put()
 
+        # TODO: add notebook id (popup window)
         document = Document(lecture_id=lecture_name, user_id=google_id)
         document.put()
         
         template_vals = dict()
         template_vals['lecture_id'] = lecture_name
 
-        vars.render(self, template_vals, 'managelecture.html')
-
-    # def post(self, lecture_id):
-    #     # TODO: add lecture to user's lectures
-    #     # user = User.get_by_id(users.get_current_user().user_id())
-    #     # user.lecture_ids.append(lecture_id)
-    #     new_document = Document(lecture_id=lecture_id, user_id=users.get_current_user().user_id())
-    #     new_document.put()
-    #     render(self, {}, 'workspace.html')
+        self.redirect('/dashboard')

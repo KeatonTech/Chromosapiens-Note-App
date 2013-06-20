@@ -1,0 +1,19 @@
+{% extends 'application.html' %}
+{% block content %}
+
+    {{ message }}
+
+    <div class="block">
+        <h3>Your Documents:</h3>
+        {% if titles|length == 0 %}
+            Get started by adding a document to the right.
+        {% endif %}
+        {% for title in titles %}
+            <a href="../documents/{{doc_ids[loop.index0]}}">{{ title }}</a><br>
+        {% endfor %}
+    </div>
+    <div class="block">
+        [put add new document button here]
+    </div>
+
+{% endblock %}
