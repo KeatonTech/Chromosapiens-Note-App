@@ -67,7 +67,7 @@ class join_lecture(AuthHandler):
 
             vars.render(self, template_vals, 'workspace.html')
         else:
-            # Do with ajax instead; won't keep old notebooks
+            # Bug: Do with ajax instead; won't keep old notebooks
             vars.render(self, {'message': 'Lecture is invalid.'}, 'dashboard.html')
 
 
@@ -81,6 +81,9 @@ class new_lecture(AuthHandler):
         user = User.get_user(google_id)
         user.lecture_ids.append(lecture_name)
         user.put()
+
+        document = Document(lecture_id=lecture_name, user_id=google_id)
+        document.put()
         
         template_vals = dict()
         template_vals['lecture_id'] = lecture_name
