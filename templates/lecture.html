@@ -3,12 +3,7 @@
     <div class="input-append">
 		<input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id" placeholder="Enter Code">
 		<button class="btn" type="submit">Join</button>
-{% if lectures|length == 0 %}
-        <h5>No active lectures.</h5>
-{% endif %}
-{% for lecture in lectures %}
-        <h5>- {{ lecture }}</h5><br>
-{% endfor %}
+    {{ message }}
 	</div>
 </form>
 <h3>Create Lecture:</h3>
@@ -18,4 +13,11 @@
 		<button class="btn" type="submit">Create</button>
 	</div>
 </form>
-{{ message }}
+
+<h4>Your lectures:</h4>
+{% if lectures|length == 0 %}
+        <h5>No active lectures.</h5>
+{% endif %}
+{% for lecture in lectures %}
+    {{ lecture }}<br>
+{% endfor %}

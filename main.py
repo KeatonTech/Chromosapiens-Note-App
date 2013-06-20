@@ -12,6 +12,12 @@ from models import Notebook, Lecture, Document, Bunny, User
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        google_user = users.get_current_user()
+        if google_user:
+            google_id = google_user.user_id()
+            user = User.get_user(google_id=google_id)
+            if user:
+                self.redirect('/dashboard')
         render(self, {}, 'index.html')
 
 
@@ -51,10 +57,9 @@ class DashboardHandler(AuthHandler):
         template_vals = dict()
         template_vals['name_of_user'] = users.get_current_user().nickname()
         template_vals['notebooks'] = self.get_notebooks(users.get_current_user().user_id())
-        render(self, template_vals, 'dashboard.html')
-        lectures = list()
         lectures = User.get_user(users.get_current_user().user_id()).lecture_ids
         template_vals['lectures'] = lectures
+        render(self, template_vals, 'dashboard.html')
 
     def get_notebooks(self, user_id):
         sleep(0.10)
