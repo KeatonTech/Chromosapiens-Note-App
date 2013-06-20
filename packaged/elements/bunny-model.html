@@ -1,0 +1,46 @@
+<link rel="import" href="g-ajax.html">
+<element name="bunny-model" attributes="notes">
+	<script>
+		Polymer.register(this,{
+			bunnyCount: 2,
+			ready: function() {
+				this.asyncMethod(function() {
+					var notes=[];
+					$.getJSON("/api/getbunnies?document_id="+identifiers.document, function(data) {
+						console.log(data);
+						for (each in data) {
+							var bunny = {
+								bid: each,
+								text: data[each].note
+							};
+							notes.push(bunny);
+						}
+					});
+					this.notes = notes || [{bid:1,text:"Congratulations"},{bid:2,text:"You Broke the Application"}];
+				});
+				console.log(this.notes);
+			},
+			newBunny: function(note) {
+				var text=String(note.value).trim();
+				this.bunnyCount++;
+				if (text) {
+					var bunny = {
+						bid: this.bunnyCount,
+						context: "run context algorithm",
+						text: text
+					};
+					var path = '/api/add_bunny?note='+bunny.text+'&lecture_id='+identifiers.lecture+'&document_id='+identifiers.document;
+					console.log(identifiers.document);
+					console.log(path);
+					$.post('/api/add_bunny?note='+bunny.text+'&lecture_id='+identifiers.lecture+'&document_id='+identifiers.document, function(data) {
+						console.log(data);
+					});
+					this.notes.push(bunny);
+					this.fire('notes-updated')
+				}
+				console.log(this.notes);
+			}
+		}
+		);
+	</script>
+</element>

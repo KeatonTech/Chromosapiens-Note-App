@@ -8,6 +8,51 @@
 					o.style.height = "1px";
 					o.style.height = (25+o.scrollHeight)+"px";
 			}
+			
+			// Handle editing
+			function elementToTextArea(){
+				if($(this).hasClass("ph")){$(this).html("");$(this).removeClass("ph");}
+				$(this).parent().removeAttr("static");
+				var newObject = $("<textarea onkeyup=\"textAreaAdjust(this)\" class='"+$(this).attr("class")+"'>"+$(this).html()+"</textarea>");
+				$( this ).replaceWith(newObject);
+				$( newObject ).height($(newObject)[0].scrollHeight);
+				$( newObject ).focus();	
+			}
+			function textAreaToElement(){
+				$(this).parent().attr("static","true");
+				if($(this).val()==""||$(this).val()==" "){$(this).val("Double-click to edit");$(this).addClass("ph");}
+				$( this ).replaceWith("<p class='"+$(this).attr("class")+"'>"+$(this).val()+"</p>");
+			}
+			
+			function newElement(ulList){
+				if(ulList === undefined)ulList = $("#myBunnies");
+				var newNode = $('<li class="bunny mine" style="-webkit-animation: add 300ms;">\
+									<p class="ti head ph">Double click to add title</p>\
+									<p class="ti ct ph">Edit content</p>\
+									<div class="close">X</div>\
+								</li>');
+				$(ulList).append(newNode);
+				elementToTextArea.call($(ulList.lastChild).children(".ti")[0]);
+				$(ulList.lastChild).children("textarea.ti").focus();
+				$(ulList.lastChild).trigger("created");
+				$(ulList.lastChild).bind('webkitAnimationEnd',function(event){
+					$(event.target).removeAttr("style");
+				});
+			}
+			function alerter(){alert("FUUuuuu");}
+			function removeElement(element){
+				if($(element).hasClass("toDelete")){
+					$(element).remove();
+					$(element).trigger("removed");
+				}else{
+					$(element).css('-webkit-animation', 'remove 300ms');
+					$(element).bind('webkitAnimationEnd',function(){
+						$(element).remove();
+						$(element).trigger("removed");
+					});
+				}
+			}
+			
 			$(function() {
 			 
 				// Setup jQuery UI Behaviors
@@ -43,31 +88,6 @@
 					dropOnEmpty: true,
 				});
 				$( "#myBunnies,#otherBunnies" ).disableSelection();
-				
-				// Handle editing
-				function elementToTextArea(){
-					if($(this).hasClass("ph")){$(this).html("");$(this).removeClass("ph");}
-					var newObject = $("<textarea onkeyup=\"textAreaAdjust(this)\" class='"+$(this).attr("class")+"'>"+$(this).html()+"</textarea>");
-					$( this ).replaceWith(newObject);
-					$( newObject ).height($(newObject)[0].scrollHeight);
-					$( newObject ).focus();	
-				}
-				function textAreaToElement(){
-					if($(this).val()==""||$(this).val()==" "){$(this).val("Blank");$(this).addClass("ph");}
-					$( this ).replaceWith("<p class='"+$(this).attr("class")+"'>"+$(this).val()+"</p>");
-				}
-				
-				function createElement(ulList){
-					ulList;
-					var newNode = $('<li class="bunny">\
-												<p class="ti head ph">Double click to add title</p>\
-												<p class="ti ct ph">Edit content</p>\
-											</li>');
-					$(ulList).append(newNode);
-					elementToTextArea.call($(ulList.lastChild).children(".ti")[0]);
-					$(ulList.lastChild).children("textarea.ti").focus();
-					$(ulList.lastChild).trigger("created");
-				}
 				 
 				// Setup basic event handlers
 				$( "body" ).on("dblclick",".ti",elementToTextArea);
@@ -79,14 +99,30 @@
 				$( "body" ).on("keydown","textarea.ti",function(e){
 					if(e.keyCode == 9){ // User tabbed to next field
 						e.preventDefault();
-						if($(this).next(".ti")[0]!=undefined){
-							elementToTextArea.call($(this).next(".ti"));
-							$(this).next("textarea.ti").focus();
-						}else if($(this).parent().nextAll(".mine")[0]!=undefined){
-							elementToTextArea.call($(this).parent().nextAll(".mine").children(".ti")[0]);
-							$(this).parent().nextAll(".mine").children("textarea.ti").focus();
-						}else{createElement($(this).parents("ul")[0]);}
+						if(!event.shiftKey){
+							// Forwards tabbing
+							if($(this).next(".ti")[0]!=undefined){
+								elementToTextArea.call($(this).next(".ti"));
+								$(this).next("textarea.ti").focus();
+							}else if($(this).parent().nextAll(".mine")[0]!=undefined){
+								elementToTextArea.call($(this).parent().nextAll(".mine").children(".ti")[0]);
+								$(this).parent().nextAll(".mine").children("textarea.ti").focus();
+							}else{newElement($(this).parents("ul")[0]);}
+						}else{
+							// Backwards tabbing
+							
+							if($(this).prev(".ti")[0]!=undefined){
+								elementToTextArea.call($(this).prev(".ti"));
+								$(this).prev("textarea.ti").focus();
+							}else if($(this).parent().prevAll(".mine").first()!=undefined){
+								elementToTextArea.call($(this).parent().prevAll(".mine").first().children(".ti").last()[0]);
+								$(this).parent().prevAll(".mine").first().children("textarea.ti").last().focus();
+							}
+						}
 					}
+				});
+				$("body").on("click",".close",function(e){
+					removeElement(e.target.parentElement);
 				});
 			});
         </script>
@@ -109,9 +145,10 @@
 				padding: 20px 0px;
                 background-color: none;
 				min-height: 100px;
-            }
+			}
             .bunny {
 				list-style-type:none;
+				position:relative;
                 background-color: white;
                 width: 100%;
                 border-radius: 4px;
@@ -146,23 +183,61 @@
                 box-shadow: 0px 1px 7px #999;   
             }
 			
+			.bunny .close {
+				font-family: "Helvetica", "Arial", sans-serif;
+				font-size: 7pt;
+				position: absolute;
+				top: 7px;
+				right: 7px;
+				color: #666;
+				padding: 3px 0px 0px 5px;
+				width: 11px; height: 13px;
+			}
+			.bunny .close:hover {
+				cursor: pointer;
+				background-color: #f99;
+				border-radius: 8px;
+				color: white;
+				text-shadow: 0px 1px 0px #999;
+			}
+			
+			.bunny[static] .head.ph {
+				display: none;
+			}
+			
 			hr {
 				width: 100%;
+			}
+			.ane {
+				display: block;
+				width:300px;
+				margin: 0 auto;
+				text-align:center;	
+			}
+			
+			@-webkit-keyframes remove {
+				from {opacity:1; position: relative; left:0px;}
+				to {opacity:0;left: 50px;}
+			}
+			@-webkit-keyframes add {
+				from {opacity:0; position: relative; bottom:30px;}
+				to {opacity:1;bottom: 0px;}
 			}
         </style>
     </head>
     <body>
 
         <ul id="myBunnies" class="bunnyList">
-            <li class="bunny mine"><p class="ti head">Amazing News!</p><p class="ti ct">I just made a draggable thing</p></li>
-            <li class="bunny mine"><p class="ti ct">Did you know that Drag and Drop is a new API in HTML5</p></li>
-            <li class="bunny mine"><p class="ti ct">It's funny because this is just using jQuery UI</p></li>
-            <li class="bunny mine"><p class="ti head">jQuery UI</p><p class="ti ct">It's a very large library™</p></li>
+            <li class="bunny mine" static="true"><p class="ti head">Amazing News!</p><p class="ti ct">I just made a draggable thing</p><div class="close">X</div></li>
+            <li class="bunny mine" static="true"><p class="ti head ph">Enter Title Here</p><p class="ti ct">Did you know that Drag and Drop is a new API in HTML5</p><div class="close">X</div></li>
+            <li class="bunny mine" static="true"><p class="ti head ph">Enter Title Here</p><p class="ti ct">It's funny because this is just using jQuery UI</p><div class="close">X</div></li>
+            <li class="bunny mine" static="true"><p class="ti head">jQuery UI</p><p class="ti ct">It's a very large library™</p><div class="close">X</div></li>
         </ul>
+		<a class="ane" onclick="newElement()">Add New Element</a>
 		<hr/>
 		<ul id="otherBunnies" class="bunnyList">
-            <li class="bunny other"><p class="head">Other users!</p><p class="ct">Somebody else made this post</p></li>
-            <li class="bunny other"><p class="ct">Stupid people make tons of posts like this</p></li>
+            <li class="bunny other" static="true"><p class="head">Other users!</p><p class="ct">Somebody else made this post</p><div class="close">X</div></li>
+            <li class="bunny other" static="true"><p class="ct">Stupid people make tons of posts like this</p><div class="close">X</div></li>
         </ul>
     </body>
 </html>

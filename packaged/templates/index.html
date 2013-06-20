@@ -1,0 +1,18 @@
+{% extends 'application.html' %}
+{% block content %}
+	<link rel="stylesheet" href="index.css">
+	<div class="row">
+	<header class="span12">
+		<h1><a id="logo" href="/dashboard"><img style="float:right; margin-left: 10px;" src="Bunny_4.png">Notorious <h4>Hop on your notes.</h4></a></h1>
+		<br>
+		<div class="span4"></div>
+		<section class="span4" id="login">
+			<h3>Ready to get started?</h3>
+			<a href="/api/google_login_link"><button type="submit" class="btn btn-large">Sign in with Google <img src="glyphicons_382_google_plus.png" class="icon-google"></i></button></a>
+		</section>
+    	<!-- Scripts here. Don't remove this ↓ -->
+    	<script src="polymer.min.js"></script>
+    	<link rel="import" href="bunny-list.html">
+	</header>
+	</div>
+{% endblock %}
