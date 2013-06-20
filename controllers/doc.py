@@ -35,9 +35,9 @@ class add_bunny(webapp2.RequestHandler):
     def post(self):
         # TODO: check to see params exist
         # TODO: get attached bunnies
-        lecture_id = self.request.get("lecture-id")
+        lecture_id = self.request.get("lecture_id")
         creator_id = users.get_current_user().user_id()
-        document_id = self.request.get("document-id")
+        document_id = self.request.get("document_id")
         note = self.request.get("note")
         
         # Send Bunny to Database

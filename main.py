@@ -113,7 +113,7 @@ app = webapp2.WSGIApplication([
                                   ('/note', RoomHandler),
 
                                   # API Methods (AJAXylicious)
-                                  ('/api/append', controllers.doc.add_bunny),
+                                  ('/api/add_bunny', controllers.doc.add_bunny),
                                   ('/document/add', controllers.doc.add_document),
                                   ('/dashboard', DashboardHandler),
                                   ('/notebooks/new', controllers.doc.add_notebook),
