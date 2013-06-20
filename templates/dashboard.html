@@ -19,8 +19,8 @@
                     {% endif %}
                     <ul>
                     {% for notebook in notebooks %}
-                        <li><a href="notebooks/{{notebook.key.id()}}">{{ notebook.title }}</a></li>
-                    {% endfor %}
+					    <li><a href="notebooks/{{notebook.key.id()}}" class="notebooks">{{ notebook.title }}</a> <a href="/notebooks/rm?notebook-id={{notebook.key.id()}}"><small>[delete]</small></a></li>
+					{% endfor %}
                     </ul>
 			        <h4>Add New Notebook:</h4>
                     <form action="/notebooks/new" method="post">
