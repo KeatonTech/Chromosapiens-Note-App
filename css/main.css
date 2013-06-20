@@ -2,7 +2,7 @@ body {
 	background: #eee;
 }
 
-h1, h2, h3, h4, .btn-large {
+h1, h2, h3, h4, .btn-large, .navbar {
     font-family: 'Roboto Slab';
     text-shadow: 0 0 1px #666;
 }
@@ -40,4 +40,12 @@ h1, h2, h3, h4, .btn-large {
     font-family:'Roboto Slab';
     display:inline-block;
     vertical-align:middle;   
+}
+
+footer {
+    padding: 10px;
+    background-color: #666;
+    color: #eee;
+    font-family: 'Roboto Slab';
+    margin-top: 20px;
 }

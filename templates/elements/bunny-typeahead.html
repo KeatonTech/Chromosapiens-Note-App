@@ -9,13 +9,10 @@
 			color: #888;
 			box-shadow: 0px 1px 1px #ddd;
 		  }
-		  #top {
-		  	width: 100%;
-		  }
 		</style>
-		<div class="controls">
+		<div class="controls row-fluid">
 		  <!--<input type="text" id="bottom" value="{{suggestion}}" style="position:relative;top:250px;"/>-->
-		  <textarea type="text" id="top" on-keydown="keyDown" on-change="changed" on-keyup="keyAction"/>{{query}}</textarea>
+		  <textarea class="span12" type="text" id="top" on-keydown="keyDown" on-change="changed" on-keyup="keyAction"/>{{query}}</textarea>
 		</div>
 	</template>
 	<script>

@@ -1,8 +1,9 @@
-<h3>Your Notebooks:</h3>
+<h4>Your Notebooks:</h4>
 {% if notebooks|length == 0 %}
     Get started by adding a notebook to the right.
 {% endif %}
+<ul>
 {% for notebook in notebooks %}
-    - <a href="notebooks/{{notebook.key.id()}}">{{ notebook.title }}</a><br>
+    <li><a href="notebooks/{{notebook.key.id()}}">{{ notebook.title }}</a></li>
 {% endfor %}
-<br>
+</ul>

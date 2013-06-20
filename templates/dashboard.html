@@ -3,12 +3,41 @@
 
 	<div class="row">
 	    <div class="span4">
-	        {% include 'notebooks.html' %}
-	        {% include 'newnotebook.html' %}
-	        {% include 'joinlecture.html' %}
+	    	<span class="text-center"><h1><a id="logo" href="/dashboard"><img style="float:right; margin-left: 10px;" src="Bunny_4.png">Notorious <h4>Hop on your notes.</h4></a></h1></span>
+	    	<div class="accordion" id="accordion2">
+			  <div class="accordion-group">
+			    <div class="accordion-heading">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+			        <h3>Notebooks</h3>
+			      </a>
+			    </div>
+			    <div id="collapseOne" class="accordion-body collapse in">
+			      <div class="accordion-inner">
+			        {% include 'notebooks.html' %}
+			        {% include 'newnotebook.html' %}
+			      </div>
+			    </div>
+			  </div>
+			  <div class="accordion-group">
+			    <div class="accordion-heading">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+			        <h3>Lectures</h3>
+			      </a>
+			    </div>
+			    <div id="collapseTwo" class="accordion-body collapse">
+			      <div class="accordion-inner">
+			      	<h4>Recent Lectures</h4>
+			      	<ul>
+			      		<li>Sample Lecture</li>
+					</ul>
+	        		{% include 'joinlecture.html' %}
+			      </div>
+			    </div>
+			  </div>
+			</div>
 	    </div>
-
-	    <div class="span8 visible-desktop">
+	    <div class="span1" visible-desktop"></div>
+	    <div class="span7 visible-desktop">
 	    	{% include 'visualnotebooks.html' %}
 	    </div>
 	</div>
