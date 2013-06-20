@@ -79,7 +79,7 @@ class join_lecture(AuthHandler):
 
             template_vals['document_id'] = document.key.id()
             template_vals['document_name'] = document.title
-            template_vals['notebook_name'] = Notebook.get_by_id(int(notebook_id)).title
+            template_vals['notebook_name'] = notebook_id
 
             vars.render(self, template_vals, 'workspace.html')
         else:
