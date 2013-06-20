@@ -45,10 +45,6 @@ class update_bunny(webapp2.RequestHandler):
     def post(self):
         bunny_id = self.request.get("bunny_id")
         note = self.request.get("note")
-        bunny = Bunny.get_by_id(bunny_id)
+        bunny = Bunny.get_by_id(int(bunny_id))
         bunny.note = note
-<<<<<<< HEAD
         bunny.put()
-=======
-        bunny.put()
->>>>>>> 9755c1fa3495274a6c080e012f99e3f8aadc7e33
