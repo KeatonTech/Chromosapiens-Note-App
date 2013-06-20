@@ -13,8 +13,22 @@
 			    </div>
 			    <div id="collapseOne" class="accordion-body collapse in">
 			      <div class="accordion-inner">
-			        {% include 'notebooks.html' %}
-			        {% include 'newnotebook.html' %}
+			        <h4>Your Notebooks:</h4>
+                    {% if notebooks|length == 0 %}
+                        Get started by adding a notebook to the right.
+                    {% endif %}
+                    <ul>
+                    {% for notebook in notebooks %}
+                        <li><a href="notebooks/{{notebook.key.id()}}">{{ notebook.title }}</a></li>
+                    {% endfor %}
+                    </ul>
+			        <h4>Add New Notebook:</h4>
+                    <form action="/notebooks/new" method="post">
+                        <div class="input-append">
+                            <input class="span2" id="appendedInputButtons" type="text" name="notebook-title" id="notebook-title" placeholder="Notebook Topic">
+                            <button class="btn" type="submit">Create</button>
+                        </div>
+                    </form>
 			      </div>
 			    </div>
 			  </div>

@@ -12,27 +12,27 @@ class add_notebook(AuthHandler):
         new_notebook.put()
         self.redirect('/dashboard')
 
+
 class delete_notebook(AuthHandler):
     def post(self):
         nb_id = self.request.get("notebook-id")
-        google_id = users.get_current_user().user_id()
-        user = User.get_user(google_id)
         notebook = Notebook.get_by_id(int(nb_id))
         notebook.key.delete()
-        
+
         self.redirect('/dashboard')
-        
+
+
 class add_document(AuthHandler):
     def post(self):
         title = self.request.get("document-title")
         notebook_id = self.request.get("notebook-id")
         document = Document(title=title, lecture_id=self.request.get("lecture-id"),
-                            notebook_id=self.request.get("notebook-id"))
+                            notebook_id=self.request.get("notebook-id"), user_id=users.get_current_user().user_id())
         document.put()
         notebook = Notebook.get_by_id(int(notebook_id))
         notebook.document_ids.append(str(document.key.id()))
         notebook.put()
-        self.redirect('/notebooks/'+notebook_id)
+        self.redirect('/notebooks/' + notebook_id)
 
 
 class join_lecture(AuthHandler):
@@ -40,6 +40,7 @@ class join_lecture(AuthHandler):
         lecture_id = self.request.get("lecture_id")
         # lecture_future = Lecture.get_by_id_async(lecture_id)
         document = Document.query(Document.lecture_id == lecture_id).get()
+
         template_vals = dict()
         # template_vals['lecture'] = lecture_future.get_result()
         template_vals['lecture_id'] = lecture_id
@@ -50,6 +51,7 @@ class join_lecture(AuthHandler):
 
     def post(self):
         lecture_id = self.request.get("lecture_id")
+        notebook_id = self.request.get("notebook_id")
         lecture = Lecture.get_by_id(lecture_id)
         if lecture:
             google_id = users.get_current_user().user_id()
@@ -61,7 +63,7 @@ class join_lecture(AuthHandler):
             template_vals['lecture'] = lecture
 
             if document_count == 0:
-                document = Document(lecture_id=lecture_id, user_id=google_id)
+                document = Document(lecture_id=lecture_id, user_id=google_id, notebook_id=notebook_id)
                 document.put()
             else:
                 document = documents.get()
@@ -83,18 +85,19 @@ class join_lecture(AuthHandler):
 class new_lecture(AuthHandler):
     def post(self):
         lecture_name = str(self.request.get("lecture_id"))
+        notebook_id = str(self.request.get("notebook_id"))
         new_lecture = Lecture(id=lecture_name, name=lecture_name, creator=users.get_current_user().user_id())
         new_lecture.put()
-        
+
         google_id = users.get_current_user().user_id()
         user = User.get_user(google_id)
         user.lecture_ids.append(lecture_name)
         user.put()
 
         # TODO: add notebook id (popup window)
-        document = Document(lecture_id=lecture_name, user_id=google_id)
+        document = Document(lecture_id=lecture_name, user_id=google_id, notebook_id=notebook_id)
         document.put()
-        
+
         template_vals = dict()
         template_vals['lecture_id'] = lecture_name
 
