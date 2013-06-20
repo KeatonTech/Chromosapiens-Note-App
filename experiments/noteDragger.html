@@ -4,8 +4,12 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
         <script type="application/javascript">
-             $(function() {
-				 
+			function textAreaAdjust(o) {
+					o.style.height = "1px";
+					o.style.height = (25+o.scrollHeight)+"px";
+			}
+			$(function() {
+			 
 				// Setup jQuery UI Behaviors
 				var dontDelete = function(e,obj){
 					$(".toDelete").removeClass("toDelete");
@@ -43,7 +47,7 @@
 				// Handle editing
 				function elementToTextArea(){
 					if($(this).hasClass("ph")){$(this).html("");$(this).removeClass("ph");}
-					var newObject = $("<textarea class='"+$(this).attr("class")+"'>"+$(this).html()+"</textarea>");
+					var newObject = $("<textarea onkeyup=\"textAreaAdjust(this)\" class='"+$(this).attr("class")+"'>"+$(this).html()+"</textarea>");
 					$( this ).replaceWith(newObject);
 					$( newObject ).height($(newObject)[0].scrollHeight);
 					$( newObject ).focus();	
@@ -51,6 +55,18 @@
 				function textAreaToElement(){
 					if($(this).val()==""||$(this).val()==" "){$(this).val("Blank");$(this).addClass("ph");}
 					$( this ).replaceWith("<p class='"+$(this).attr("class")+"'>"+$(this).val()+"</p>");
+				}
+				
+				function createElement(ulList){
+					ulList;
+					var newNode = $('<li class="bunny">\
+												<p class="ti head ph">Double click to add title</p>\
+												<p class="ti ct ph">Edit content</p>\
+											</li>');
+					$(ulList).append(newNode);
+					elementToTextArea.call($(ulList.lastChild).children(".ti")[0]);
+					$(ulList.lastChild).children("textarea.ti").focus();
+					$(ulList.lastChild).trigger("created");
 				}
 				 
 				// Setup basic event handlers
@@ -66,21 +82,13 @@
 						if($(this).next(".ti")[0]!=undefined){
 							elementToTextArea.call($(this).next(".ti"));
 							$(this).next("textarea.ti").focus();
-						}else if($(this).parent().next("li")[0]!=undefined){
-							elementToTextArea.call($(this).parent().next("li").children(".ti")[0]);
-							$(this).parent().next("li").children("textarea.ti").focus();
-						}else{
-							var newNode = $('<li class="bunny">\
-												<p class="ti head ph">Double click to add title</p>\
-												<p class="ti ct ph">Edit content</p>\
-											</li>');
-							$($(this).parents("ul")[0]).append(newNode);
-							elementToTextArea.call($(this).parent().next("li").children(".ti")[0]);
-							$(this).parent().next("li").children("textarea.ti").focus();
-						}
+						}else if($(this).parent().nextAll(".mine")[0]!=undefined){
+							elementToTextArea.call($(this).parent().nextAll(".mine").children(".ti")[0]);
+							$(this).parent().nextAll(".mine").children("textarea.ti").focus();
+						}else{createElement($(this).parents("ul")[0]);}
 					}
 				});
-              });
+			});
         </script>
         <style type="text/css">
             body {
@@ -144,17 +152,17 @@
         </style>
     </head>
     <body>
+
         <ul id="myBunnies" class="bunnyList">
-            <li class="bunny"><p class="ti head">Amazing News!</p><p class="ti ct">I just made a draggable thing</p></li>
-            <li class="bunny"><p class="ti ct">Did you know that Drag and Drop is a new API in HTML5</p></li>
-            <li class="bunny"><p class="ti ct">It's funny because this is just using jQuery UI</p></li>
-            <li class="bunny"><p class="ti head">jQuery UI</p><p class="ti ct">It's a very large library™</p></li>
-			<li class="bunny"><p class="ti head ph">Double click to add title</p><p class="ti ct ph">Edit content</p></li>
+            <li class="bunny mine"><p class="ti head">Amazing News!</p><p class="ti ct">I just made a draggable thing</p></li>
+            <li class="bunny mine"><p class="ti ct">Did you know that Drag and Drop is a new API in HTML5</p></li>
+            <li class="bunny mine"><p class="ti ct">It's funny because this is just using jQuery UI</p></li>
+            <li class="bunny mine"><p class="ti head">jQuery UI</p><p class="ti ct">It's a very large library™</p></li>
         </ul>
 		<hr/>
 		<ul id="otherBunnies" class="bunnyList">
-            <li class="bunny other"><p class="ti head">Other users!</p><p class="ti ct">Somebody else made this post</p></li>
-            <li class="bunny other"><p class="ti ct">Stupid people make tons of posts like this</p></li>
+            <li class="bunny other"><p class="head">Other users!</p><p class="ct">Somebody else made this post</p></li>
+            <li class="bunny other"><p class="ct">Stupid people make tons of posts like this</p></li>
         </ul>
     </body>
 </html>

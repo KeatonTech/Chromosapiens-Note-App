@@ -2,8 +2,9 @@ body {
 	background: #eee;
 }
 
-h1, h2, h3, .btn-large {
+h1, h2, h3, h4, .btn-large {
     font-family: 'Roboto Slab';
+    text-shadow: 0 0 1px #666;
 }
 
 #sidebar, #main {

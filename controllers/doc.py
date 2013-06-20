@@ -56,3 +56,23 @@ class join_lecture(AuthHandler):
             vars.render(self, template_vals, 'workspace.html')
         else:
             vars.render(self, {'message': 'Lecture is invalid.'}, 'dashboard.html')
+
+
+class create_lecture(AuthHandler):
+    def post(self):
+        lecture_name = self.request.get("lecture-name")
+        new_lecture = Lecture(id=lecture_name)
+        new_lecture.put()
+        
+        template_vals = dict()
+        template_vals['lecture_id'] = lecture_name
+
+        vars.render(self, template_vals, 'managelecture.html')
+
+    # def post(self, lecture_id):
+    #     # TODO: add lecture to user's lectures
+    #     # user = User.get_by_id(users.get_current_user().user_id())
+    #     # user.lecture_ids.append(lecture_id)
+    #     new_document = Document(lecture_id=lecture_id, user_id=users.get_current_user().user_id())
+    #     new_document.put()
+    #     render(self, {}, 'workspace.html')
