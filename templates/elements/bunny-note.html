@@ -10,8 +10,11 @@
 		Polymer.register(this,{
 			updateBunny: function() {
 				this.content.text = this.$.bunny.innerHTML;
+				console.log(this.content);
+				$.post('/api/update_bunny?note='+this.content.text+'&bunny_id='+this.content.bid, function(data) {
+						console.log(data);
+					});
 				this.fire('bunny-updated');
-				alert(this.content.text);
 			},
 			keyAction: function(e, detail, sender) {
 				switch (e.keyCode) {

@@ -35,7 +35,7 @@ class add_bunny(webapp2.RequestHandler):
                       creator_id=creator_id,
                       document_id=document_id,
                       note=note)
-        bunny.put_async()
+        bunny.put()
         #document Document.get_by_id(int(document_id))
         #document.bunny_ids.append(str(bunny.key.id()))
         #document.put()
@@ -45,4 +45,4 @@ class update_bunny(webapp2.RequestHandler):
     def post(self, bunny_id, note):
         bunny = Bunny.get_by_id(bunny_id)
         bunny.note = note
-        bunny.put_async()
+        bunny.put()
