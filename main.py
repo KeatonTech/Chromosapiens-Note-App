@@ -42,7 +42,7 @@ class DocumentHandler(AuthHandler):
         template_vals['doc_id'] = document_id
         doc = Document.get_by_id(int(document_id))
         template_vals['doc_name'] = doc.title
-        template_vals['lecture'] = doc.lecture_id
+        template_vals['lecture_id'] = doc.lecture_id
         render(self, template_vals, 'workspace.html')
 
 
