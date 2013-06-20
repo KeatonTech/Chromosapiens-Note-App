@@ -19,7 +19,17 @@
                     {% endif %}
                     <ul>
                     {% for notebook in notebooks %}
+                        <a>
+                            <div style="height:15px;width:15px;background-color:#{{notebook.color}};display:inline-block;"></div>
+                        </a>
 					    <li><a href="notebooks/{{notebook.key.id()}}" class="notebooks">{{ notebook.title }}</a> <a href="/notebooks/rm?notebook-id={{notebook.key.id()}}"><small>[delete]</small></a></li>
+                        <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=E0E0E0"><div class="color-box" style="background-color:#E0E0E0;"></div></a>
+                        <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=F3EC46"><div class="color-box" style="background-color:#F3EC46;"></div></a>
+                        <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=85C8FD"><div class="color-box" style="background-color:#85C8FD;"></div></a>
+                        <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=332E16"><div class="color-box" style="background-color:#332E16;"></div></a>
+                        <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=D8303D"><div class="color-box" style="background-color:#D8303D;"></div></a>
+                        <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=139849"><div class="color-box" style="background-color:#139849;"></div></a>
+                        <br>
 					{% endfor %}
                     </ul>
 			        <h4>Add New Notebook:</h4>

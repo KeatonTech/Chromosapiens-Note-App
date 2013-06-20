@@ -108,6 +108,7 @@ routes = [
     ('/lectures/join', doc.join_lecture),
     ('/lectures/new', doc.new_lecture),
     ('/notebooks/rm', doc.delete_notebook),
+    ('/notebooks/color', doc.change_notebook_color),
 
     # API Methods (AJAXylicious)
     ('/api/add_bunny', api.add_bunny),

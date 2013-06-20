@@ -15,7 +15,7 @@ class add_notebook(AuthHandler):
 
 
 class delete_notebook(AuthHandler):
-    def post(self):
+    def get(self):
         nb_id = self.request.get("notebook-id")
         notebook = Notebook.get_by_id(int(nb_id))
         notebook.key.delete()
@@ -38,8 +38,10 @@ class add_document(AuthHandler):
 
 
 class change_notebook_color(AuthHandler):
-    def post(self):
-        Notebook.set_color(self.request.get("notebook_id"), self.request.get("color"))
+    def get(self):
+        nb = Notebook.get_by_id(int(self.request.get("notebook_id")))
+        nb.color = self.request.get("color")
+        nb.put()
         self.redirect('/dashboard')
 
 
