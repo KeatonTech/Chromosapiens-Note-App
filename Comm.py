@@ -1,4 +1,5 @@
 import random
+from models import *
 from google.appengine.api import channel
 
 # Basically just abstracts everything to be room-based, instead of Channel based
@@ -10,13 +11,28 @@ class streamer:
             self.rooms[roomID] = {}
         self.rooms[roomID][userID] = connection(roomID,userID)
         return self.rooms[roomID][userID].secretToken
-
+	
     def message_room(self, roomID, message):
         if not roomID in self.rooms:
             return False
         for userKey in self.rooms[roomID]:
             self.rooms[roomID][userKey].send_message(message)
         return True
+	
+	def send-user(self, roomID, userObject):
+		self.message_room(roomID,{cmd: "newUser", payload: userObject});
+		
+	def logout-user(self, roomID, userID):
+		self.message_room(roomID,{cmd: "deleteUser", id: userID});
+	
+	def send-bunny(self, roomID, bunnyObject):
+		self.message_room(roomID,{cmd: "newBunny", payload: bunnyObject});
+	
+	def send-bunny-update(self, roomID, bunnyObject):
+		self.message_room(roomID,{cmd: "bunnyUpdate", id: bunnyObject.id, payload: bunnyObject});
+	
+	def bunny-death-ray(self, roomID, bunnyID):
+		self.message_room(roomID,{cmd: "deleteBunny", id: bunnyID});
 
 # Connection Class handles the actual Channel API stuff
 class connection:

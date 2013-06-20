@@ -2,6 +2,7 @@ from auth import AuthHandler
 from models import *
 from google.appengine.api import users
 import vars
+import json
 
 
 class add_notebook(AuthHandler):
@@ -26,6 +27,7 @@ class add_document(AuthHandler):
     def post(self):
         title = self.request.get("document-title")
         notebook_id = self.request.get("notebook-id")
+        print notebook_id
         document = Document(title=title, lecture_id=self.request.get("lecture-id"),
                             notebook_id=self.request.get("notebook-id"), user_id=users.get_current_user().user_id())
         document.put()
@@ -34,37 +36,39 @@ class add_document(AuthHandler):
         notebook.put()
         self.redirect('/notebooks/' + notebook_id)
 
+
 class change_notebook_color(AuthHandler):
     def post(self):
         Notebook.set_color(self.request.get("notebook_id"), self.request.get("color"))
         self.redirect('/dashboard')
-        
+
+
 class join_lecture(AuthHandler):
     def get(self):
         lecture_id = self.request.get("lecture_id")
         # lecture_future = Lecture.get_by_id_async(lecture_id)
-        document = Document.query(Document.lecture_id == lecture_id).get()
-        
+        documents = Document.query(Document.lecture_id == lecture_id, Document.user_id == users.get_current_user().user_id())
+
         template_vals = dict()
         # template_vals['lecture'] = lecture_future.get_result()
         template_vals['lecture_id'] = lecture_id
-        template_vals['document_id'] = document.key.id()
-        template_vals['document_name'] = document.title
-        template_vals['notebook_name'] = Notebook.get_by_id(int(document.notebook_id)).title
+        template_vals['documents'] = documents
+        template_vals['document_id'] = documents.get().key.id()
+
         vars.render(self, template_vals, 'workspace.html')
 
     def post(self):
         lecture_id = self.request.get("lecture_id")
         notebook_id = self.request.get("notebook_id")
         lecture = Lecture.get_by_id(lecture_id)
+        template_vals = dict()
         if lecture:
             google_id = users.get_current_user().user_id()
             documents = Document.query(Document.user_id == google_id,
                                        Document.lecture_id == lecture_id)
             document_count = documents.count()
 
-            template_vals = dict()
-            template_vals['lecture'] = lecture
+            template_vals['lecture_id'] = lecture.key.id()
 
             if document_count == 0:
                 document = Document(lecture_id=lecture_id, user_id=google_id, notebook_id=notebook_id)
@@ -81,10 +85,12 @@ class join_lecture(AuthHandler):
             template_vals['document_name'] = document.title
             template_vals['notebook_name'] = Notebook.get_by_id(int(notebook_id)).title
 
-            vars.render(self, template_vals, 'workspace.html')
+            self.response.write(json.dumps(template_vals))
+
+            # vars.render(self, template_vals, 'workspace.html')
         else:
-            # Bug: Do with ajax instead; won't keep old notebooks
-            vars.render(self, {'message': 'Lecture is invalid.'}, 'dashboard.html')
+            template_vals['message'] = "Lecture invalid."
+            self.response.write(template_vals)
 
 
 class new_lecture(AuthHandler):
