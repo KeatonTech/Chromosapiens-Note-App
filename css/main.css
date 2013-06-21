@@ -2,6 +2,10 @@ body {
     background: #eee;
 }
 
+p {
+    text-align:justify;    
+}
+
 h1, h2, h3, h4, .btn-large, .navbar {
     font-family: 'Roboto Slab', sans-serif;
     text-shadow: 0 0 1px #666;
@@ -40,13 +44,43 @@ h1, h2, h3, h4, .btn-large, .navbar {
     padding-top:100px;   
 }
 
+#brand {
+    display:inline-block;
+    vertical-align:top;    
+}
+
+#bunny {
+    display:inline-block;
+    margin-top:-15px;    
+}
+
+#mobile-bunny {
+    float:right; 
+    margin-left: 10px;
+    height:74px;
+    width:74px;
+}
+
+#mobile-tag {
+    font-size: 11px; 
+    margin-top: -3px    
+}
 
 #logo {
     color:#000000;
     text-decoration:none;
     font-family:'Roboto Slab', sans-serif;
     display:inline-block;
-    vertical-align:middle;   
+    vertical-align:middle;
+    margin-bottom:20px;
+}
+
+#rm-tutorial {
+    font-size:12px;
+    text-decoration:none;
+    background-color:#eee;
+    border:0px;
+    margin-left:175px;    
 }
 
 footer {
