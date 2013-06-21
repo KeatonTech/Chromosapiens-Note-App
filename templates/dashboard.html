@@ -23,14 +23,16 @@
 
             </div>
             <div class="accordion" id="accordion2">
-                {% if tutorial == "yes" %}
+                
                 <div class="accordion-group">
                     <div class="accordion-heading">
-                        <h3>&nbsp;&nbsp;Get Started
-                        <a href="/rmtutorial" id="rm-tutorial">X</a>
-                        </h3>
+                            <a href="/rmtutorial" type="button" class="close" style="float:right; position: relative; top: 10px; right: 10px">×</a>
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseStart">
+                            <h3>Get Started </h3>
+                        </a>
                     </div>
-                    <div id="" class="accordion-body">
+                    <div id="collapseStart" class="accordion-body collapse in">
                         <div class="accordion-inner">
                             <h4>Note-Taking 2.0</h4>
                             <p> 
@@ -51,7 +53,6 @@
                         </div>
                     </div>
                 </div>
-                {% endif %}
                 <div class="accordion-group">
                     <div class="accordion-heading">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
@@ -59,13 +60,13 @@
                             <h3>Notebooks</h3>
                         </a>
                     </div>
-                    <div id="collapseOne" class="accordion-body collapse in">
+                    <div id="collapseOne" class="accordion-body collapse">
                         <div class="accordion-inner">
                             <h4>Lecture Notebooks:</h4>
                             {% if notebooks|length == 0 %}
                                 Get started by adding a notebook to the right.
                             {% endif %}
-                            <ul>
+                            <ul class="hidden-phone">
                                 {% for notebook in notebooks %}
                                     <div id="color-master">
                                         <a href="notebooks/?lecture_id={{ notebook.lecture_id }}" class="notebooks"
@@ -93,6 +94,12 @@
                                         </a>
                                     </div>
                                     <br>
+                                {% endfor %}
+                            </ul>
+                            <ul class="visible-phone">
+                                {% for notebook in notebooks %}
+                                        <a href="notebooks/?lecture_id={{ notebook.lecture_id }}" class="notebooks">{{ notebook.title }}</a> <a
+                                            href="/notebooks/rm?notebook-id={{ notebook.key.id()}}"><small>[delete]</small></a>
                                 {% endfor %}
                             </ul>
                         </div>

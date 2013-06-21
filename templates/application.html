@@ -31,8 +31,11 @@
             <!-- Everything you want hidden at 940px or less, place within here -->
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="/dashboard">Dashboard</a></li>
+                    {% if logged_off == 'true' %}
+                    <li><a href="/api/google_login_link">Login with Google</a></li>
+                    {% endif %}
                     {% if logged_off != 'true' %}
+                    <li><a href="/dashboard">Dashboard</a></li>
                     <li><a href="/logout">Logout</a></li>
                     {% endif %}
                 </ul>
@@ -43,7 +46,7 @@
 </div>
 <br>
 <section id="main" class="container">{% block content %}{% endblock %}</section>
-<footer>
+<footer class="text-center">
     <div class="text-center">
         <p>Notorious created by Calvin Chan, Keaton Brandt, Krystal Xu, Ruben Martinez, and Will Tesler</p>
 

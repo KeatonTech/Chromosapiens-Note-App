@@ -2,10 +2,6 @@ body {
     background: #eee;
 }
 
-p {
-    text-align:justify;    
-}
-
 h1, h2, h3, h4, .btn-large, .navbar {
     font-family: 'Roboto Slab', sans-serif;
     text-shadow: 0 0 1px #666;
