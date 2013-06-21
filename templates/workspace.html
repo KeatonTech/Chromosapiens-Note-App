@@ -62,7 +62,7 @@
     window.identifiers = {
         document: {{document_id}},
         lecture: "{{lecture_id}}"
-    }
+    };
     console.log(identifiers);
 </script>
 <script type="application/javascript">
@@ -87,7 +87,7 @@
 							id: each,
 							body: data[each].note,
                             head: data[each].title
-						}
+						};
 						bunnies[each] = bunny;
 					}
 					console.log(window.bunnies);
