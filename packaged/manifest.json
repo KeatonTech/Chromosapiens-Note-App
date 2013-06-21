@@ -7,5 +7,10 @@
       "scripts": ["background.js"]
     }
   },
-  "icons": { "16": "Bunny-16.png", "128": "Bunny-128.png" }
+  "icons": { "16": "Bunny-16.png", "128": "Bunny-128.png" },
+
+  "permissions": [
+    	"webview",
+    	"fullscreen"
+	]
 }
