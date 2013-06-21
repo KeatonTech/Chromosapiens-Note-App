@@ -98,7 +98,8 @@ class join_lecture(AuthHandler):
                 template_vals['document_id'] = future_document.get_result().id()
                 template_vals['notebook_name'] = lecture_id + 'Notes'
 
-                self.response.write(json.dumps(template_vals))
+                # self.response.write(json.dumps(template_vals))
+                vars.render(self, template_vals, 'workspace.html')
             else:
                 template_vals['message'] = "Lecture already added."
 
