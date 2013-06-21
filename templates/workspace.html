@@ -39,13 +39,15 @@
         </aside>
 
         <section class="span9" id="main">
-            <h3>Lecture: {{ lecture_id }}</h3>
-            <em>[insert num] participants online</em>
+            <div class="row-fluid">
+                <div id="content" class="span12">
+                    <h3>Lecture: {{ lecture_id }}</h3>
+                    <p><em>[insert num] participants online</em></p>
 
-            <div id="content">
-                <ul id="myBunnies" class="row bunnyList"></ul>
-                <a class="ane" onclick="edit.newBunny()">Add New Element</a>
-                <hr/>
+                    <ul id="myBunnies" class="bunnyList"></ul>
+                </div>
+                
+                <button class="btn-block btn btn-large" onclick="edit.newBunny()">Add New Element</button>
                 <ul id="otherBunnies" class="row bunnyList"></ul>
                 <bunny-list></bunny-list>
             </div>
