@@ -10,16 +10,6 @@
     box-shadow:3px 1px 5px 1px #aaa7a7;
 }
 
-#addNotebook {
-	border-top: 1px dashed #888;
-	border-right: 1px dashed #888;
-	border-bottom: 1px dashed #888;
-	border-left: none;
-	cursor: pointer;
-	opacity: 0.5;
-	background-color: transparent;
-}
-
 #plus {
 	margin-top: 120px;
 	color: #888;
@@ -47,4 +37,12 @@
     box-shadow:3px 1px 5px 0 #d3d2d2;
     background-color:#202020;
     border-radius:10px;
+}
+
+#addNotebook {
+	border: 1px dashed #888;
+	cursor: pointer;
+	opacity: 0.5;
+	background-color: transparent;
+	padding: 0 15px;
 }
