@@ -176,8 +176,15 @@
                 };
                 main.bunnies[each] = bunny;
             }
-            console.log(window.bunnies);
 
+            /**main.bunnies = {
+                2214321235:{id:1,body:"Xylophones zebra eat bamboo",head:"Random #1"},
+                1239593124:{id:2,body:"The red brown fox jumps over the lazy dog",head:"Random #2"},
+                2103234123:{id:3,body:"Drumline Blue Devils What Chrome Academy",head:"Random #3"}
+            }**/
+
+
+        var remoteBunnies = {};
             $(function () {
                 edit = new editor(bunnies, "#myBunnies", "#otherBunnies", myCreator);
                 edit.start();
@@ -196,7 +203,8 @@
                             edit.update(message.payload);
                             break;
                         case "newBunny":
-                            bunnies[message.payload.id] = message.payload;
+                            remoteBunnies[message.payload.id] = message.payload;
+                            console.log("REMOTE");
                             break;
                         case "removeBunny":
                             bunnies[message.id] = null;
@@ -210,9 +218,12 @@
                             users[message.id] = null;
                             break;
                     }
+                    edit.setSuggestions(remoteBunnies);
                 };
             });
         });
+
+        console.log (main.bunnies);
 
         $("body").on("updated", ".bunny", function (e, obj) {
             console.log("Edited");
@@ -233,6 +244,8 @@
         });
         
         $("body").on("keydown","textarea",function(e){
+            console.log(main.bunnies);
+            console.log(e.target.value);
             var suggestions = suggest(main.bunnies,e.target.value,[]);
             console.log(suggestions);
         });

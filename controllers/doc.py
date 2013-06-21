@@ -86,7 +86,6 @@ class join_lecture(AuthHandler):
         vars.render(self, template_vals, 'workspace.html')
 
     def get_notebooks(self, user_id):
-        sleep(0.10)
         notebooks = {}
         try:
             # notebook_ids = user.notebook_ids
