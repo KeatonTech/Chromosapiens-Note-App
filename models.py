@@ -40,6 +40,7 @@ class Bunny(ndb.Model):
     lecture_id = ndb.StringProperty(required=True)
     document_id = ndb.StringProperty(required=True)
     creator_id = ndb.StringProperty(required=True)
+    title = ndb.StringProperty()
     rating = ndb.IntegerProperty(default=0)
     timestamp = ndb.DateTimeProperty(auto_now_add=True)
     attached_bunnies = ndb.StringProperty(repeated=True)

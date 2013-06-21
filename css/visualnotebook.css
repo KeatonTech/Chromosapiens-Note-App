@@ -8,6 +8,8 @@
 	padding: 0 10px 0 20px;
 	text-align: center;
 	background: url('spiral_bound.png') #FFFFFF no-repeat;
+    
+    box-shadow:3px 1px 5px 0 #d3d2d2;
 }
 
 .notebook h3 {
@@ -15,7 +17,7 @@
 }
 
 .notebook:hover {
-
+    box-shadow:3px 1px 5px 1px #aaa7a7;
 }
 
 #addNotebook {
