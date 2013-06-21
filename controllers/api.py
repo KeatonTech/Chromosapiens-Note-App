@@ -3,6 +3,7 @@ from google.appengine.api import users
 import json
 import vars
 from auth import AuthHandler
+import webapp2
 
 
 class get_bunnies(AuthHandler):
@@ -57,8 +58,9 @@ class update_bunny(AuthHandler):
         vars.stream_manager.send_bunny_update(lecture_id,bunny)
 
 
-class disconnect(AuthHandler):
+class disconnect(webapp2.RequestHandler):
     def post(self):
-        stream_token = self.request.get("streamToken")
-        stream = Stream.query(Stream.streamToken == stream_token).get()
+        stream_token = self.request.get("stream_token")
+        stream = Stream.query(Stream.streamSecret == stream_token).get()
         stream.key.delete()
+        self.response.write("Disconnected")
