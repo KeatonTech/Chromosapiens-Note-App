@@ -61,7 +61,20 @@ footer {
 .color-box {
     height:15px;
     width:15px;
+    margin-left:-2px;
+    transition: width 0.1s;
     display:inline-block;
+}
+
+#color-master {
+    height:20px;
+    transition: height 1s;
+    display:inline-block;
+    overflow: hidden;
+}
+
+#color-master:hover {
+    height:60px;
 }
 
 #lecture-boxes {
