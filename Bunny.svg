@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="1149px" height="533px" viewBox="0 0 1149 533" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+<svg width="386px" height="436px" viewBox="0 0 386 436" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
     <title>Bunny </title>
     <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
     <defs>
@@ -8,7 +8,7 @@
             <stop stop-color="#ECECEC" offset="100%"></stop>
         </linearGradient>
         <linearGradient x1="50%" y1="73.999011%" x2="50%" y2="100%" id="linearGradient-2">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
             <stop stop-color="#F8F8F8" offset="100%"></stop>
         </linearGradient>
         <path d="M11.115723,319.784424 C-26.762802,301.793457 53.116425,229.922974 53.116425,229.922974 C53.116425,229.922974 48.99411,337.775024 11.115723,319.784424 L11.115723,319.784424 Z M11.115723,319.784424" id="path-3"></path>
@@ -48,7 +48,7 @@
         <path d="M145.504086,71.5274779 L162.311055,82.2506579 C162.311055,82.2506579 302.165122,156.733112 339.361303,88.7302637 C386.311051,2.89593148 145.504086,71.5274779 145.504086,71.5274779 Z M145.504086,71.5274779" id="path-14"></path>
     </defs>
     <g id="Page 1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Background" transform="translate(5.000000, 3.000000)">
+        <g id="Background" transform="translate(110.500000, 271.500000) scale(-1, 1) translate(-110.500000, -271.500000) translate(-153.000000, 5.000000)">
             <path d="M53.645905,396.051697 C-1.612869,392.247009 57.984375,261.789062 57.984375,261.789062 C57.984375,261.789062 108.90448,399.856262 53.645905,396.051697 L53.645905,396.051697 Z M53.645905,396.051697" id="{d4}2" stroke="#686868" stroke-width="2" fill="url(#linearGradient-1)"></path>
             <path d="M118.277344,261.480469 C118.277344,261.480469 169.197449,399.547668 113.938873,395.743103 C58.680099,391.938416 118.277344,261.480469 118.277344,261.480469 Z M118.277344,261.480469" id="{d4}3" stroke="#686868" stroke-width="2" fill="url(#linearGradient-1)"></path>
             <path d="M85,402 C127.525928,402 162,399.761424 162,397 C162,394.238576 127.525928,392 85,392 C42.4740722,392 8,394.238576 8,397 C8,399.761424 42.4740722,402 85,402 Z M85,402" id="Oval 1" opacity="0.0860085227" fill="#D8D8D8"></path>
@@ -76,14 +76,6 @@
             <path d="M130.537185,109.494762 C117.199805,121.846079 95.5752722,121.846079 82.2368529,109.494762 C68.8994727,97.1422332 68.8994727,77.1160168 82.2368529,64.763488 C95.5752722,52.4121707 117.199805,52.4121707 130.537185,64.763488 C143.875605,77.1160168 143.875605,97.1422332 130.537185,109.494762 Z M130.537185,109.494762" id="{d4}13" fill="#FFFFFF"></path>
             <path d="M46.97675,125.181437 C45.94175,125.995014 44.26275,125.995014 43.22775,125.181437 C42.19275,124.367861 42.19275,123.047889 43.22775,122.234313 C44.26275,121.420736 45.94175,121.420736 46.97675,122.234313 C48.01175,123.047889 48.01175,124.367861 46.97675,125.181437 Z M46.97675,125.181437" id="{d4}16" fill="#EBEBEB"></path>
             <path d="M8.824318,144.383698 C27.215042,145.887787 6.582832,161.582794 6.582832,161.582794 C6.582832,161.582794 -9.56633,142.879486 8.824318,144.383698 L8.824318,144.383698 Z M8.824318,144.383698" id="{d4}17" stroke="#000000" fill="#000000"></path>
-        </g>
-        <g id="Group" transform="translate(337.000000, 175.000000)">
-            <text id="BunnyNotes" fill="#6B6B6B" font-family="Chaparral Pro" font-size="144" font-weight="bold" letter-spacing="6" y="115.200233">
-                <tspan x="0">Bunny</tspan>
-                <tspan x="452.208" font-weight="normal" letter-spacing="4" fill="#303030">Notes</tspan>
-            </text>
-            <path d="M8.5,133 L364.062927,133" id="Line" stroke="#979797" stroke-width="4" stroke-linecap="square"></path>
-            <path d="M453.5,135 L809.062927,135" id="Line copy" stroke="#303030" stroke-width="4" stroke-linecap="square"></path>
         </g>
     </g>
 </svg>

@@ -20,7 +20,6 @@ function editor(bunnies, mainUL, suggestUL){
 	// Turns a static element into an editable box
 	this.startEdit = function(pObject){
 		if("target" in pObject)pObject=pObject.target;
-		console.log(pObject);
 		if($(pObject).hasClass("ph")){$(pObject).html("");$(pObject).removeClass("ph");}
 		$(pObject).parent().removeAttr("static");
 		var newObject = $("<textarea onkeyup=\"autoResize(this)\" class='"+$(pObject).attr("class")+"'>"+$(pObject).html()+"</textarea>");
@@ -56,10 +55,11 @@ function editor(bunnies, mainUL, suggestUL){
 	// Add a bunny from data
 	this.addBunny = function(ulList,bunnyObject){
 		if(bunnyObject===undefined)return;
+		var isCreator = bunnyObject.creator==1;
 		edit.addBunnyInternal(ulList,'<li id="bunny-'+bunnyObject.id+'" bunny-id="'+bunnyObject.id+'"\
-		class="bunny '+((bunnyObject.creator==1)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
-		'+((bunnyObject.head)?'<p class="ti head">'+bunnyObject.head+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
-		<p class="ti ct">'+bunnyObject.body+'</p>\
+		class="bunny '+((isCreator)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
+		'+((bunnyObject.head)?'<p class="ti head">'+bunnyObject.head+'</p>':'<p class="'+((isCreator)?'ti':'')+' head ph">Double-click to add header</p>')+'\
+		<p class="'+((isCreator)?'ti':'')+' ct">'+bunnyObject.body+'</p>\
 		<div class="close">X</div></li>',false);
 		$(ulList).children().last().trigger("added");
 	}
@@ -171,6 +171,11 @@ function editor(bunnies, mainUL, suggestUL){
 		 
 		// Setup tab handlers
 		$( "body" ).on("keydown","textarea.ti",function(e){
+			if(e.keyCode == 13){
+				e.preventDefault();
+				e.target.blur();
+				return;
+			}
 			if(e.keyCode == 9){ // User tabbed to next field
 				e.preventDefault();
 				if(!event.shiftKey){
