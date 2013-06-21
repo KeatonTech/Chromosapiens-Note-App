@@ -34,12 +34,14 @@ class add_bunny(AuthHandler):
         # Send Bunny to Database
         bunny = Bunny(lecture_id=lecture_id,
                       creator_id=creator_id,
-                      document_id=[document_id],
+                      document_id=document_id,
                       note=note,
                       title=title)
         bunny.put()
         self.response.write(bunny.key.id());
+        
         safe_bunny = bunny.to_dict()
+        safe_bunny['id'] = bunny.key.id();
         safe_bunny['timestamp'] = str(safe_bunny['timestamp'])
         vars.stream_manager.message_room(lecture_id,{'cmd': "newBunny", 'payload': safe_bunny});
         #document Document.get_by_id(int(document_id))
@@ -58,6 +60,7 @@ class update_bunny(AuthHandler):
         bunny.put()
         
         safe_bunny = bunny.to_dict()
+        safe_bunny['id'] = bunny.key.id();
         safe_bunny['timestamp'] = str(safe_bunny['timestamp'])
         vars.stream_manager.message_room(bunny.lecture_id,{'cmd': "updateBunny", 'payload': safe_bunny});
 

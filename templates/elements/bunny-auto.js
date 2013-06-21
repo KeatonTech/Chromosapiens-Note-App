@@ -1,4 +1,4 @@
-function suggest(data,query,excludes){
+function suggest(data,query,excludes,excludeID){
     // Only run this when the user has just finished writing a new word
     if(query[query.length-1] != " ")return;
     
@@ -33,9 +33,11 @@ function suggest(data,query,excludes){
     
     // Run the query, pull out matches
     for(id in data){
+        console.log(id + " == " + excludeID);
+        if(id==excludeID)continue;
         var oNote = data[id];
         console.log(oNote);
-        var matches = (oNote.head+" "+oNote.body+" ").match(rgx);
+        var matches = (oNote.title+" "+oNote.note+" ").match(rgx);
         
         // This sneaky algorithm uses average word length to help determine relevance
         var averageWordLength = 0;

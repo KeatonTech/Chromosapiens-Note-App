@@ -12,10 +12,10 @@ class streamer:
     rooms = {}
 
     def connect_to_room(self, roomID, userID):
-        streamName = channel.create_channel(roomID + "" + userID)
+        streamName = channel.create_channel(roomID + "-" + userID)
         ns = Stream(lecture_id=roomID,
                     expires=datetime.datetime.now()+datetime.timedelta(seconds=720),
-                    streamToken=roomID+":"+userID,
+                    streamToken=roomID+"-"+userID,
                     streamSecret=streamName)
         ns.put()
         print "Added stream " + str(ns.streamToken) + " to room " + roomID
@@ -24,10 +24,10 @@ class streamer:
     def message_room(self, roomID, message):
         rstreams = Stream.query(Stream.lecture_id == roomID)
         json_message = json.dumps(message)
-        print "BROADCAST: " + json_message
         for stream in rstreams:
             channel.send_message(stream.streamToken, json_message)
             if stream.expires < datetime.datetime.now():
+                print "REMOVING STREAM"
                 stream.key.delete()
 
     def send_user(self, roomID, userObject):

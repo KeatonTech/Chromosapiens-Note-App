@@ -57,10 +57,11 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	}
 	
 	// Add a bunny from data
-	this.addBunny = function(ulList,bunnyObject){
+	this.addBunny = function(ulList,bunnyObject,shouldAnimate){
 		if(bunnyObject===undefined)return;
-		edit.addBunnyInternal(ulList,'<li id="bunny-'+bunnyObject.id+'" bunny-id="'+bunnyObject.id+'"\
-		class="bunny '+((bunnyObject.creator_id==userID)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
+        if(shouldAnimate===undefined)shouldAnimate=true;
+		edit.addBunnyInternal(ulList,'<li bunny-id="'+bunnyObject.id+'"\ class="bunny-'+bunnyObject.id+' bunny \
+        '+((bunnyObject.creator_id==userID)?'mine':'other')+'" '+((shouldAnimate)?'style="-webkit-animation: add 300ms;':'')+'" static="true">\
 		'+((bunnyObject.title)?'<p class="ti head">'+bunnyObject.title+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
 		<p class="ti ct">'+bunnyObject.note+'</p>\
 		<div class="close">X</div></li>',false);
@@ -81,8 +82,9 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	
 	// Add multiple bunnies to a list
 	this.setBunniesInternal = function(ulList,bunnies){
+        $(ulList).html("");
 		for(bid in bunnies){
-			edit.addBunny(ulList,bunnies[bid]);	
+			edit.addBunny(ulList,bunnies[bid],false);	
 		}
 	}
 	
@@ -121,10 +123,15 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	
 	// Update the text of a bunny, if it exists
 	this.updateBunny = function(bunnyObject){
-		var elem = $("#bunny-"+bunnyObject.id);
+		var elem = $(".bunny-"+bunnyObject.id);
 		if(elem.length==0)return;
-		$("#bunny-"+bunnyObject.id+" .head").html(bunnyObject.head);
-		$("#bunny-"+bunnyObject.id+" .ct").html(bunnyObject.body);
+        $(".bunny-"+bunnyObject.id+" p").removeClass("ph");
+		$(".bunny-"+bunnyObject.id+" .head").html(bunnyObject.title);
+		$(".bunny-"+bunnyObject.id+" .ct").html(bunnyObject.note);
+        if(bunnyObject.title == "" || bunnyObject.title == "Empty")
+            $(".bunny-"+bunnyObject.id+" .head").addClass("ph");
+        if(bunnyObject.note == "" || bunnyObject.note == "Empty")
+            $(".bunny-"+bunnyObject.id+" .ct").addClass("ph");
 	}
 	
 	// Helper function gets data from a DOM object
@@ -146,7 +153,11 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 		}
 		
 		// jQuery UI Drag-n-Drop setup
-		$( "#myBunnies" ).sortable({
+        $( ".bunnyList" ).sortable({
+			connectWith: ".bunnyList",
+			dropOnEmpty: true,
+		});
+		$( this.main ).sortable({
 			dropOnEmpty: true,
 			distance: 15,
 			
@@ -173,11 +184,7 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 				}
 			}
 		});
-		$( "#otherBunnies" ).sortable({
-			connectWith: "#myBunnies",
-			dropOnEmpty: true,
-		});
-		$( "#myBunnies,#otherBunnies" ).disableSelection();
+		$( ".bunnyList" ).disableSelection();
 		 
 		// Setup basic event handlers
 		$( "body" ).on("dblclick","p.ti",this.startEdit);

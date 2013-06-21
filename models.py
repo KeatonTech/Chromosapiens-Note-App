@@ -46,7 +46,7 @@ class Lecture(ndb.Model):
 
 class Bunny(ndb.Model):
     lecture_id = ndb.StringProperty(required=True)
-    document_id = ndb.StringListProperty(required=True)
+    document_id = ndb.StringProperty(required=True)
     creator_id = ndb.StringProperty(required=True)
     title = ndb.StringProperty()
     rating = ndb.IntegerProperty(default=0)
