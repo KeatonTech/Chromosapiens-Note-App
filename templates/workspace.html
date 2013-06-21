@@ -5,19 +5,34 @@
     <script type="application/javascript">
         var ts = new Date().getTime();
         var myCreator = 1;
-        var bunnies = [
-            {id: 1, creator:1, timestamp: ts-10000, head: "My cool note", body: "I am a super cool dude and I write super cool notes"},
-            {id: 2, creator:1, timestamp: ts-12000, body: "This note has not been endowed with a header. It's a lonely note."},
-            {id: 3, creator:1, timestamp: ts-1300,  head: "Javascript Everywhere!", body: "It's an explosion of semicolonic goodness."},
-            {id: 4, creator:2, timestamp: ts-1000,  head: "Also Python!", body: "Nobody ever cares about Python but it's important!"},
-            {id: 5, creator:1, timestamp: ts-22000, head: "Old.", body: "Short."}
-        ];
+        var bunnies = {
+                1: {id:1, creator:1, timestamp: ts-10000, head: "My cool note", body: "I am a super cool dude and I write super cool notes"},
+                2: {id:2, creator:1, timestamp: ts-12000, body: "This note has not been endowed with a header. It's a lonely note."},
+                3: {id:3, creator:1, timestamp: ts-1300,  head: "Javascript Everywhere!", body: "It's an explosion of semicolonic goodness."},
+                4: {id:4, creator:2, timestamp: ts-1000,  head: "Also Python!", body: "Nobody ever cares about Python but it's important!"},
+                5: {id:5, creator:1, timestamp: ts-22000, head: "Old.", body: "Short."}
+            };
         
         var edit;
         $(function() {
             edit = new editor(bunnies,"#myBunnies","#otherBunnies");
             edit.start();
         });
+
+        $("body").on("edited",".bunny",function(e){
+            alert(edit.dataFromDOMBunny(this));
+            var bunnyData = edit.dataFromDOMBunny(this);
+            $.post('/api/update_bunny?note='+bunnyData.body+'&bunny_id='+bunnyData.id, function(data) {
+                console.log(data);
+            });
+        });
+
+        // PUBLISHED EVENTS
+        //   edited: Runs when the content of a bunny changes
+        //    added: Runs when a new bunny is added to either list
+        //  created: Runs when a new bunny is created in either list
+        //  removed: Runs when a bunny is deleted
+        //   pulled: Runs when another user's bunny is dragged in
     </script>
     <link rel="stylesheet" href="bunny-editor.css"/>
     <div class="row-fluid">
