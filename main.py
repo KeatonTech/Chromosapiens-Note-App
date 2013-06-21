@@ -118,6 +118,7 @@ routes = [
     ('/api/add_bunny', api.add_bunny),
     ('/api/getbunnies', api.get_bunnies),
     ('/api/update_bunny', api.update_bunny),
+    ('/api/delete_bunny', api.delete_bunny),
     ('/api/google_login_link', GoogleLoginLink),
     ('/api/disconnect', api.disconnect),
 ]

@@ -60,6 +60,8 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	this.addBunny = function(ulList,bunnyObject,shouldAnimate){
 		if(bunnyObject===undefined)return;
         if(shouldAnimate===undefined)shouldAnimate=true;
+        if($(ulList).has(".bunny-"+bunnyObject.id).length!=0)return;
+        
 		edit.addBunnyInternal(ulList,'<li bunny-id="'+bunnyObject.id+'"\ class="bunny-'+bunnyObject.id+' bunny \
         '+((bunnyObject.creator_id==userID)?'mine':'other')+'" '+((shouldAnimate)?'style="-webkit-animation: add 300ms;':'')+'" static="true">\
 		'+((bunnyObject.title)?'<p class="ti head">'+bunnyObject.title+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
@@ -153,7 +155,7 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 		}
 		
 		// jQuery UI Drag-n-Drop setup
-        $( ".bunnyList" ).sortable({
+        $( ".sidebarBunnies" ).sortable({
 			connectWith: ".bunnyList",
 			dropOnEmpty: true,
 		});

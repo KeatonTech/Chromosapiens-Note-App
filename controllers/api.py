@@ -1,5 +1,6 @@
 from models import Bunny, Stream
 from google.appengine.api import users
+from google.appengine.ext import db
 import json
 import vars
 from auth import AuthHandler
@@ -67,8 +68,9 @@ class update_bunny(AuthHandler):
 class delete_bunny(AuthHandler):
     def post(self):
         bunny_id = self.request.get("bunny_id")
-        bunny = Bunny.query(Bunny.id == bunny_id)
-        bunny.delete()
+        bunny = Bunny.get_by_id(int(bunny_id))
+        #db.delete(bunny)
+        bunny.key.delete()
 
 class link_bunny(AuthHandler):
     def post(self):

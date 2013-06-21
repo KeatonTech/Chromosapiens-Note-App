@@ -33,10 +33,8 @@ function suggest(data,query,excludes,excludeID){
     
     // Run the query, pull out matches
     for(id in data){
-        console.log(id + " == " + excludeID);
         if(id==excludeID)continue;
         var oNote = data[id];
-        console.log(oNote);
         var matches = (oNote.title+" "+oNote.note+" ").match(rgx);
         
         // This sneaky algorithm uses average word length to help determine relevance

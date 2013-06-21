@@ -8,6 +8,8 @@ h1, h2, h3, h4, .btn-large, .navbar {
     font-weight: 100;
 }
 
+.btn-large {margin-bottom: 30px;}
+
 #sidebar h3, #main h1 {
     text-align: center;
 }
