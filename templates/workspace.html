@@ -61,42 +61,51 @@
     console.log(identifiers);
 </script>
 <script type="application/javascript">
-        var ts = new Date().getTime();
-        var myCreator = 1;
-        var bunnies = {};
-        var edit;
-        $.getJSON("/api/getbunnies?document_id="+identifiers.document, function(data) {
-                        console.log(data);
-                        var count = 0;
-                        for (each in data) {
-                            var bunny = {
-                                id: each,
-                                body: data[each].note
-                            }
-                            bunnies[each] = bunny;
-                        }
-                        console.log(window.bunnies);
-                        
-                        $(function() {
-                            edit = new editor(bunnies,"#myBunnies","#otherBunnies");
-                            edit.start();
-                        });
-                    });
+	var channel = new goog.appengine.Channel('{{streamToken}}');
+	var socket = channel.open();
+	socket.onopen = function(){
+		console.log("Connection opened");
+	};
+	socket.onmessage = function(message){
+		console.log(message);
+	};
 
-        $("body").on("edited",".bunny",function(e){
-            alert(edit.dataFromDOMBunny(this));
-            var bunnyData = edit.dataFromDOMBunny(this);
-            $.post('/api/update_bunny?note='+bunnyData.body+'&bunny_id='+bunnyData.id, function(data) {
-                console.log("EDITTED");
-            });
-        });
+	var ts = new Date().getTime();
+	var myCreator = 1;
+	var bunnies = {};
+	var edit;
+	$.getJSON("/api/getbunnies?document_id="+identifiers.document, function(data) {
+					console.log(data);
+					var count = 0;
+					for (each in data) {
+						var bunny = {
+							id: each,
+							body: data[each].note
+						}
+						bunnies[each] = bunny;
+					}
+					console.log(window.bunnies);
+					
+					$(function() {
+						edit = new editor(bunnies,"#myBunnies","#otherBunnies");
+						edit.start();
+					});
+				});
 
-        // PUBLISHED EVENTS
-        //   edited: Runs when the content of a bunny changes
-        //    added: Runs when a new bunny is added to either list
-        //  created: Runs when a new bunny is created in either list
-        //  removed: Runs when a bunny is deleted
-        //   pulled: Runs when another user's bunny is dragged in
+	$("body").on("edited",".bunny",function(e){
+		alert(edit.dataFromDOMBunny(this));
+		var bunnyData = edit.dataFromDOMBunny(this);
+		$.post('/api/update_bunny?note='+bunnyData.body+'&bunny_id='+bunnyData.id, function(data) {
+			console.log("EDITTED");
+		});
+	});
+
+	// PUBLISHED EVENTS
+	//   edited: Runs when the content of a bunny changes
+	//    added: Runs when a new bunny is added to either list
+	//  created: Runs when a new bunny is created in either list
+	//  removed: Runs when a bunny is deleted
+	//   pulled: Runs when another user's bunny is dragged in
 </script>
 <link rel="import" href="bunny-list.html">
 
