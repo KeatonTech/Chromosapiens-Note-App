@@ -6,7 +6,7 @@
 // -- Keaton
 
 // PUBLISHED EVENTS
-//   edited: Runs when the content of a bunny changes
+//  updated: Runs when the content of a bunny changes
 //    added: Runs when a new bunny is added to either list
 //  created: Runs when a new bunny is created in either list
 //  removed: Runs when a bunny is deleted
@@ -14,6 +14,7 @@
 
 function editor(bunnies, mainUL, suggestUL, myCreator){
 	var edit = this;
+    var userID = myCreator;
 	
 	// EDITING UI METHODS
 	
@@ -38,7 +39,7 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 		if($(taObject).val()==""||$(taObject).val()==" "){$(taObject).val("Double-click to edit");$(taObject).addClass("ph");}
 		var pObject = $("<p class='"+$(taObject).attr("class")+"'>"+$(taObject).val()+"</p>");
 		$( taObject ).replaceWith(pObject);
-		$( pObject ).parent().trigger("edited");
+		$( pObject ).parent().trigger("updated");
 	}
 	
 	// BUNNY MANAGEMENT
@@ -59,7 +60,7 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	this.addBunny = function(ulList,bunnyObject){
 		if(bunnyObject===undefined)return;
 		edit.addBunnyInternal(ulList,'<li id="bunny-'+bunnyObject.id+'" bunny-id="'+bunnyObject.id+'"\
-		class="span12 bunny '+((bunnyObject.creator==myCreator)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
+		class="span12 bunny '+((bunnyObject.creator_id==myCreator)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
 		'+((bunnyObject.head)?'<p class="ti head">'+bunnyObject.head+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
 		<p class="ti ct">'+bunnyObject.body+'</p>\
 		<div class="close">X</div></li>',false);
@@ -68,11 +69,16 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	
 	// Add a new blank bunny
 	this.newBunny = function(ulList){
+        var bid = Math.floor(Math.random()*1E16);
         if(ulList === undefined || ulList.target !== undefined)ulList = $(this.main);
-		edit.addBunnyInternal(ulList,'<li class="span12 bunny mine" style="-webkit-animation: add 300ms;">\
+		edit.addBunnyInternal(ulList,'<li id="bunny-'+bid+'" bunny-id="'+bid+'" class="span12 bunny mine" style="-webkit-animation: add 300ms;">\
 		<p class="ti head ph">Double click to add title</p><p class="ti ct ph">Edit content</p>\
 		<div class="close">X</div></li>',true);
-		setTimeout(function(){$(ulList).children().last().trigger("created");},10);
+        
+        var nbunny = {id: bid, creator_id: userID, title: "", note: "", rating: 1};
+        edit.data[bid] = nbunny;
+        setTimeout(function(){$(ulList).children().last().trigger("created");},10);
+        return nbunny;
 	}
 	
 	// Add multiple bunnies to a list
@@ -127,8 +133,8 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	this.dataFromDOMBunny = function(domBunny){
 		var bunnyData = this.data[$(domBunny).attr("bunny-id")];
 		if(!bunnyData)return;
-		bunnyData.head = $(domBunny).children(".head").html();
-		bunnyData.body = $(domBunny).children(".ct").html();
+		bunnyData.title = $(domBunny).children(".head").html();
+		bunnyData.note = $(domBunny).children(".ct").html();
 		return bunnyData;
 	}
 	

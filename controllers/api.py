@@ -55,8 +55,10 @@ class update_bunny(AuthHandler):
         bunny.note = note
         bunny.title = title
         bunny.put()
+        
+        safe_bunny = bunny.to_dict()
+        safe_bunny['timestamp'] = str(safe_bunny['timestamp'])
         vars.stream_manager.message_room(bunny.lecture_id,{'cmd': "updateBunny", 'payload': safe_bunny});
-
 
 class disconnect(webapp2.RequestHandler):
     def post(self):
