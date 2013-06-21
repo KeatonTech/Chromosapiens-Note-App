@@ -61,8 +61,8 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 		if(bunnyObject===undefined)return;
 		edit.addBunnyInternal(ulList,'<li id="bunny-'+bunnyObject.id+'" bunny-id="'+bunnyObject.id+'"\
 		class="bunny '+((bunnyObject.creator_id==userID)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
-		'+((bunnyObject.head)?'<p class="ti head">'+bunnyObject.head+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
-		<p class="ti ct">'+bunnyObject.body+'</p>\
+		'+((bunnyObject.title)?'<p class="ti head">'+bunnyObject.title+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
+		<p class="ti ct">'+bunnyObject.note+'</p>\
 		<div class="close">X</div></li>',false);
 		$(ulList).children().last().trigger("added");
 	}

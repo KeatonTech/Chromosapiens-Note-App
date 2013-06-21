@@ -34,7 +34,7 @@ class add_bunny(AuthHandler):
         # Send Bunny to Database
         bunny = Bunny(lecture_id=lecture_id,
                       creator_id=creator_id,
-                      document_id=document_id,
+                      document_id=[document_id],
                       note=note,
                       title=title)
         bunny.put()
@@ -67,6 +67,12 @@ class delete_bunny(AuthHandler):
         bunny = Bunny.query(Bunny.id == bunny_id)
         bunny.delete()
 
+class link_bunny(AuthHandler):
+    def post(self):
+        bunny_id = self.request.get("bunny_id")
+        bunny = Bunny.query(Bunny.id == bunny_id)
+        
+        
 class disconnect(webapp2.RequestHandler):
     def post(self):
         stream_token = self.request.get("stream_token")

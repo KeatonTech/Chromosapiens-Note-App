@@ -85,12 +85,7 @@
             console.log(data);
             var count = 0;
             for (each in data) {
-                var bunny = {
-                    id: each,
-                    body: data[each].note,
-                    head: data[each].title
-                };
-                main.bunnies[each] = bunny;
+                main.bunnies[each] = data[each];
             }
             console.log(window.bunnies);
 
@@ -130,6 +125,12 @@
             });
         });
 
+        var excludedWords = [];
+        $.get("/bunny-common_words.txt",function(text){
+            excludedWords = text.split("\n"); 
+            console.log("Loaded "+excludedWords.length+" excluded words");
+        });
+        
         $("body").on("updated", ".bunny", function (e, obj) {
             console.log("Edited");
             var bunnyData = edit.dataFromDOMBunny(e.target);
@@ -149,7 +150,7 @@
         });
         
         $("body").on("keydown","textarea",function(e){
-            var suggestions = suggest(main.bunnies,e.target.value,[]);
+            var suggestions = suggest(main.bunnies,e.target.value,excludedWords,$(e.target).attr("bunny-id"));
             console.log(suggestions);
         });
 
