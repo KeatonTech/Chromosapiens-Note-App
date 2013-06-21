@@ -14,13 +14,13 @@
                             {% include 'Bunny.svg' %}
                         </div>
                     </h1>
-                    
+
                 </a>
             </div>
             <div class="text-center hidden-desktop">
                 <h3><a id="logo" href="/dashboard"><img style="float:right; margin-left: 10px;" src="Bunny_4.png">Notorious
                     <h5 style="font-size: 11px; margin-top: -3px">Hop on your notes.</h5></a></h3>
-                
+
             </div>
             <div class="accordion" id="accordion2">
                 <div class="accordion-group">
@@ -39,11 +39,11 @@
                             <ul>
                                 {% for notebook in notebooks %}
                                     <div id="color-master">
-                                        <a  href="notebooks/?lecture_id={{ notebook.lecture_id }}" class="notebooks"
-                                            style="color: #{{ notebook.color }};">{{ notebook.title }}</a> <a
+                                        <a href="notebooks/?lecture_id={{ notebook.lecture_id }}" class="notebooks"
+                                           style="color: #{{ notebook.color }};">{{ notebook.title }}</a> <a
                                             href="/notebooks/rm?notebook-id={{ notebook.key.id()}}">
                                         <small>[delete]</small>
-                                        </a><br>
+                                    </a><br>
                                         <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=D3D3D3">
                                             <div class="color-box" style="background-color:#D3D3D3;"></div>
                                         </a>
@@ -53,7 +53,7 @@
                                         <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=85C8FD">
                                             <div class="color-box" style="background-color:#85C8FD;"></div>
                                         </a><br>
-                                        <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=332E16">
+                                        <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=332E16">
                                             <div class="color-box" style="background-color:#332E16;"></div>
                                         </a>
                                         <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=DA3B47">
@@ -88,12 +88,11 @@
         <div class="span1 hidden-phone"></div>
         <div class="span7 hidden-phone">
             <div id="lecture-boxes">
-                <form id="join-lecture">
+                <form id="join-lecture" action="/lectures/join" method="post">
                     <div class="input-append">
-                        <input class="span2" id="appendedInputButtons" type="text" name="lecture_id"
-                               id="lecture_id"
-                               placeholder="Enter a lecture code">
-                        <button class="btn" type="submit">Join Lecture</button>
+                        <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
+                               placeholder="Lecture Code">
+                        <button class="btn" type="submit">Join</button>
                     </div>
                 </form>
                 <span id="message"></span>

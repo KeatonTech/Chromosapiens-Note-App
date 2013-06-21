@@ -99,11 +99,12 @@ class join_lecture(AuthHandler):
                 template_vals['notebook_name'] = lecture_id + 'Notes'
 
                 # self.response.write(json.dumps(template_vals))
-                vars.render(self, template_vals, 'workspace.html')
+
             else:
                 template_vals['message'] = "Lecture already added."
 
-        self.response.write(template_vals)
+        vars.render(self, template_vals, 'workspace.html')
+        # self.response.write(template_vals)
 
 
 class new_lecture(AuthHandler):
