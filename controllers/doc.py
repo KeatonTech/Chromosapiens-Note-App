@@ -74,20 +74,25 @@ class join_lecture(AuthHandler):
     def post(self):
         lecture_id = self.request.get("lecture_id")
         lecture = Lecture.get_by_id(lecture_id)
+        print lecture.name
         template_vals = {'message': "Lecture invalid."}
         if lecture:
             google_id = users.get_current_user().user_id()
 
-            notebooks = Notebook.query(Notebook.lecture_id == lecture_id)
+            notebook = Notebook.query(Notebook.lecture_id == lecture_id, Notebook.user_id == google_id).get()
 
-            if notebooks.count == 0:
+            if not notebook:
+
+                print "In if statement"
 
                 notebook = Notebook(title=lecture_id + ' Notes', lecture_id=lecture_id, user_id=google_id)
-                future_notebook = notebook.put_async()
+                # future_notebook = notebook.put_async()
+                notebook.put()
 
-                document = Document(lecture_id=lecture_id, notebook_id=str(future_notebook.get_result().id()),
+                document = Document(lecture_id=lecture_id, notebook_id=str(notebook.key.id()),
                                     user_id=google_id)
-                future_document = document.put_async()
+                # future_document = document.put_async()
+                document.put()
 
                 user = User.get_user(google_id)
                 # if lecture_id not in user.lecture_ids:
@@ -95,7 +100,8 @@ class join_lecture(AuthHandler):
                 user.put()
 
                 template_vals['lecture_id'] = lecture.key.id()
-                template_vals['document_id'] = future_document.get_result().id()
+                # template_vals['document_id'] = future_document.get_result().id()
+                template_vals['document_id'] = document.key.id()
                 template_vals['notebook_name'] = lecture_id + 'Notes'
 
                 # self.response.write(json.dumps(template_vals))
