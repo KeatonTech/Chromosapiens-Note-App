@@ -1,6 +1,8 @@
 import random
 from models import *
 from google.appengine.api import channel
+from google.appengine.ext import db
+import datetime
 import json
 
 # Basically just abstracts everything to be room-based, instead of Channel based
@@ -8,18 +10,22 @@ import json
 class streamer:
     rooms = {}
     def connect_to_room(self, roomID, userID):
-        if not roomID in self.rooms:
-            self.rooms[roomID] = {}
-        self.rooms[roomID][userID] = connection(roomID,userID)
-        return self.rooms[roomID][userID].secretToken
+        streamName = channel.create_channel(roomID+":"+userID)
+        ns = Stream(lecture_id=roomID,
+                    expires=datetime.datetime.now()+datetime.timedelta(seconds=720),
+                    streamToken=roomID+":"+userID)
+        ns.put()
+        print "Added stream "+ns.streamToken+" to room "+roomID
+        return streamName
 	
     def message_room(self, roomID, message):
-        print "Broadcasting: "+json.dumps(message)
-        if not roomID in self.rooms:
-            return False
-        for userKey in self.rooms[roomID]:
-            self.rooms[roomID][userKey].send_message(json.dumps(message))
-        return True
+        rstreams = Stream.query(Stream.lecture_id == roomID)
+        json_message = json.dumps(message)
+        print "BROADCAST: "+json_message
+        for stream in rstreams:
+            channel.send_message(stream.streamToken,json_message)
+            if(stream.expires < datetime.datetime.now()):
+                stream.key.delete()
 	
     def send_user(self, roomID, userObject):
         self.message_room(roomID,{"cmd": "newUser", "payload": userObject.nickname()})
@@ -42,9 +48,8 @@ class connection:
     channelID = ""
 
     def __init__(self, roomID, userID):
-        # Channel ID includes a random component for some added security, just in case
-        self.channelID = roomID+":"+userID+":"+str(random.randint(100000,999999))
+        self.channelID = roomID+":"+userID
         self.secretToken = channel.create_channel(self.channelID)
 
     def send_message(self, message):
-        channel.send_message(self.channelID,message)
+        channel.send_message(self.secretToken,message)
