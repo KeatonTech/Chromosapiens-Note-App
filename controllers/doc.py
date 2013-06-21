@@ -90,9 +90,9 @@ class join_lecture(AuthHandler):
                 future_document = document.put_async()
 
                 user = User.get_user(google_id)
-                if lecture_id not in user.lecture_ids:
-                    user.lecture_ids.append(lecture_id)
-                    user.put()
+                # if lecture_id not in user.lecture_ids:
+                user.lecture_ids.append(lecture_id)
+                user.put()
 
                 template_vals['lecture_id'] = lecture.key.id()
                 template_vals['document_id'] = future_document.get_result().id()
