@@ -189,7 +189,7 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 		$( ".bunnyList" ).disableSelection();
 		 
 		// Setup basic event handlers
-		$( "body" ).on("dblclick","p.ti",this.startEdit);
+		$( "body" ).on("click","p.ti",this.startEdit);
 		$( "body" ).on("change blur focusout","textarea.ti,input.ti",this.finishEdit);
 		 
 		// Setup tab handlers

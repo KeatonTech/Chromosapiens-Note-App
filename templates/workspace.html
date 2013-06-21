@@ -2,7 +2,7 @@
 {% block content %}
     <link rel="stylesheet" href="bunny-editor.css"/>
     <div class="row">
-        <aside class="span4 hidden-phone">
+        <aside class="span4">
             <div class="text-center visible-desktop">
                 <a id="logo" href="/dashboard">
                     <h1>
@@ -45,7 +45,7 @@
                             <h3>Related Notes</h3>
                         </a>
                     </div>
-                    <div id="collapseTwo" class="accordion-body collapse">
+                    <div id="collapseTwo" class="accordion-body in collapse">
                         <div class="accordion-inner">
                             <ul id="relatedBunnies" class="sidebarBunnies bunnyList">
                             
@@ -59,7 +59,6 @@
             <div class="row-fluid">
                 <div id="content" class="span12">
                     <h3>Lecture: {{ lecture_id }}</h3>
-                    <p><em>[insert num] participants online</em></p>
 
                     <ul id="myBunnies" class="bunnyList"></ul>
                 </div>
