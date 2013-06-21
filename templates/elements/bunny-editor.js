@@ -69,14 +69,12 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	
 	// Add a new blank bunny
 	this.newBunny = function(ulList){
-        var bid = Math.floor(Math.random()*1E16);
         if(ulList === undefined || ulList.target !== undefined)ulList = $(this.main);
-		edit.addBunnyInternal(ulList,'<li id="bunny-'+bid+'" bunny-id="'+bid+'" class="span12 bunny mine" style="-webkit-animation: add 300ms;">\
+		edit.addBunnyInternal(ulList,'<li class="span12 bunny mine" style="-webkit-animation: add 300ms;">\
 		<p class="ti head ph">Double click to add title</p><p class="ti ct ph">Edit content</p>\
 		<div class="close">X</div></li>',true);
         
-        var nbunny = {id: bid, creator_id: userID, title: "", note: "", rating: 1};
-        edit.data[bid] = nbunny;
+        var nbunny = {creator_id: userID, title: "", note: "", rating: 1};
         setTimeout(function(){$(ulList).children().last().trigger("created");},10);
         return nbunny;
 	}

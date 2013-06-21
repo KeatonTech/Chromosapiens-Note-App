@@ -38,6 +38,7 @@ class add_bunny(AuthHandler):
                       note=note,
                       title=title)
         bunny.put()
+        self.response.write(bunny.key.id());
         safe_bunny = bunny.to_dict()
         safe_bunny['timestamp'] = str(safe_bunny['timestamp'])
         vars.stream_manager.message_room(lecture_id,{'cmd': "newBunny", 'payload': safe_bunny});
