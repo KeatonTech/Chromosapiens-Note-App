@@ -3,7 +3,7 @@ from time import sleep
 import webapp2
 from google.appengine.api import users
 
-from auth import AuthHandler, GoogleLoginLink, RegisterHandler
+from auth import AuthHandler, GoogleLoginLink, RegisterHandler, LogoutHandler
 
 from vars import render
 from controllers import api, doc
@@ -18,7 +18,7 @@ class MainHandler(webapp2.RequestHandler):
             user = User.get_user(google_id=google_id)
             if user:
                 self.redirect('/dashboard')
-        render(self, {}, 'index.html')
+        render(self, {'logged_off': 'true'}, 'index.html')
 
 
 class NotebookHandler(AuthHandler):
@@ -110,6 +110,7 @@ routes = [
     ('/notebooks/rm', doc.delete_notebook),
     ('/notebooks/color', doc.change_notebook_color),
     ('/register', RegisterHandler),
+    ('/logout', LogoutHandler),
 
     # API Methods (AJAXylicious)
     ('/api/add_bunny', api.add_bunny),
