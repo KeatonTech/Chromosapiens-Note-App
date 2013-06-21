@@ -60,16 +60,12 @@ class update_bunny(AuthHandler):
         safe_bunny['timestamp'] = str(safe_bunny['timestamp'])
         vars.stream_manager.message_room(bunny.lecture_id,{'cmd': "updateBunny", 'payload': safe_bunny});
 
-<<<<<<< HEAD
 class delete_bunny(AuthHandler):
     def post(self):
         bunny_id = self.request.get("bunny_id")
         bunny = Bunny.query(Bunny.id == bunny_id)
         bunny.delete()
 
-
-=======
->>>>>>> f236aeed7fb913a249ff4a5b6cd6f95370923ac0
 class disconnect(webapp2.RequestHandler):
     def post(self):
         stream_token = self.request.get("stream_token")

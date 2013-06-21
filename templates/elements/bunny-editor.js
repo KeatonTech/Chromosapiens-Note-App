@@ -60,7 +60,7 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	this.addBunny = function(ulList,bunnyObject){
 		if(bunnyObject===undefined)return;
 		edit.addBunnyInternal(ulList,'<li id="bunny-'+bunnyObject.id+'" bunny-id="'+bunnyObject.id+'"\
-		class="span12 bunny '+((bunnyObject.creator_id==myCreator)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
+		class="bunny '+((bunnyObject.creator_id==myCreator)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
 		'+((bunnyObject.head)?'<p class="ti head">'+bunnyObject.head+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
 		<p class="ti ct">'+bunnyObject.body+'</p>\
 		<div class="close">X</div></li>',false);
@@ -71,7 +71,7 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	this.newBunny = function(ulList){
         var bid = Math.floor(Math.random()*1E16);
         if(ulList === undefined || ulList.target !== undefined)ulList = $(this.main);
-		edit.addBunnyInternal(ulList,'<li id="bunny-'+bid+'" bunny-id="'+bid+'" class="span12 bunny mine" style="-webkit-animation: add 300ms;">\
+		edit.addBunnyInternal(ulList,'<li id="bunny-'+bid+'" bunny-id="'+bid+'" class="bunny mine" style="-webkit-animation: add 300ms;">\
 		<p class="ti head ph">Double click to add title</p><p class="ti ct ph">Edit content</p>\
 		<div class="close">X</div></li>',true);
         
