@@ -1,5 +1,4 @@
-import webapp2
-from models import Bunny
+from models import Bunny, Stream
 from google.appengine.api import users
 import json
 import vars
@@ -38,7 +37,6 @@ class add_bunny(AuthHandler):
                       note=note,
                       title=title)
         bunny.put()
-		
         safe_bunny = bunny.to_dict()
         safe_bunny['timestamp'] = str(safe_bunny['timestamp'])
         vars.stream_manager.message_room(lecture_id,{'cmd': "newBunny", 'payload': safe_bunny});
@@ -56,4 +54,11 @@ class update_bunny(AuthHandler):
         bunny.note = note
         bunny.title = title
         bunny.put()
-        vars.stream_manager.send_bunny_update(lecture_id,bunny);
+        vars.stream_manager.send_bunny_update(lecture_id,bunny)
+
+
+class disconnect(AuthHandler):
+    def post(self):
+        stream_token = self.request.get("streamToken")
+        stream = Stream.query(Stream.streamToken == stream_token).get()
+        stream.key.delete()
