@@ -23,10 +23,12 @@
          aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myModalLabel">New Notebook</h3>
+            <h3 id="myModalLabel">New Lecture Notebook</h3>
         </div>
         <div class="modal-body">
+            <div style="display:inline-block;padding-right:50px;">
             <h4>Join Existing Lecture</h4>
+            <p style="width:230px;text-align:justify;">If you have been given a Lecture Code to join a Lecture, enter it below to begin collaborating.</p><br>
             <form id="join-lecture">
                 <div class="input-append">
                     <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
@@ -34,7 +36,10 @@
                     <button class="btn" type="submit">Join</button>
                 </div>
             </form>
+            </div>
+            <div style="display:inline-block;">
             <h4>Create New Lecture</h4>
+            <p style="width:230px;text-align:justify;">To create a Lecture for your group to join, enter a Lecture Code below to have a new notebook created.</p><br>
             <form action="/lectures/new" method="post">
                 <div class="input-append">
                     <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
@@ -42,6 +47,7 @@
                     <button class="btn" type="submit">Create</button>
                 </div>
             </form>
+            </div>
         </div>
     </div>
     </form>

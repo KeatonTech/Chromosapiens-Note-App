@@ -19,6 +19,7 @@ function editor(bunnies, mainUL, suggestUL){
 	
 	// Turns a static element into an editable box
 	this.startEdit = function(pObject){
+        if(pObject === undefined)return;
 		if("target" in pObject)pObject=pObject.target;
 		console.log(pObject);
 		if($(pObject).hasClass("ph")){$(pObject).html("");$(pObject).removeClass("ph");}
@@ -31,6 +32,7 @@ function editor(bunnies, mainUL, suggestUL){
 	
 	// Takes an editable box and turns it back into a static element
 	this.finishEdit = function(taObject){
+        if(taObject === undefined)return;
 		if("target" in taObject)taObject=taObject.target;
 		$(taObject).parent().attr("static","true");
 		if($(taObject).val()==""||$(taObject).val()==" "){$(taObject).val("Double-click to edit");$(taObject).addClass("ph");}
@@ -46,7 +48,7 @@ function editor(bunnies, mainUL, suggestUL){
 	
 	// Add a bunny given its HTML representation as text
 	this.addBunnyInternal = function(ulList,nodeText,shouldEdit){
-		if(ulList === undefined)ulList = $("#myBunnies");
+		if(ulList === undefined)ulList = $(this.main);
 		var newNode = $(nodeText);
 		$(ulList).append(newNode);
 		if(shouldEdit)edit.startEdit($(ulList.lastChild).children(".ti")[0]);
@@ -66,10 +68,11 @@ function editor(bunnies, mainUL, suggestUL){
 	
 	// Add a new blank bunny
 	this.newBunny = function(ulList){
+        if(ulList === undefined || ulList.target !== undefined)ulList = $(this.main);
 		edit.addBunnyInternal(ulList,'<li class="span12 bunny mine" style="-webkit-animation: add 300ms;">\
 		<p class="ti head ph">Double click to add title</p><p class="ti ct ph">Edit content</p>\
 		<div class="close">X</div></li>',true);
-		$(ulList).children().last().trigger("created");
+		setTimeout(function(){$(ulList).children().last().trigger("created");},10);
 	}
 	
 	// Add multiple bunnies to a list
