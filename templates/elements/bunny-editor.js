@@ -69,7 +69,7 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	// Add a new blank bunny
 	this.newBunny = function(ulList){
         if(ulList === undefined || ulList.target !== undefined)ulList = $(this.main);
-		edit.addBunnyInternal(ulList,'<li class="span12 bunny mine" style="-webkit-animation: add 300ms;">\
+		edit.addBunnyInternal(ulList,'<li class="bunny mine" style="-webkit-animation: add 300ms;">\
 		<p class="ti head ph">Double click to add title</p><p class="ti ct ph">Edit content</p>\
 		<div class="close">X</div></li>',true);
 		setTimeout(function(){$(ulList).children().last().trigger("created");},10);
