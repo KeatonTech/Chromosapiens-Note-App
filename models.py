@@ -16,6 +16,7 @@ class User(ndb.Model):
 class Stream(ndb.Model):
     lecture_id = ndb.StringProperty()
     streamToken = ndb.StringProperty()
+    streamSecret = ndb.StringProperty()
     expires = ndb.DateTimeProperty()
 
     

@@ -47,7 +47,6 @@
                 <a class="ane" onclick="edit.newBunny()">Add New Element</a>
                 <hr/>
                 <ul id="otherBunnies" class="row bunnyList"></ul>
-
                 <bunny-list></bunny-list>
             </div>
         </section>
@@ -79,7 +78,7 @@
                 type: 'POST',
                 url: '/api/disconnect',
                 async: false,
-                data: {stream_token:"{{streamToken}}"}
+                data: {stream_token: "{{streamToken}}"}
             });
         });
 

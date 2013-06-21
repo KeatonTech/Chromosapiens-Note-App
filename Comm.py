@@ -14,8 +14,9 @@ class streamer:
     def connect_to_room(self, roomID, userID):
         streamName = channel.create_channel(roomID + "" + userID)
         ns = Stream(lecture_id=roomID,
-                    expires=datetime.datetime.now() + datetime.timedelta(seconds=720),
-                    streamToken=roomID + "" + userID)
+                    expires=datetime.datetime.now()+datetime.timedelta(seconds=720),
+                    streamToken=roomID+":"+userID,
+                    streamSecret=streamName)
         ns.put()
         print "Added stream " + str(ns.streamToken) + " to room " + roomID
         return streamName
@@ -31,7 +32,6 @@ class streamer:
 
     def send_user(self, roomID, userObject):
         self.message_room(roomID, {"cmd": "newUser", "payload": userObject.nickname()})
-
 
 # Connection Class handles the actual Channel API stuff
 class connection:

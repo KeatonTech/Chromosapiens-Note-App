@@ -4,12 +4,19 @@ body {
 textarea {
 	width: 100%;
 	resize: none;
-	font-family: "Times New Roman";
 	border: none;
 	margin: 0;
 	overflow: visible;
 }
-ul{padding:0;margin:0;}
+
+textarea .head {
+	background-color: #f7f7f7;
+}
+
+ul{
+	padding:0;
+	margin:0;
+}
 
 .bunny {
 	list-style-type:none;
@@ -21,25 +28,33 @@ ul{padding:0;margin:0;}
 	box-shadow: 0px 1px 0px #ddd;
 	border: 1px solid #ccc;
 	-webkit-transition: opacity 0.1s linear;
+	overflow: hidden;
 }
-.bunny .head {
-	background-color: #f7f7f7;
+
+.bunny .head, textarea .head {
+	background-color: #f0f7ff;
 	font-weight: bold;
 	font-size: 16px;
 	padding: 6px 10px;
 	margin: 0;
 	border-radius: 4px 4px 0px 0px;
 	box-shadow: 0px 1px 1px #e0e0e0, inset 0px 1px 0px white;
+	font-family: 'Roboto Slab';
 }
+
 .bunny .ct {
 	font-size: 12pt;
-	padding: 0px 10px;
+	padding: 10px 10px 7px 10px;
 }
 
-.bunny.other {background-color: #fafbff;}
-.bunny.other .head {background-color: #f0f7ff;	}
+.bunny.other {
+	background-color: #fafbff;
+}
+.bunny.other .head {
+	background-color: #f0f7ff;	
+}
 
-.bunny textarea.head {padding: 6px 10px 0px 10px;height: 30px !important;}
+.bunny textarea.head {padding: 6px 10px 0px 10px background-color: #f0f7ff;height: 30px !important;}
 .bunny textarea.ct {padding: 16px 10px 0px 10px;}
 
 .ph{color: #999;}
