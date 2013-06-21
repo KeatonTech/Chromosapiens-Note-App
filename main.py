@@ -57,8 +57,9 @@ class DashboardHandler(AuthHandler):
         template_vals = dict()
         template_vals['name_of_user'] = users.get_current_user().nickname()
         template_vals['notebooks'] = self.get_notebooks(users.get_current_user().user_id())
-        lectures = User.get_user(users.get_current_user().user_id()).lecture_ids
-        template_vals['lectures'] = lectures
+        user = User.get_user(users.get_current_user().user_id())
+        template_vals['lectures'] = user.lecture_ids
+        template_vals['tutorial'] = user.tutorial
         render(self, template_vals, 'dashboard.html')
 
     def get_notebooks(self, user_id):
@@ -104,6 +105,7 @@ routes = [
 
     # User actions
     ('/documents/add', doc.add_document),
+    ('/rmtutorial', doc.rm_tutorial),
     ('/notebooks/new', doc.add_notebook),
     ('/lectures/join', doc.join_lecture),
     ('/lectures/new', doc.new_lecture),

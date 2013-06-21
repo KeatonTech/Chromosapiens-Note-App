@@ -26,7 +26,14 @@ class delete_notebook(AuthHandler):
         
         self.redirect('/dashboard')
 
-
+class rm_tutorial(AuthHandler):
+    def get(self):
+        google_id = users.get_current_user().user_id()
+        user = User.get_user(google_id)
+        user.tutorial = "no"
+        user.put()
+        self.redirect('/dashboard')
+        
 class add_document(AuthHandler):
     def post(self):
         title = self.request.get("document-title")
