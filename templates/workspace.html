@@ -14,20 +14,13 @@
                     </ul>
                 </div>
             </div>
-        {{ lecture_id }}<br>
-        Documents:<br>
+        <h3>Documents</h3>
+        <ul>
         {% for document in documents %}
-        {{ document.title }}<br>
+        <li>{{ document.title }}</li>
         {% endfor %}
-
-        <div class="block">
-            <a href="#newNotebook" role="button" data-toggle="modal">
-                <div class="notebook" id="addNotebook">
-                    <div id="plus" style="font-size: 400%;">+<br><br>
-                            <h4>New Document</h4></div>
-                    </div>
-                </a>
-            </div>
+        <li><a href="#newNotebook" role="button" data-toggle="modal">Add New Document</a></li>
+        </ul>
             <!-- Modal -->
             <div id="newNotebook" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
@@ -38,7 +31,7 @@
                 <form action="/documents/add" method="post">
                     <div class="modal-body">
                         <div class="input-append">
-                            <input class="span2" id="appendedInputButtons" type="text" name="document-title"
+                            <input id="appendedInputButtons" type="text" name="document-title"
                                    id="document-title" placeholder="Document name">
                             <input type="hidden" id="notebook-id" name="notebook-id" value="{{ notebook_id }}">
                             <input type="hidden" id="lecture_id" name="lecture_id" value="{{ lecture_id }}">
@@ -48,12 +41,9 @@
                 </form>
             </div>
         </aside>
-        {{ lecture_id }}<br>
-        {{ notebook_name }}
-
     
     <section class="span9" id="main">
-        <br>
+        <h3>Lecture: {{ lecture_id }}</h3>
 
         <div id="content">
             <ul id="myBunnies" class="bunnyList"></ul>
