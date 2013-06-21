@@ -23,6 +23,35 @@
 
             </div>
             <div class="accordion" id="accordion2">
+                {% if notebooks|length <= 6 %}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <h3>&nbsp;&nbsp;Get Started
+                        <button type="submit" style="background-color:#eee;border:0px;margin-left:170px;">X</button>
+                        </h3>
+                    </div>
+                    <div id="" class="accordion-body">
+                        <div class="accordion-inner">
+                            <h4>Note-Taking 2.0</h4>
+                            <p style="text-align:justify;"> 
+                                Notorious is an app that allows a group to collaborate to take notes together
+                                within a lecture. You can join or create a lecture by creating a new lecture notebook or 
+                                entering a Lecture Code in the sidebar.</p>
+                            <h4>Collaboration</h4>    
+                            <p style="text-align:justify;"> 
+                                Once in a Lecture, you can open your Lecture Notebook and instantly begin 
+                                taking notes. As you type, you will see notes similar to yours that 
+                                others have typed, and you can attach them to your own notes.</p>
+                            <h4>Organization</h4>
+                            <p style="text-align:justify;">
+                                When your group is done, your document will be saved in a notebook 
+                                created specifically for your lecture, and it will show up on your Dashboard for 
+                                you to revisit.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
                 <div class="accordion-group">
                     <div class="accordion-heading">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"

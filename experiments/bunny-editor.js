@@ -19,6 +19,7 @@ function editor(bunnies, mainUL, suggestUL){
 	
 	// Turns a static element into an editable box
 	this.startEdit = function(pObject){
+        if(pObject===undefined)continue;
 		if("target" in pObject)pObject=pObject.target;
 		console.log(pObject);
 		if($(pObject).hasClass("ph")){$(pObject).html("");$(pObject).removeClass("ph");}

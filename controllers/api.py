@@ -39,7 +39,9 @@ class add_bunny(AuthHandler):
                       title=title)
         bunny.put()
 		
-        vars.stream_manager.send_bunny(lecture_id,bunny);
+        safe_bunny = bunny.to_dict()
+        safe_bunny['timestamp'] = str(safe_bunny['timestamp'])
+        vars.stream_manager.message_room(lecture_id,{'cmd': "newBunny", 'payload': safe_bunny});
         #document Document.get_by_id(int(document_id))
         #document.bunny_ids.append(str(bunny.key.id()))
         #document.put()
