@@ -6,7 +6,8 @@ class User(ndb.Model):
     email = ndb.StringProperty()
     notebook_ids = ndb.StringProperty(repeated=True)
     lecture_ids = ndb.StringProperty(repeated=True)
-
+    tutorial = ndb.StringProperty(default="yes")
+    
     @classmethod
     def get_user(cls, google_id):
         return User.get_by_id(google_id)
