@@ -12,7 +12,7 @@
 //  removed: Runs when a bunny is deleted
 //   pulled: Runs when another user's bunny is dragged in
 
-function editor(bunnies, mainUL, suggestUL){
+function editor(bunnies, mainUL, suggestUL, myCreator){
 	var edit = this;
 	
 	// EDITING UI METHODS
@@ -59,7 +59,7 @@ function editor(bunnies, mainUL, suggestUL){
 	this.addBunny = function(ulList,bunnyObject){
 		if(bunnyObject===undefined)return;
 		edit.addBunnyInternal(ulList,'<li id="bunny-'+bunnyObject.id+'" bunny-id="'+bunnyObject.id+'"\
-		class="span12 bunny '+((bunnyObject.creator==1)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
+		class="span12 bunny '+((bunnyObject.creator==myCreator)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
 		'+((bunnyObject.head)?'<p class="ti head">'+bunnyObject.head+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
 		<p class="ti ct">'+bunnyObject.body+'</p>\
 		<div class="close">X</div></li>',false);
@@ -94,6 +94,12 @@ function editor(bunnies, mainUL, suggestUL){
 		edit.setBunniesInternal(edit.suggest,bunnies);
 	}
 	
+    // Remove a bunny element
+    this.deleteBunnyByID = function(bunnyObjectID){
+        var elem = $("#bunny-"+bunnyObjectID);
+        if(!elem)return;
+        this.deleteBunny(elem);
+    }
 	
 	// Remove a bunny from its list
 	this.deleteBunny = function(element){
