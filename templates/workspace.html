@@ -1,43 +1,46 @@
-{% extends 'application.html' %}
+% extends 'application.html' %}
 {% block content %}
 <link rel="stylesheet" href="bunny-editor.css"/>
-<div class="row">
-    <aside class="span3 hidden-phone" id="sidebar">
-    <h3>Online Users</h3>
-    <ul>
-        <li>User 1</li>
-        <li>User 2</li>
-    </ul>
-    <h3>Documents</h3>
-    <ul>
-    {% for document in documents %}
-    <li>{{ document.title }}</li>
-    {% endfor %}
-    <li><a href="#newNotebook" role="button" data-toggle="modal">Add New Document</a></li>
-    </ul>
-        <!-- Modal -->
-        <div id="newNotebook" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">New Document</h3>
-            </div>
-            <form action="/documents/add" method="post">
-                <div class="modal-body">
-                    <div class="input-append">
-                        <input id="appendedInputButtons" type="text" name="document-title"
-                               id="document-title" placeholder="Document name">
-                        <input type="hidden" id="notebook-id" name="notebook-id" value="{{ notebook_id }}">
-                        <input type="hidden" id="lecture_id" name="lecture_id" value="{{ lecture_id }}">
-                        <button class="btn" type="submit">Add</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </aside>
+    <div class="row">
+        <aside class="span3 hidden-phone" id="sidebar">
+            <br>
+            [Top bunnies here...]
+{#        <h3>Online Users</h3>#}
+{#        <ul>#}
+{#            <li>User 1</li>#}
+{#            <li>User 2</li>#}
+{#        </ul>#}
+{#        <h3>Documents</h3>#}
+{#        <ul>#}
+{#        {% for document in documents %}#}
+{#        <li>{{ document.title }}</li>#}
+{#        {% endfor %}#}
+{#        <li><a href="#newNotebook" role="button" data-toggle="modal">Add New Document</a></li>#}
+{#        </ul>#}
+            <!-- Modal -->
+{#            <div id="newNotebook" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"#}
+{#                 aria-hidden="true">#}
+{#                <div class="modal-header">#}
+{#                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>#}
+{#                    <h3 id="myModalLabel">New Document</h3>#}
+{#                </div>#}
+{#                <form action="/documents/add" method="post">#}
+{#                    <div class="modal-body">#}
+{#                        <div class="input-append">#}
+{#                            <input id="appendedInputButtons" type="text" name="document-title"#}
+{#                                   id="document-title" placeholder="Document name">#}
+{#                            <input type="hidden" id="notebook-id" name="notebook-id" value="{{ notebook_id }}">#}
+{#                            <input type="hidden" id="lecture_id" name="lecture_id" value="{{ lecture_id }}">#}
+{#                            <button class="btn" type="submit">Add</button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+        </aside>
     
     <section class="span9" id="main">
         <h3>Lecture: {{ lecture_id }}</h3>
+        <em>[insert num] participants online</em>
 
         <div id="content">
             <ul id="myBunnies" class="row bunnyList"></ul>
@@ -51,19 +54,18 @@
 </div>
 <!-- Scripts here. Don't remove this ↓ -->
 <script src="polymer.min.js"></script>
-<script type="text/javascript" src="jquery.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-<script src="bunny-editor.js"></script>
+<script src="/bunny-editor.js"></script>
 <script>
     window.identifiers = {
         document: {{document_id}},
         lecture: "{{lecture_id}}"
-    }
+    };
     console.log(identifiers);
 </script>
 <script type="application/javascript">
 	var channel = new goog.appengine.Channel('{{streamToken}}');
+    var streamToken = '{{streamToken}}';
 	var socket = channel.open();
 	socket.onopen = function(){
 		console.log("Connection opened");
@@ -72,6 +74,15 @@
 		console.log(message);
 	};
 
+    window.onbeforeunload = function() {
+        $.ajax({
+          type: 'POST',
+          url: '/api/disconnect?stream_token={{streamToken}}',
+          async: false
+        });
+        return;
+    };
+    
 	var ts = new Date().getTime();
 	var myCreator = 1;
 	var bunnies = {};
@@ -84,11 +95,11 @@
 							id: each,
 							body: data[each].note,
                             head: data[each].title
-						}
+						};
 						bunnies[each] = bunny;
 					}
 					console.log(window.bunnies);
-					
+
 					$(function() {
 						edit = new editor(bunnies,"#myBunnies","#otherBunnies");
 						edit.start();

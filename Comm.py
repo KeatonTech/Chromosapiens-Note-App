@@ -13,7 +13,8 @@ class streamer:
         streamName = channel.create_channel(roomID+":"+userID)
         ns = Stream(lecture_id=roomID,
                     expires=datetime.datetime.now()+datetime.timedelta(seconds=720),
-                    streamToken=roomID+":"+userID)
+                    streamToken=roomID+":"+userID,
+                    streamSecret=streamName)
         ns.put()
         print "Added stream "+ns.streamToken+" to room "+roomID
         return streamName
@@ -26,21 +27,6 @@ class streamer:
             channel.send_message(stream.streamToken,json_message)
             if(stream.expires < datetime.datetime.now()):
                 stream.key.delete()
-	
-    def send_user(self, roomID, userObject):
-        self.message_room(roomID,{"cmd": "newUser", "payload": userObject.nickname()})
-		
-	def logout_user(self, roomID, userID):
-		self.message_room(roomID,{cmd: "deleteUser", id: userID})
-	
-	def send_bunny(self, roomID, bunnyObject):
-		self.message_room(roomID,{cmd: "newBunny", payload: bunnyObject})
-	
-	def send_bunny_update(self, roomID, bunnyObject):
-		self.message_room(roomID,{cmd: "bunnyUpdate", id: bunnyObject.id, payload: bunnyObject})
-	
-	def bunny_death_ray(self, roomID, bunnyID):
-		self.message_room(roomID,{cmd: "deleteBunny", id: bunnyID})
 
 # Connection Class handles the actual Channel API stuff
 class connection:

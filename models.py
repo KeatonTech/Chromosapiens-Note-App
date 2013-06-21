@@ -12,9 +12,11 @@ class User(ndb.Model):
     def get_user(cls, google_id):
         return User.get_by_id(google_id)
 
+
 class Stream(ndb.Model):
     lecture_id = ndb.StringProperty()
     streamToken = ndb.StringProperty()
+    streamSecret = ndb.StringProperty()
     expires = ndb.DateTimeProperty()
 
     
