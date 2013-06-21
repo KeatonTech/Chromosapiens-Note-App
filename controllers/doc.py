@@ -64,7 +64,11 @@ class join_lecture(AuthHandler):
         template_vals['lecture_id'] = lecture_id
         template_vals['documents'] = documents
         template_vals['document_id'] = documents.get().key.id()
-
+		
+		# Token for the streaming API
+        vars.stream_manager.send_user(lecture_id,users.get_current_user())
+        template_vals['streamToken'] = vars.stream_manager.connect_to_room(lecture_id,users.get_current_user().user_id())
+		
         vars.render(self, template_vals, 'workspace.html')
 
     def post(self):

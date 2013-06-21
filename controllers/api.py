@@ -2,6 +2,7 @@ import webapp2
 from models import Bunny
 from google.appengine.api import users
 import json
+import vars
 from auth import AuthHandler
 
 
@@ -35,6 +36,8 @@ class add_bunny(AuthHandler):
                       document_id=document_id,
                       note=note)
         bunny.put()
+		
+        vars.stream_manager.send_bunny(lecture_id,bunny);
         #document Document.get_by_id(int(document_id))
         #document.bunny_ids.append(str(bunny.key.id()))
         #document.put()
@@ -47,3 +50,4 @@ class update_bunny(AuthHandler):
         bunny = Bunny.get_by_id(int(bunny_id))
         bunny.note = note
         bunny.put()
+        vars.stream_manager.send_bunny_update(lecture_id,bunny);

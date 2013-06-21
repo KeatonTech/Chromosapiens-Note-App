@@ -1,6 +1,7 @@
 import random
 from models import *
 from google.appengine.api import channel
+import json
 
 # Basically just abstracts everything to be room-based, instead of Channel based
 # Because we're using normal AJAX requests for most things, this is all very simple
@@ -13,14 +14,15 @@ class streamer:
         return self.rooms[roomID][userID].secretToken
 	
     def message_room(self, roomID, message):
+        print "Broadcasting: "+json.dumps(message)
         if not roomID in self.rooms:
             return False
         for userKey in self.rooms[roomID]:
-            self.rooms[roomID][userKey].send_message(message)
+            self.rooms[roomID][userKey].send_message(json.dumps(message))
         return True
 	
-	def send_user(self, roomID, userObject):
-		self.message_room(roomID,{cmd: "newUser", payload: userObject})
+    def send_user(self, roomID, userObject):
+        self.message_room(roomID,{"cmd": "newUser", "payload": userObject.nickname()})
 		
 	def logout_user(self, roomID, userID):
 		self.message_room(roomID,{cmd: "deleteUser", id: userID})
