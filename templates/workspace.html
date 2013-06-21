@@ -75,10 +75,13 @@
 	};
 
     window.onbeforeunload = function() {
-        $.post('/api/disconnect?stream_token={{streamToken}}', function(data) {
-			console.log("SENT");
-		});
-    }
+        $.ajax({
+          type: 'POST',
+          url: '/api/disconnect?stream_token={{streamToken}}',
+          async: false
+        });
+        return;
+    };
     
 	var ts = new Date().getTime();
 	var myCreator = 1;
