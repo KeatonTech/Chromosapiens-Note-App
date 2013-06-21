@@ -144,7 +144,8 @@
     <script>
         window.identifiers = {
             document: {{document_id}},
-            lecture: "{{lecture_id}}"
+            lecture: "{{lecture_id}}",
+            user:"{{user_id}}"
         };
         console.log(identifiers);
     </script>
@@ -232,7 +233,6 @@
         });
         
         $("body").on("keydown","textarea",function(e){
-            
             var suggestions = suggest(main.bunnies,e.target.value,[]);
             console.log(suggestions);
         });

@@ -60,7 +60,7 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 	this.addBunny = function(ulList,bunnyObject){
 		if(bunnyObject===undefined)return;
 		edit.addBunnyInternal(ulList,'<li id="bunny-'+bunnyObject.id+'" bunny-id="'+bunnyObject.id+'"\
-		class="bunny '+((bunnyObject.creator_id==myCreator)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
+		class="bunny '+((bunnyObject.creator_id==userID)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
 		'+((bunnyObject.head)?'<p class="ti head">'+bunnyObject.head+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
 		<p class="ti ct">'+bunnyObject.body+'</p>\
 		<div class="close">X</div></li>',false);
@@ -133,6 +133,7 @@ function editor(bunnies, mainUL, suggestUL, myCreator){
 		if(!bunnyData)return;
 		bunnyData.title = $(domBunny).children(".head").html();
 		bunnyData.note = $(domBunny).children(".ct").html();
+        if($(domBunny).children(".head").hasClass("ph"))bunnyData.title="";
 		return bunnyData;
 	}
 	
