@@ -39,14 +39,12 @@
                             {% endif %}
                             <ul>
                                 {% for notebook in notebooks %}
-                                    <li style="text-shadow: 0 0 1px #D3D3D3;"><a
-                                            href="notebooks/?lecture_id={{ notebook.lecture_id }}" class="notebooks"
+                                    <div id="color-master">
+                                        <a  href="notebooks/?lecture_id={{ notebook.lecture_id }}" class="notebooks"
                                             style="color: #{{ notebook.color }};">{{ notebook.title }}</a> <a
                                             href="/notebooks/rm?notebook-id={{ notebook.key.id()}}">
                                         <small>[delete]</small>
-                                    </a></li>
-                                    <div id="color-master">
-                                        <div class="color-box" style="background-color:#{{ notebook.color }};width:50px;"></div><br>
+                                        </a><br>
                                         <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=D3D3D3">
                                             <div class="color-box" style="background-color:#D3D3D3;"></div>
                                         </a>
