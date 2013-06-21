@@ -55,7 +55,7 @@ class update_bunny(AuthHandler):
         bunny.note = note
         bunny.title = title
         bunny.put()
-        vars.stream_manager.send_bunny_update(lecture_id,bunny)
+        vars.stream_manager.message_room(bunny.lecture_id,{'cmd': "updateBunny", 'payload': safe_bunny});
 
 
 class disconnect(webapp2.RequestHandler):
@@ -64,3 +64,4 @@ class disconnect(webapp2.RequestHandler):
         stream = Stream.query(Stream.streamSecret == stream_token).get()
         stream.key.delete()
         self.response.write("Disconnected")
+        vars.stream_manager.message_room(stream.lecture_id,{'cmd': "removeUser", 'id': users.get_current_user().user_id()});
