@@ -1,7 +1,7 @@
 {% extends 'application.html' %}
 {% block content %}
 <link rel="stylesheet" href="bunny-editor.css"/>
-    <div class="row-fluid">
+    <div class="row">
         <aside class="span3 hidden-phone" id="sidebar">
         <h3>Online Users</h3>
         <ul>
@@ -40,10 +40,10 @@
         <h3>Lecture: {{ lecture_id }}</h3>
 
         <div id="content">
-            <ul id="myBunnies" class="bunnyList"></ul>
+            <ul id="myBunnies" class="row bunnyList"></ul>
             <a class="ane" onclick="edit.newBunny()">Add New Element</a>
             <hr/>
-            <ul id="otherBunnies" class="bunnyList"></ul>
+            <ul id="otherBunnies" class="row bunnyList"></ul>
 
             <bunny-list></bunny-list>
         </div>
@@ -51,6 +51,8 @@
 </div>
 <!-- Scripts here. Don't remove this ↓ -->
 <script src="polymer.min.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="bunny-editor.js"></script>
 <script>
@@ -80,7 +82,8 @@
 					for (each in data) {
 						var bunny = {
 							id: each,
-							body: data[each].note
+							body: data[each].note,
+                            head: data[each].title
 						}
 						bunnies[each] = bunny;
 					}
@@ -95,10 +98,18 @@
 	$("body").on("edited",".bunny",function(e){
 		alert(edit.dataFromDOMBunny(this));
 		var bunnyData = edit.dataFromDOMBunny(this);
-		$.post('/api/update_bunny?note='+bunnyData.body+'&bunny_id='+bunnyData.id, function(data) {
+		$.post('/api/update_bunny?title='+bunnyData.head+'&note='+bunnyData.body+'&bunny_id='+bunnyData.id, function(data) {
 			console.log("EDITTED");
 		});
 	});
+
+    $("body").on("created",".bunny",function(e,obj){
+        alert(obj);
+        var bunnyData = edit.dataFromDOMBunny(obj);
+        $.post('/api/add_bunny?title='+bunnyData.head+'&note='+bunnyData.body+'&bunny_id='+bunnyData.id+'&document_id='+identifiers.document+'&lecture_id='+identifiers.lecture, function(data) {
+            console.log("EDITTED");
+        });
+    });
 
 	// PUBLISHED EVENTS
 	//   edited: Runs when the content of a bunny changes

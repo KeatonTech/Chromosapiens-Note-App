@@ -28,13 +28,15 @@ class add_bunny(AuthHandler):
         lecture_id = self.request.get("lecture_id")
         creator_id = users.get_current_user().user_id()
         document_id = self.request.get("document_id")
+        title = self.request.get("title")
         note = self.request.get("note")
 
         # Send Bunny to Database
         bunny = Bunny(lecture_id=lecture_id,
                       creator_id=creator_id,
                       document_id=document_id,
-                      note=note)
+                      note=note,
+                      title=title)
         bunny.put()
 		
         vars.stream_manager.send_bunny(lecture_id,bunny);
@@ -47,7 +49,9 @@ class update_bunny(AuthHandler):
     def post(self):
         bunny_id = self.request.get("bunny_id")
         note = self.request.get("note")
+        title = self.request.get("title")
         bunny = Bunny.get_by_id(int(bunny_id))
         bunny.note = note
+        bunny.title = title
         bunny.put()
         vars.stream_manager.send_bunny_update(lecture_id,bunny);

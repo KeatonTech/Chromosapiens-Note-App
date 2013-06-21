@@ -9,15 +9,8 @@ textarea {
 	margin: 0;
 	overflow: visible;
 }
-ul{padding:0;}
+ul{padding:0;margin:0;}
 
-.bunnyList {
-	width: 600px;
-	margin: 0 auto;
-	padding: 20px 0px;
-	background-color: none;
-	min-height: 100px;
-}
 .bunny {
 	list-style-type:none;
 	position:relative;
