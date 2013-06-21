@@ -139,10 +139,11 @@
 
         $("body").on("created", ".bunny", function (e, obj) {
             console.log("Created");
-            var bunnyData = edit.data[$(e.target).attr("bunny-id")];
-            console.log(edit.data);
-            $.post('/api/add_bunny',{bunny_id: bunnyData.id, document_id: identifiers.document, lecture_id: identifiers.lecture},function(){
-                console.log("CREATED");
+            var bunny = $(e.target);
+            $.post('/api/add_bunny',{document_id: identifiers.document, lecture_id: identifiers.lecture, title:"", note:"Empty"},function(data){
+                bunny.attr("id","bunny-"+data);
+                bunny.attr("bunny-id",data);
+                edit.data[data] = {id:data,timestamp:new Date().getTime(),note:"",title:""};
             });
         });
         
