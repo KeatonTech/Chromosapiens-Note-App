@@ -57,7 +57,7 @@ function editor(bunnies, mainUL, suggestUL){
 	this.addBunny = function(ulList,bunnyObject){
 		if(bunnyObject===undefined)return;
 		edit.addBunnyInternal(ulList,'<li id="bunny-'+bunnyObject.id+'" bunny-id="'+bunnyObject.id+'"\
-		class="bunny '+((bunnyObject.creator==1)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
+		class="span12 bunny '+((bunnyObject.creator==1)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
 		'+((bunnyObject.head)?'<p class="ti head">'+bunnyObject.head+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
 		<p class="ti ct">'+bunnyObject.body+'</p>\
 		<div class="close">X</div></li>',false);
@@ -66,7 +66,7 @@ function editor(bunnies, mainUL, suggestUL){
 	
 	// Add a new blank bunny
 	this.newBunny = function(ulList){
-		edit.addBunnyInternal(ulList,'<li class="bunny mine" style="-webkit-animation: add 300ms;">\
+		edit.addBunnyInternal(ulList,'<li class="span12 bunny mine" style="-webkit-animation: add 300ms;">\
 		<p class="ti head ph">Double click to add title</p><p class="ti ct ph">Edit content</p>\
 		<div class="close">X</div></li>',true);
 		$(ulList).children().last().trigger("created");

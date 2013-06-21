@@ -16,6 +16,10 @@ handlers:
   mime_type: text/css
   static_files: css/\1
   upload: css/(.*\.css)
+- url: .*/(bunny-.*\.js)
+  mime_type: text/javascript
+  static_files: templates/elements/\1
+  upload: js/(.*\.js)
 - url: .*/(.*\.js)
   mime_type: text/javascript
   static_files: js/\1
