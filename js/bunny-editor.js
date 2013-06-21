@@ -56,8 +56,7 @@ function editor(bunnies, mainUL, suggestUL){
 	// Add a bunny from data
 	this.addBunny = function(ulList,bunnyObject){
 		if(bunnyObject===undefined)return;
-		edit.addBunnyInternal(ulList,'<li id="bunny-'+bunnyObject.id+'" bunny-id="'+bunnyObject.id+'"\
-		class="bunny '+((bunnyObject.creator==1)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
+		edit.addBunnyInternal(ulList,'<li id="bunny-'+bunnyObject.id+'" class="bunny '+((bunnyObject.creator==1)?'mine':'other')+'" style="-webkit-animation: add 300ms;" static="true">\
 		'+((bunnyObject.head)?'<p class="ti head">'+bunnyObject.head+'</p>':'<p class="ti head ph">Double-click to add header</p>')+'\
 		<p class="ti ct">'+bunnyObject.body+'</p>\
 		<div class="close">X</div></li>',false);
@@ -112,15 +111,6 @@ function editor(bunnies, mainUL, suggestUL){
 		if(elem.length==0)return;
 		$("#bunny-"+bunnyObject.id+" .head").html(bunnyObject.head);
 		$("#bunny-"+bunnyObject.id+" .ct").html(bunnyObject.body);
-	}
-	
-	// Helper function gets data from a DOM object
-	this.dataFromDOMBunny = function(domBunny){
-		var bunnyData = this.data[$(domBunny).attr("bunny-id")];
-		if(!bunnyData)return;
-		bunnyData.head = $(domBunny).children(".head").html();
-		bunnyData.body = $(domBunny).children(".ct").html();
-		return bunnyData;
 	}
 	
 	// EVENT BINDING
@@ -184,6 +174,7 @@ function editor(bunnies, mainUL, suggestUL){
 					}else{edit.newBunny($(this).parents("ul")[0]);}
 				}else{
 					// Backwards tabbing
+					
 					if($(this).prev(".ti")[0]!=undefined){
 						edit.startEdit($(this).prev(".ti")[0]);
 						$(this).prev("textarea.ti").focus();
@@ -203,9 +194,8 @@ function editor(bunnies, mainUL, suggestUL){
 			$(event.target).removeAttr("style");
 		});
 		
-		// GLUE CODE TO UPDATE THE MODEL
-		$("body").on("edited",".bunny",function(event){
-			console.log(edit.dataFromDOMBunny(event.target));
+		$("body").on("removed added created edited",".bunny",function(event){
+			console.debug(event);
 		});
 	}
 }
