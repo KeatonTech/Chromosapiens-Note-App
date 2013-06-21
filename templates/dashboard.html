@@ -4,12 +4,23 @@
     <div class="row">
         <div class="span4">
             <div class="text-center visible-desktop">
-                <h1><a id="logo" href="/dashboard"><img style="float:right; margin-left: 10px;" src="Bunny_4.png">Notorious
-                    <h4>Hop on your notes.</h4></a></h1>
+                <a id="logo" href="/dashboard" style="margin-bottom:20px;">
+                    <h1>
+                        <div style="display:inline-block;vertical-align:top;">
+                            Notorious
+                            <h4>Hop on your notes.</h4>
+                        </div>
+                        <div style="display:inline-block;margin-top:-15px;">
+                            {% include 'Bunny.svg' %}
+                        </div>
+                    </h1>
+                    
+                </a>
             </div>
             <div class="text-center hidden-desktop">
                 <h3><a id="logo" href="/dashboard"><img style="float:right; margin-left: 10px;" src="Bunny_4.png">Notorious
                     <h5 style="font-size: 11px; margin-top: -3px">Hop on your notes.</h5></a></h3>
+                
             </div>
             <div class="accordion" id="accordion2">
                 <div class="accordion-group">
@@ -35,7 +46,7 @@
                                         <small>[delete]</small>
                                     </a></li>
                                     <div id="color-master">
-                                        <div class="color-box" style="background-color:#{{ notebook.color }};"></div><br>
+                                        <div class="color-box" style="background-color:#{{ notebook.color }};width:50px;"></div><br>
                                         <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=D3D3D3">
                                             <div class="color-box" style="background-color:#D3D3D3;"></div>
                                         </a>
@@ -71,9 +82,7 @@
                     <div id="collapseTwo" class="accordion-body collapse">
                         <div class="accordion-inner">
                             <h4>Recent Lectures</h4>
-                            <ul>
-                                {% include 'lecture.html' %}
-                            </ul>
+                            {% include 'lecture.html' %}
                         </div>
                     </div>
                 </div>
