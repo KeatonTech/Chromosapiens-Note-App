@@ -72,6 +72,7 @@ class join_lecture(AuthHandler):
         template_vals['lecture_id'] = lecture_id
         template_vals['documents'] = documents
         template_vals['document_id'] = documents.get().key.id()
+        template_vals['user_id'] = users.get_current_user().user_id()
 
         # Token for the streaming API
         vars.stream_manager.send_user(lecture_id, users.get_current_user())

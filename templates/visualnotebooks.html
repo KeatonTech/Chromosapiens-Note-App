@@ -3,7 +3,7 @@
 
     {% for notebook in notebooks %}
         <a href="notebooks/?lecture_id={{ notebook.lecture_id}}">
-            <div class="notebook" style="background-color:#{{ notebook.color }};color:#ffffff">
+            <div class="notebook" style="background-image:url('b-{{notebook.color}}.png'), url('blank.png');">
                 <h3>{{ notebook.title }}</h3>
             </div>
         </a>

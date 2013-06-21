@@ -64,14 +64,8 @@
     </script>
     <script type="application/javascript">
         var channel = new goog.appengine.Channel('{{streamToken}}');
-        var streamToken = '{{streamToken}}';
-        var socket = channel.open();
-        socket.onopen = function () {
-            console.log("Connection opened");
-        };
-        socket.onmessage = function (message) {
-            console.log(message);
-        };
+        var bunnies = {}; var users = {};
+        var edit;
 
         $(window).unload(function () {
             $.ajax({
@@ -83,9 +77,7 @@
         });
 
         var ts = new Date().getTime();
-        var myCreator = 1;
-        var bunnies = {};
-        var edit;
+        var myCreator = '{{user_id}}';
         $.getJSON("/api/getbunnies?document_id=" + identifiers.document, function (data) {
             console.log(data);
             var count = 0;
@@ -100,8 +92,38 @@
             console.log(window.bunnies);
 
             $(function () {
-                edit = new editor(bunnies, "#myBunnies", "#otherBunnies");
+                edit = new editor(bunnies, "#myBunnies", "#otherBunnies", myCreator);
                 edit.start();
+                
+                var streamToken = '{{streamToken}}';
+                var socket = channel.open();
+                socket.onopen = function () {
+                    console.log("Connection opened");
+                };
+                socket.onmessage = function (message) {
+                    if(!("cmd" in message))return;
+                    switch(message.cmd){
+                        case "updateBunny":
+                            if(!message.payload.id in bunnies)break;
+                            bunnies[message.payload.id] = message.payload;
+                            edit.update(message.payload);
+                            break;
+                        case "newBunny":
+                            bunnies[message.payload.id] = message.payload;
+                            break;
+                        case "removeBunny":
+                            bunnies[message.id] = null;
+                            edit.deleteBunnyByID(message.id);
+                            break;
+                            
+                        case "newUser":
+                            users[message.payload.id] = message.payload;
+                            break;
+                        case "removeUser":
+                            users[message.id] = null;
+                            break;
+                    }
+                };
             });
         });
 
