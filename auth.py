@@ -33,7 +33,9 @@ class RegisterHandler(webapp2.RequestHandler):
                             notebook_ids=[])
             new_user.put()
             template_vals = {'name_of_user': google_user.nickname()}
-            template_vals['message'] = 'Welcome to NoteBunnies! We have finished setting up your account.'
+            template_vals['message'] = 'Welcome to Notorious! We have finished setting up your account.'
+        else:
+            self.redirect('/dashboard')
         render(self, template_vals, 'dashboard.html')
 
 
