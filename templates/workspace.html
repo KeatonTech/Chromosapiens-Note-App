@@ -65,6 +65,7 @@
 </script>
 <script type="application/javascript">
 	var channel = new goog.appengine.Channel('{{streamToken}}');
+    var streamToken = '{{streamToken}}';
 	var socket = channel.open();
 	socket.onopen = function(){
 		console.log("Connection opened");
@@ -73,6 +74,12 @@
 		console.log(message);
 	};
 
+    window.onbeforeunload = function() {
+        $.post('/api/disconnect?stream_token={{streamToken}}', function(data) {
+			console.log("SENT");
+		});
+    }
+    
 	var ts = new Date().getTime();
 	var myCreator = 1;
 	var bunnies = {};
