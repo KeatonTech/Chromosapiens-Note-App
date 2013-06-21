@@ -1,63 +1,20 @@
 {% extends 'application.html' %}
 {% block content %}
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-	<script src='/_ah/channel/jsapi'></script>
-    <script src="bunny-editor.js"></script>
-    <script type="application/javascript">
-		
-		var channel = new goog.appengine.Channel('{{streamToken}}');
-		var socket = channel.open();
-		socket.onopen = function(){
-			console.log("Connection opened");
-		};
-		socket.onmessage = function(message){
-			console.log(message);
-		};
-		
-        var ts = new Date().getTime();
-        var myCreator = 1;
-        var bunnies = [
-            {id: 1, creator:1, timestamp: ts-10000, head: "My cool note", body: "I am a super cool dude and I write super cool notes"},
-            {id: 2, creator:1, timestamp: ts-12000, body: "This note has not been endowed with a header. It's a lonely note."},
-            {id: 3, creator:1, timestamp: ts-1300,  head: "Javascript Everywhere!", body: "It's an explosion of semicolonic goodness."},
-            {id: 4, creator:2, timestamp: ts-1000,  head: "Also Python!", body: "Nobody ever cares about Python but it's important!"},
-            {id: 5, creator:1, timestamp: ts-22000, head: "Old.", body: "Short."}
-        ];
-        
-        var edit;
-        $(function() {
-            edit = new editor(bunnies,"#myBunnies","#otherBunnies");
-            edit.start();
-        });
-    </script>
-    <link rel="stylesheet" href="bunny-editor.css"/>
+<link rel="stylesheet" href="bunny-editor.css"/>
     <div class="row-fluid">
         <aside class="span3 hidden-phone" id="sidebar">
-            <div class="row-fluid">
-                <div class="span12">
-                    <br>
-
-                    <h3>Online Users</h3>
-                    <ul>
-                        <li>User 1</li>
-                        <li>User 2</li>
-                    </ul>
-                </div>
-            </div>
-        {{ lecture_id }}<br>
-        Documents:<br>
+        <h3>Online Users</h3>
+        <ul>
+            <li>User 1</li>
+            <li>User 2</li>
+        </ul>
+        <h3>Documents</h3>
+        <ul>
         {% for document in documents %}
-        {{ document.title }}<br>
+        <li>{{ document.title }}</li>
         {% endfor %}
-
-        <div class="block">
-            <a href="#newNotebook" role="button" data-toggle="modal">
-                <div class="notebook" id="addNotebook">
-                    <div id="plus" style="font-size: 400%;">+<br><br>
-                            <h4>New Document</h4></div>
-                    </div>
-                </a>
-            </div>
+        <li><a href="#newNotebook" role="button" data-toggle="modal">Add New Document</a></li>
+        </ul>
             <!-- Modal -->
             <div id="newNotebook" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
@@ -68,7 +25,7 @@
                 <form action="/documents/add" method="post">
                     <div class="modal-body">
                         <div class="input-append">
-                            <input class="span2" id="appendedInputButtons" type="text" name="document-title"
+                            <input id="appendedInputButtons" type="text" name="document-title"
                                    id="document-title" placeholder="Document name">
                             <input type="hidden" id="notebook-id" name="notebook-id" value="{{ notebook_id }}">
                             <input type="hidden" id="lecture_id" name="lecture_id" value="{{ lecture_id }}">
@@ -78,12 +35,9 @@
                 </form>
             </div>
         </aside>
-        {{ lecture_id }}<br>
-        {{ notebook_name }}
-
     
     <section class="span9" id="main">
-        <br>
+        <h3>Lecture: {{ lecture_id }}</h3>
 
         <div id="content">
             <ul id="myBunnies" class="bunnyList"></ul>
@@ -97,10 +51,59 @@
 </div>
 <!-- Scripts here. Don't remove this ↓ -->
 <script src="polymer.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="bunny-editor.js"></script>
 <script>
     window.identifiers = {
         document: {{document_id}},
         lecture: "{{lecture_id}}"
+    }
+    console.log(identifiers);
+</script>
+<script type="application/javascript">
+        var ts = new Date().getTime();
+        var myCreator = 1;
+        var bunnies = {};
+        var edit;
+        $.getJSON("/api/getbunnies?document_id="+identifiers.document, function(data) {
+                        console.log(data);
+                        var count = 0;
+                        for (each in data) {
+                            var bunny = {
+                                id: each,
+                                body: data[each].note
+                            }
+                            bunnies[each] = bunny;
+                        }
+                        console.log(window.bunnies);
+                        
+                        $(function() {
+                            edit = new editor(bunnies,"#myBunnies","#otherBunnies");
+                            edit.start();
+                        });
+                    });
+
+        $("body").on("edited",".bunny",function(e){
+            alert(edit.dataFromDOMBunny(this));
+            var bunnyData = edit.dataFromDOMBunny(this);
+            $.post('/api/update_bunny?note='+bunnyData.body+'&bunny_id='+bunnyData.id, function(data) {
+                console.log("EDITTED");
+            });
+        });
+
+        // PUBLISHED EVENTS
+        //   edited: Runs when the content of a bunny changes
+        //    added: Runs when a new bunny is added to either list
+        //  created: Runs when a new bunny is created in either list
+        //  removed: Runs when a bunny is deleted
+        //   pulled: Runs when another user's bunny is dragged in
+</script>
+<link rel="import" href="bunny-list.html">
+
+
+
+{% endblock %}
+ecture: "{{lecture_id}}"
     }
     console.log(identifiers);
 </script>
