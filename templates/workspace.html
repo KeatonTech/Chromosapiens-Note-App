@@ -96,7 +96,7 @@
 				});
 
 	$("body").on("edited",".bunny",function(e){
-		alert(edit.dataFromDOMBunny(this));
+		console.log("Edited");
 		var bunnyData = edit.dataFromDOMBunny(this);
 		$.post('/api/update_bunny?title='+bunnyData.head+'&note='+bunnyData.body+'&bunny_id='+bunnyData.id, function(data) {
 			console.log("EDITTED");
@@ -104,7 +104,7 @@
 	});
 
     $("body").on("created",".bunny",function(e,obj){
-        alert(obj);
+        console.log("Created");
         var bunnyData = edit.dataFromDOMBunny(obj);
         $.post('/api/add_bunny?title='+bunnyData.head+'&note='+bunnyData.body+'&bunny_id='+bunnyData.id+'&document_id='+identifiers.document+'&lecture_id='+identifiers.lecture, function(data) {
             console.log("EDITTED");
