@@ -5,9 +5,7 @@ body {
 h1, h2, h3, h4, .btn-large, .navbar {
     font-family: 'Roboto Slab', sans-serif;
     text-shadow: 0 0 1px #666;
-}
-
-#sidebar, #main {
+    font-weight: 100;
 }
 
 #sidebar h3, #main h1 {
@@ -22,18 +20,10 @@ h1, h2, h3, h4, .btn-large, .navbar {
     background-color: #fff;
 }
 
-#content article {
-    margin: 20px 0;
-}
-
 #content textarea {
     width: 100%;
     border: none;
     box-shadow: none;
-}
-
-#main-body {
-    padding-top:100px;   
 }
 
 #brand {
@@ -77,7 +67,7 @@ h1, h2, h3, h4, .btn-large, .navbar {
 
 footer {
     padding: 10px;
-    background-color: #eee;
+    background-color: transparent;
     color: #666;
     font-family: 'Roboto Slab', sans-serif;
     margin-top: 20px;
