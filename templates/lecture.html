@@ -5,7 +5,7 @@
     <a href="/lectures/join?lecture_id={{ lecture }}">{{ lecture }}</a><br>
 {% endfor %}
 <br>
-<strong>Join Lecture:</strong>
+<h4>Join Lecture:</h4>
 <form id="join-lecture">
     <div class="input-append">
         <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
@@ -15,7 +15,7 @@
 </form>
 <span id="message"></span>
 
-<strong>Create Lecture:</strong>
+<h4>Create Lecture:</h4>
 <form action="/lectures/new" method="post">
     <div class="input-append">
         <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
