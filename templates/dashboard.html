@@ -1,5 +1,6 @@
 {% extends 'application.html' %}
 {% block content %}
+
     <div class="row">
         <div class="span4">
             <div class="text-center visible-desktop">
@@ -33,7 +34,8 @@
                                             href="/notebooks/rm?notebook-id={{ notebook.key.id()}}">
                                         <small>[delete]</small>
                                     </a></li>
-                                    <div class="hidden-phone">
+                                    <div id="color-master">
+                                        <div class="color-box" style="background-color:#{{ notebook.color }};"></div><br>
                                         <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=D3D3D3">
                                             <div class="color-box" style="background-color:#D3D3D3;"></div>
                                         </a>
@@ -42,8 +44,10 @@
                                         </a>
                                         <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=85C8FD">
                                             <div class="color-box" style="background-color:#85C8FD;"></div>
+                                        </a><br>
+                                        <a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=332E16">
+                                            <div class="color-box" style="background-color:#332E16;"></div>
                                         </a>
-                                        {#<a href="/notebooks/color?notebook_id={{notebook.key.id()}}&color=332E16"><div class="color-box" style="background-color:#332E16;"></div></a>#}
                                         <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=DA3B47">
                                             <div class="color-box" style="background-color:#DA3B47;"></div>
                                         </a>
@@ -51,6 +55,7 @@
                                             <div class="color-box" style="background-color:#139849;"></div>
                                         </a>
                                     </div>
+                                    <br>
                                 {% endfor %}
                             </ul>
                         </div>
