@@ -80,6 +80,7 @@
         var ts = new Date().getTime();
         var myCreator = 1;
         var bunnies = {};
+        var edit;
         $.getJSON("/api/getbunnies?document_id="+identifiers.document, function(data) {
                         console.log(data);
                         var count = 0;
@@ -91,7 +92,7 @@
                             bunnies[each] = bunny;
                         }
                         console.log(window.bunnies);
-                        var edit;
+                        
                         $(function() {
                             edit = new editor(bunnies,"#myBunnies","#otherBunnies");
                             edit.start();
@@ -102,7 +103,7 @@
             alert(edit.dataFromDOMBunny(this));
             var bunnyData = edit.dataFromDOMBunny(this);
             $.post('/api/update_bunny?note='+bunnyData.body+'&bunny_id='+bunnyData.id, function(data) {
-                console.log(data);
+                console.log("EDITTED");
             });
         });
 
