@@ -21,8 +21,8 @@
 }
 
 .notebook {
-    height: 240px;
-	width: 155px;
+    height: 245px;
+    width: 157px;
 	float: left;
 	margin-right: 25px;
 	margin-bottom: 5%;
@@ -31,8 +31,8 @@
     background-repeat:no-repeat;
     background-position:99% 99.5%, right bottom;
     box-shadow:3px 1px 5px 0 #d3d2d2;
-    background-color:#202020;
-    border-radius:10px;
+    background-color: none;
+    border-radius: 8px;
 }
 
 #addNotebook {

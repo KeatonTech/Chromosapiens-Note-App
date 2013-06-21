@@ -67,7 +67,7 @@
     <script type="application/javascript">
         var channel = new goog.appengine.Channel('{{streamToken}}');
         var bunnies = {}; var users = {};
-        var edit;
+        var edit; var main = this;
 
         $(window).unload(function () {
             $.ajax({
@@ -89,7 +89,7 @@
                     body: data[each].note,
                     head: data[each].title
                 };
-                bunnies[each] = bunny;
+                main.bunnies[each] = bunny;
             }
             console.log(window.bunnies);
 
@@ -129,20 +129,27 @@
             });
         });
 
-        $("body").on("edited", ".bunny", function (e) {
+        $("body").on("updated", ".bunny", function (e, obj) {
             console.log("Edited");
-            var bunnyData = edit.dataFromDOMBunny(this);
-            $.post('/api/update_bunny?title=' + bunnyData.head + '&note=' + bunnyData.body + '&bunny_id=' + bunnyData.id, function (data) {
+            var bunnyData = edit.dataFromDOMBunny(e.target);
+            $.post('/api/update_bunny',{title: bunnyData.title, note: bunnyData.note, bunny_id: bunnyData.id},function(){
                 console.log("EDITTED");
             });
         });
 
         $("body").on("created", ".bunny", function (e, obj) {
             console.log("Created");
-            var bunnyData = edit.dataFromDOMBunny(obj);
-            $.post('/api/add_bunny?title=' + bunnyData.head + '&note=' + bunnyData.body + '&bunny_id=' + bunnyData.id + '&document_id=' + identifiers.document + '&lecture_id=' + identifiers.lecture, function (data) {
-                console.log("EDITTED");
+            var bunnyData = edit.data[$(e.target).attr("bunny-id")];
+            console.log(edit.data);
+            $.post('/api/add_bunny',{bunny_id: bunnyData.id, document_id: identifiers.document, lecture_id: identifiers.lecture},function(){
+                console.log("CREATED");
             });
+        });
+        
+        $("body").on("keydown","textarea",function(e){
+            
+            var suggestions = suggest(main.bunnies,e.target.value,[]);
+            console.log(suggestions);
         });
 
         // PUBLISHED EVENTS

@@ -1,4 +1,4 @@
-function suggest(data,query,exlude){
+function suggest(data,query,excludes){
     // Only run this when the user has just finished writing a new word
     if(query[query.length-1] != " ")return;
     
