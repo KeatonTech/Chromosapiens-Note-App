@@ -20,7 +20,7 @@ class AuthHandler(webapp2.RequestHandler):
 
 class GoogleLoginLink(webapp2.RequestHandler):
     def get(self):
-        self.redirect(users.create_login_url('/register'), )
+        self.redirect(users.create_login_url('/register'))
 
 
 class RegisterHandler(webapp2.RequestHandler):
@@ -35,3 +35,8 @@ class RegisterHandler(webapp2.RequestHandler):
             template_vals = {'name_of_user': google_user.nickname()}
             template_vals['message'] = 'Welcome to NoteBunnies! We have finished setting up your account.'
         render(self, template_vals, 'dashboard.html')
+
+
+class LogoutHandler(webapp2.RequestHandler):
+    def get(self):
+        self.redirect(users.create_logout_url('/'))

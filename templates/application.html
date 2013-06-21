@@ -30,9 +30,9 @@
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li><a href="/dashboard">Dashboard</a></li>
-                    <li><a href="#">Link</a></li>
-                    <li><a href="#">Link</a></li>
+                    {% if logged_off != 'true' %}
                     <li><a href="/logout">Logout</a></li>
+                    {% endif %}
                 </ul>
                 <!-- .nav, .navbar-search, .navbar-form, etc -->
             </div>

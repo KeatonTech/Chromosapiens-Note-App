@@ -1,19 +1,21 @@
 .notebook {
-	border: 1px solid #888;
-	height: 300px;
+	border: 1px solid #9f9f9f;
+	height: 250px;
 	width: 170px;
 	float: left;
-	margin-right: 5px;
+	margin-right: 15px;
 	margin-bottom: 2%;
 	padding: 0 10px 0 20px;
 	text-align: center;
-	background-image: url('spiral_bound.png');
-	background-color: #FFFFFF;
-	background-repeat: no-repeat;
+	background: url('spiral_bound.png') #FFFFFF no-repeat;
 }
 
 .notebook h3 {
 	overflow: hidden;
+}
+
+.notebook:hover {
+
 }
 
 #addNotebook {
