@@ -61,7 +61,6 @@ class update_bunny(AuthHandler):
 class disconnect(webapp2.RequestHandler):
     def post(self):
         stream_token = self.request.get("stream_token")
-        print stream_token
         stream = Stream.query(Stream.streamSecret == stream_token).get()
         stream.key.delete()
         self.response.write("Disconnected")

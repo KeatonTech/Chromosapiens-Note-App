@@ -116,25 +116,7 @@
         </div>
         <div class="span1 hidden-phone"></div>
         <div class="span7 hidden-phone">
-            <div id="lecture-boxes">
-                <form id="join-lecture" action="/lectures/join" method="post">
-                    <div class="input-append">
-                        <input class="span2" id="appendedInputButtons" type="text" name="lecture_id" id="lecture_id"
-                               placeholder="Lecture Code">
-                        <button class="btn" type="submit">Join</button>
-                    </div>
-                </form>
-                <span id="message"></span>
-
-                <form action="/lectures/new" method="post">
-                    <div class="input-append">
-                        <input class="span2" id="appendedInputButtons" type="text" name="lecture_id"
-                               id="lecture_id"
-                               placeholder="Enter a unique code">
-                        <button class="btn" type="submit">Create Lecture</button>
-                    </div>
-                </form>
-            </div>
+            
             {% include 'visualnotebooks.html' %}
         </div>
     </div>
