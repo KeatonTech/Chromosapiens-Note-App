@@ -1,9 +1,11 @@
 {% if lectures|length == 0 %}
     <h5>No active lectures.</h5>
 {% endif %}
+<ul>
 {% for lecture in lectures %}
     <a href="/lectures/join?lecture_id={{ lecture }}">{{ lecture }}</a><br>
 {% endfor %}
+</ul>
 <br>
 <h4>Join Lecture:</h4>
 <form id="join-lecture">
