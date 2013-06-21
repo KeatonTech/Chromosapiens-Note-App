@@ -78,8 +78,27 @@ class join_lecture(AuthHandler):
         vars.stream_manager.send_user(lecture_id, users.get_current_user())
         template_vals['streamToken'] = vars.stream_manager.connect_to_room(lecture_id,
                                                                            users.get_current_user().user_id())
-
+        template_vals['name_of_user'] = users.get_current_user().nickname()
+        template_vals['notebooks'] = self.get_notebooks(users.get_current_user().user_id())
+        user = User.get_user(users.get_current_user().user_id())
+        template_vals['lectures'] = user.lecture_ids
+        template_vals['tutorial'] = user.tutorial
         vars.render(self, template_vals, 'workspace.html')
+
+    def get_notebooks(self, user_id):
+        sleep(0.10)
+        notebooks = {}
+        try:
+            # notebook_ids = user.notebook_ids
+            notebooks = list()
+            # for notebook_id in notebook_ids:
+            notebook_iter = Notebook.query(Notebook.user_id == user_id).order(Notebook.title).iter()
+            for notebook in notebook_iter:
+                notebooks.append(notebook)
+        except BaseException:
+            pass
+        return notebooks
+        
 
     def post(self):
         lecture_id = self.request.get("lecture_id")
