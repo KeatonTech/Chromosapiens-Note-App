@@ -2,43 +2,127 @@
 {% block content %}
     <link rel="stylesheet" href="bunny-editor.css"/>
     <div class="row">
-        <aside class="span3 hidden-phone" id="sidebar">
-            <br>
-            [Top bunnies here...]
-            {#        <h3>Online Users</h3>#}
-            {#        <ul>#}
-            {#            <li>User 1</li>#}
-            {#            <li>User 2</li>#}
-            {#        </ul>#}
-            {#        <h3>Documents</h3>#}
-            {#        <ul>#}
-            {#        {% for document in documents %}#}
-            {#        <li>{{ document.title }}</li>#}
-            {#        {% endfor %}#}
-            {#        <li><a href="#newNotebook" role="button" data-toggle="modal">Add New Document</a></li>#}
-            {#        </ul>#}
-            <!-- Modal -->
-            {#            <div id="newNotebook" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"#}
-            {#                 aria-hidden="true">#}
-            {#                <div class="modal-header">#}
-            {#                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>#}
-            {#                    <h3 id="myModalLabel">New Document</h3>#}
-            {#                </div>#}
-            {#                <form action="/documents/add" method="post">#}
-            {#                    <div class="modal-body">#}
-            {#                        <div class="input-append">#}
-            {#                            <input id="appendedInputButtons" type="text" name="document-title"#}
-            {#                                   id="document-title" placeholder="Document name">#}
-            {#                            <input type="hidden" id="notebook-id" name="notebook-id" value="{{ notebook_id }}">#}
-            {#                            <input type="hidden" id="lecture_id" name="lecture_id" value="{{ lecture_id }}">#}
-            {#                            <button class="btn" type="submit">Add</button>#}
-            {#                        </div>#}
-            {#                    </div>#}
-            {#                </form>#}
-            {#            </div>#}
-        </aside>
+        <aside class="span4 hidden-phone">
+            <div class="text-center visible-desktop">
+                <a id="logo" href="/dashboard">
+                    <h1>
+                        <div id="brand">
+                            Notorious
+                            <h4>Hop on your notes.</h4>
+                        </div>
+                        <div id="bunny">
+                            {% include 'Bunny.svg' %}
+                        </div>
+                    </h1>
 
-        <section class="span9" id="main">
+                </a>
+            </div>
+            <div class="text-center hidden-desktop">
+                <h3><a id="logo" href="/dashboard"><img id="mobile-bunny" src="Bunny_4.png">Notorious
+                    <h5 id="mobile-tag">Hop on your notes.</h5></a></h3>
+
+            </div>
+            <div class="accordion" id="accordion2">
+                {% if tutorial == "yes" %}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                            <a href="/rmtutorial" type="button" class="close" style="float:right; position: relative; top: 10px; right: 10px">×</a>
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseStart">
+                            <h3>Get Started </h3>
+                        </a>
+                    </div>
+                    <div id="collapseStart" class="accordion-body collapse in">
+                        <div class="accordion-inner">
+                            <h4>Note-Taking 2.0</h4>
+                            <p> 
+                                Notorious is an app that allows a group to collaborate to take notes together
+                                within a lecture. You can join or create a lecture by creating a new lecture notebook or 
+                                entering a Lecture Code in the sidebar.</p>
+                            <h4>Collaboration</h4>    
+                            <p> 
+                                Once in a Lecture, you can open your Lecture Notebook and instantly begin 
+                                taking notes. As you type, you will see notes similar to yours that 
+                                others have typed, and you can attach them to your own notes.</p>
+                            <h4>Organization</h4>
+                            <p>
+                                When your group is done, your document will be saved in a notebook 
+                                created specifically for your lecture, and it will show up on your Dashboard for 
+                                you to revisit.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseOne">
+                            <h3>Notebooks</h3>
+                        </a>
+                    </div>
+                    <div id="collapseOne" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            <h4>Lecture Notebooks:</h4>
+                            {% if notebooks|length == 0 %}
+                                Get started by adding a notebook to the right.
+                            {% endif %}
+                            <ul class="hidden-phone">
+                                {% for notebook in notebooks %}
+                                    <div id="color-master">
+                                        <a href="notebooks/?lecture_id={{ notebook.lecture_id }}" class="notebooks"
+                                           style="color: #{{ notebook.color }};">{{ notebook.title }}</a> <a
+                                            href="/notebooks/rm?notebook-id={{ notebook.key.id()}}">
+                                        <small>[delete]</small>
+                                    </a><br>
+                                        <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=1">
+                                            <div class="color-box" style="background-color:#00BBA2;"></div>
+                                        </a>
+                                        <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=2">
+                                            <div class="color-box" style="background-color:#F9574A;"></div>
+                                        </a>
+                                        <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=3">
+                                            <div class="color-box" style="background-color:#A4E661;"></div>
+                                        </a><br>
+                                        <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=4">
+                                            <div class="color-box" style="background-color:#FFBF53;"></div>
+                                        </a>
+                                        <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=5">
+                                            <div class="color-box" style="background-color:#86C6FF;"></div>
+                                        </a>
+                                        <a href="/notebooks/color?notebook_id={{ notebook.key.id()}}&color=6">
+                                            <div class="color-box" style="background-color:#D8D8D8;"></div>
+                                        </a>
+                                    </div>
+                                    <br>
+                                {% endfor %}
+                            </ul>
+                            <ul class="visible-phone">
+                                {% for notebook in notebooks %}
+                                        <a href="notebooks/?lecture_id={{ notebook.lecture_id }}" class="notebooks">{{ notebook.title }}</a> <a
+                                            href="/notebooks/rm?notebook-id={{ notebook.key.id()}}"><small>[delete]</small></a>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                           href="#collapseTwo">
+                            <h3>Lectures</h3>
+                        </a>
+                    </div>
+                    <div id="collapseTwo" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            <h4>Recent Lectures</h4>
+                            {% include 'lecture.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <section class="span8" id="main">
             <div class="row-fluid">
                 <div id="content" class="span12">
                     <h3>Lecture: {{ lecture_id }}</h3>
@@ -47,7 +131,7 @@
                     <ul id="myBunnies" class="bunnyList"></ul>
                 </div>
                 
-                <button class="btn-block btn btn-large" onclick="edit.newBunny()">Add New Element</button>
+                <button class="btn-block btn btn-large" onclick="edit.newBunny()">Add New Note</button>
                 <ul id="otherBunnies" class="row bunnyList"></ul>
                 <bunny-list></bunny-list>
             </div>
@@ -87,8 +171,15 @@
             for (each in data) {
                 main.bunnies[each] = data[each];
             }
-            console.log(window.bunnies);
 
+            /**main.bunnies = {
+                2214321235:{id:1,body:"Xylophones zebra eat bamboo",head:"Random #1"},
+                1239593124:{id:2,body:"The red brown fox jumps over the lazy dog",head:"Random #2"},
+                2103234123:{id:3,body:"Drumline Blue Devils What Chrome Academy",head:"Random #3"}
+            }**/
+
+
+        var remoteBunnies = {};
             $(function () {
                 edit = new editor(bunnies, "#myBunnies", "#otherBunnies", myCreator);
                 edit.start();
@@ -107,7 +198,8 @@
                             edit.update(message.payload);
                             break;
                         case "newBunny":
-                            bunnies[message.payload.id] = message.payload;
+                            remoteBunnies[message.payload.id] = message.payload;
+                            console.log("REMOTE");
                             break;
                         case "removeBunny":
                             bunnies[message.id] = null;
@@ -121,6 +213,7 @@
                             users[message.id] = null;
                             break;
                     }
+                    edit.setSuggestions(remoteBunnies);
                 };
             });
         });
