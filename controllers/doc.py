@@ -110,20 +110,26 @@ class new_lecture(AuthHandler):
         lecture_id = str(self.request.get("lecture_id"))
         google_id = users.get_current_user().user_id()
 
-        new_lecture = Lecture(id=lecture_id, name=lecture_id, creator=google_id)
-        new_lecture.put_async()
+        lecture = Lecture.get_by_id(lecture_id)
 
-        notebook = Notebook(title=lecture_id + ' Notes', lecture_id=lecture_id, user_id=google_id)
-        future_notebook = notebook.put_async()
+        if lecture:
+            vars.render(self, {'message': 'This name already exists.'}, 'dashboard.html')
+        else:
+            new_lecture = Lecture(id=lecture_id, name=lecture_id, creator=google_id)
+            future_new_lecture = new_lecture.put_async()
 
-        document = Document(lecture_id=lecture_id, notebook_id=str(future_notebook.get_result().id()),
-                            user_id=google_id)
-        future_document = document.put_async()
+            notebook = Notebook(title=lecture_id + ' Notes', lecture_id=lecture_id, user_id=google_id)
+            future_notebook = notebook.put_async()
 
-        user = User.get_user(google_id)
-        user.lecture_ids.append(lecture_id)
-        user.put()
+            document = Document(lecture_id=lecture_id, notebook_id=str(future_notebook.get_result().id()),
+                                user_id=google_id)
+            future_document = document.put_async()
 
-        future_document.get_result()
+            user = User.get_user(google_id)
+            user.lecture_ids.append(lecture_id)
+            user.put()
 
-        self.redirect('/dashboard')
+            future_document.get_result()
+            future_new_lecture.get_result()
+
+            self.redirect('/dashboard')
